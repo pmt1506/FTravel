@@ -25,6 +25,7 @@ const NavbarComponent = () => {
                   <NavLink to="/event/event2" className="dropdown-item" activeClassName="active">Event 2</NavLink>
                 </NavDropdown>
                 <NavLink to="/about" className="nav-link mx-2">About</NavLink>
+                <NavLink to="/vendor-list" className="nav-link mx-2">Vendor List</NavLink>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
