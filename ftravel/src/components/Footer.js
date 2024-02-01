@@ -14,7 +14,7 @@ const Footer = () => {
         </Col>
         <Col md={4}>
           <h5>Quick Links</h5>
-          <ul>
+          <ul style={{ listStyleType: "none", padding: "0"}}>
             <li>
               <a href="/">Tours</a>
             </li>
