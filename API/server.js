@@ -1,19 +1,19 @@
 import express from "express";
 import cors from "cors";
-
-import * as dotenv from 'dotenv';
-
+import * as dotenv from "dotenv";
 import connectDB from "./database.js";
-
-dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
+app.get("/", (res, req) => {
+  res.send("welcome kkk");
+});
 app.listen(PORT, async () => {
-    connectDB();
-    console.log(`Server is running on http://localhost:${PORT}/ `);
+  connectDB();
+  console.log(`Server is running on port ${PORT} `);
 });
