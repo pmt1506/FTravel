@@ -1,4 +1,5 @@
 import Accounts from "../models/account.js";
+// import { accountDAO } from "./index.js";
 
 //create new account
 const createAccount = async () => {};
@@ -16,10 +17,36 @@ const verifyAccount = async () => {};
 const bannAccountByID = async () => {};
 
 //edit user Profile
-const editAccountByID = async () => {};
-
+const editAccountByID = async (
+  id,
+  { email, phoneNumber, avatarIMG, username, address }
+) => {
+  try {
+    const updateAcc = await Accounts.findByIdAndUpdate(
+      id,
+      {
+        email,
+        phoneNumber,
+        avatarIMG,
+        username,
+        address,
+      },
+      { new: true }
+    );
+    if (!updateAcc) throw new Error("not found to update");
+    return updateAcc;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 // view profile user
-const getAccountInfoByID = async () => {};
+const getAccountInfoByID = async (id) => {
+  try {
+    return await Accounts.findById(id).exec();
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 
 // view list account
 const getAllAccount = async () => {

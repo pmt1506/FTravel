@@ -1,0 +1,19 @@
+//get all account
+http://localhost:9999/account/all
+###
+// get account by ID
+http://localhost:9999/account/65d387f588f5130ffacc7721
+###
+//update profile
+PATCH http://localhost:9999/account/profile/65d387f588f5130ffacc7721 HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "dungmuahahaha"
+}
+
+###
+// login
+
+###
+//signup

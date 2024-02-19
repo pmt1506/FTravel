@@ -8,10 +8,12 @@ accountRouter.get("/all", accountController.getAllAccount);
 accountRouter.get("/:accID", accountController.getAccountByID);
 //signup
 accountRouter.post("/signup", accountController.createAccount);
-//get all account
+//login route
 accountRouter.post("/login", accountController.getAccountByEmailAndPass);
-//get
-accountRouter.get("/all", accountController.getAllAccount);
+// edit profile user
+accountRouter.patch("/profile/:accID", accountController.updateUserInfo);
+// edit status user (admin)
+accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //get all account
 accountRouter.get("/all", accountController.getAllAccount);
 
