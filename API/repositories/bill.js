@@ -1,4 +1,4 @@
-import Bills from "../models/bill";
+import Bills from "../models/bill.js";
 
 // Operation CRUD MONGODB -> Bill
 

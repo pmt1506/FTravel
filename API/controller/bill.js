@@ -1,4 +1,4 @@
-import { billDAO } from "../repositories.js";
+import { billDAO } from "../repositories/index.js";
 
 // Bill Controller
 
