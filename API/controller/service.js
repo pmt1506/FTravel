@@ -28,8 +28,11 @@ const createService = async (req, res) => {
 
 const getAllService = async (req,res) => {
     try {
-        const allServices = await serviceDAO.getAllService();
-        res.status(200).json(allServices);
+        //pagination
+        const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
+        const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
+        const allServices = await serviceDAO.getAllService(page, pageSize);
+        res.status(200).json({allServices, page, total: allServices.length});
     } catch (error) {
         res.status(500).json({
             message: error.toString()

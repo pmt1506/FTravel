@@ -11,9 +11,11 @@ const createService = async ({ title, thumbnail, slot, price, description, start
 }
 
 //Get all services
-const getAllService = async () => {
+const getAllService = async (page, pageSize) => {
     try {
-        const allServices = await Services.find();
+        //pagination
+        const startIndex = (page - 1) * pageSize;
+        const allServices = await Services.find().skip(startIndex).limit(pageSize);
         return allServices.map(service => service._doc);
     } catch (error) {
         throw new Error(error.toString());
