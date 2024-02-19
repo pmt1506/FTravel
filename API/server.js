@@ -3,10 +3,13 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import connectDB from "./database.js";
 import serviceTypeRouter from "./routes/serviceType.js";
-// import serviceRouter from "./routes/service.js";
+import serviceRouter from "./routes/service.js";
+import { json } from "express";
 
 const app = express();
 app.use(express.json());
+
+app.use(json());
 app.use(cors());
 dotenv.config();
 
@@ -17,7 +20,7 @@ app.get("/", (res, req) => {
 });
 
 app.use('/type', serviceTypeRouter);
-// app.use('/service', serviceRouter);
+app.use('/service', serviceRouter);
 
 app.listen(PORT, async () => {
   connectDB();

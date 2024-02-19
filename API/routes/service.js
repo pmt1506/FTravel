@@ -1,9 +1,11 @@
-// import express from 'express';
-// import { serviceController} from '../controller/index.js';
+import express from 'express';
+import { serviceController} from '../controller/index.js';
 
-// const serviceRouter = express.Router();
+const serviceRouter = express.Router();
 
 
-// serviceRouter.get('/', serviceTypeController.getAllService);
+serviceRouter.get('/', serviceController.getAllService);
 
-// export default serviceRouter;
+serviceRouter.post('/', serviceController.createService);
+
+export default serviceRouter;
