@@ -12,6 +12,7 @@ commentRouter.post("/add", commentController.addComment);
 commentRouter.get("/:serviceID", commentController.getCommentsByServiceID);
 
 //Route to edit comment by User
-commentRouter.patch("/edit", commentController.editComment);
+//id is the commentID
+commentRouter.patch("/edit/:id", commentController.editComment);
 
 export default commentRouter;

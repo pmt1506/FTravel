@@ -39,7 +39,7 @@ const editComment = async (req, res) => {
     if (!editedComment || !content) {
       throw new Error("Comment cannot be empty");
     } else {
-      res.status(201).json(editedComment);
+      res.status(200).json(editedComment);
     }
   } catch (error) {
     res.status(500).json({ error: error.toString() });

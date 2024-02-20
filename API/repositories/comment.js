@@ -24,17 +24,20 @@ const getCommentsByServiceID = async (serviceID) => {
   }
 };
 
-//edit comments
+//edit comment
 const editComment = async (id, content) => {
   try {
-    const updateContent = await Comment.findByIdAndUpdate(id, content);
-    if (!updateContent) {
-      throw new Error("Comment cannot be empty");
-    } else {
-      return updateContent;
+    const updatedComment = await Comment.findByIdAndUpdate(
+      id,
+      { content },
+      { new: true }
+    );
+    if (!updatedComment) {
+      throw new Error("Comment not found");
     }
-  } catch (e) {
-    throw new Error(e.toString());
+    return updatedComment;
+  } catch (error) {
+    throw new Error(error.toString());
   }
 };
 
