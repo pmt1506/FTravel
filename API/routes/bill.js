@@ -7,6 +7,6 @@ const billRouter = express.Router();
 billRouter.post("/add", billController.addBill);
 
 // Route to get bills by service ID
-billRouter.get("/history/:serviceId", billController.getBillsByServiceId);
+billRouter.get("/history/:userID", billController.getBillsByUserId);
 
 export default billRouter;
