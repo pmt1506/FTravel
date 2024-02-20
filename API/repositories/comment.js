@@ -41,4 +41,19 @@ const editComment = async (id, content) => {
   }
 };
 
-export default { addComment, getCommentsByServiceID, editComment };
+
+//delete comment by id
+
+const deleteComment = async (id) => {
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(id);
+    if (!deletedComment) {
+      throw new Error("Comment not found");
+    }
+    return deletedComment;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
+export default { addComment, getCommentsByServiceID, editComment, deleteComment };

@@ -15,4 +15,8 @@ commentRouter.get("/:serviceID", commentController.getCommentsByServiceID);
 //id is the commentID
 commentRouter.patch("/edit/:id", commentController.editComment);
 
+//Route to delete comment by commentID
+
+commentRouter.delete("/delete/:id", commentController.deleteComment);
+
 export default commentRouter;
