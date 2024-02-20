@@ -22,7 +22,7 @@ const viewCart = async (userID) => {
 };
 const deleteFromCart = async (serviceID) => {
     try {
-        return await Carts.deleteOne({ serviceID: serviceID });
+        return await Carts.deleteOne({ _serviceID: serviceID });
     } catch (error) {
         console.log(error.toString());
     }
