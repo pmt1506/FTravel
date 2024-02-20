@@ -19,9 +19,30 @@ const viewAllReport = async (req, res) => {
     }
 };
 
-const createReport = async (req, res) => {};
+const createReport = async (req, res) => {
+    try {
+        const { content, serviceID, userID } = req.body;
+        const result = await reportDAO.createReport({ content, serviceID, userID });
+        res.status(200).json(newReport);
+    } catch (error){
+        res.status(500).json({ error: error.toString() });
+    }
+};
 
-const editReport = async (req, res) => {};
+const editReport = async (req, res) => {
+    try {
+        const { content } = req.body;
+        const { id } = req.params;
+        const editedReport = await reportDAO.editReport(id, content);
+        if(!editedReport || !content) {
+            throw new error("Report shouldn't be empty");
+        } else {
+            res.status(200).json(editedReport);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
+};
 
 export default {
     viewAllReport,
