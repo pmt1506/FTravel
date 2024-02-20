@@ -1,4 +1,4 @@
-import Carts from "../models/cart";
+import Carts from "../models/cart.js";
 
 const addToCart = async ({ userID, serviceID }) => {
     try {
