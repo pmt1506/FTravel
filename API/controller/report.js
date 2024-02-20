@@ -1,4 +1,4 @@
-import { reportDAO } from "../repositories/report.js";
+import reportDAO from "../repositories/report.js";
 
 const viewAllReport = async (req, res) => {
     const listReport = await reportDAO.viewAllReport()

@@ -3,7 +3,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import connectDB from "./database.js";
 
-import { reportRouter } from "../API/routes/report.js";
+import reportRouter from "../API/routes/report.js";
 
 const app = express();
 app.use(express.json());
