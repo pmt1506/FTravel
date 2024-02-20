@@ -3,7 +3,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import connectDB from "./database.js";
 
-import { billRouter } from "./routes/index.js";
+import { billRouter, commentRouter } from "./routes/index.js";
 
 const app = express();
 app.use(express.json());
@@ -17,6 +17,8 @@ app.get("/", (res, req) => {
 });
 
 app.use(`/bill`, billRouter);
+
+app.use("/comment", commentRouter);
 
 app.listen(PORT, async () => {
   connectDB();
