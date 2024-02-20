@@ -41,6 +41,24 @@ const editComment = async (id, content) => {
   }
 };
 
+//mark as violating comments
+const markCommentAsViolatingTerms = async (commentId) => {
+  try {
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { content: "This comment is violating our Terms" },
+      { new: true }
+    );
+
+    if (!updatedComment) {
+      throw new Error("Comment not found");
+    }
+
+    return updatedComment;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 
 //delete comment by id
 
@@ -56,4 +74,10 @@ const deleteComment = async (id) => {
   }
 };
 
-export default { addComment, getCommentsByServiceID, editComment, deleteComment };
+export default {
+  addComment,
+  getCommentsByServiceID,
+  editComment,
+  deleteComment,
+  markCommentAsViolatingTerms,
+};

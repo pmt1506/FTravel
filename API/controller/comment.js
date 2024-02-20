@@ -46,6 +46,25 @@ const editComment = async (req, res) => {
   }
 };
 
+const markCommentAsViolatingTerms = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedComment = await commentDAO.markCommentAsViolatingTerms(id);
+
+    if (!updatedComment || updatedComment.content === undefined) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    // Log a message indicating that the comment has been marked as violating terms
+    console.log(`Comment with ID ${id} has been marked as violating terms`);
+
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    console.error("Error in markCommentAsViolatingTerms:", error);
+    res.status(500).json({ error: error.toString() });
+  }
+};
+
 //Delete comments
 
 const deleteComment = async (req, res) => {
@@ -72,4 +91,5 @@ export default {
   getCommentsByServiceID,
   editComment,
   deleteComment,
+  markCommentAsViolatingTerms,
 };

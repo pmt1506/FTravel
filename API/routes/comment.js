@@ -15,6 +15,9 @@ commentRouter.get("/:serviceID", commentController.getCommentsByServiceID);
 //id is the commentID
 commentRouter.patch("/edit/:id", commentController.editComment);
 
+//Route to hide comment by Admin 
+//change content of comment
+commentRouter.patch("/hide/:id", commentController.markCommentAsViolatingTerms)
 //Route to delete comment by commentID
 
 commentRouter.delete("/delete/:id", commentController.deleteComment);
