@@ -22,7 +22,62 @@ const getAllService = async (page, pageSize) => {
     }
 }
 
+//Get Service by ID
+const getServiceByID = async (serviceID) => {
+    try {
+        const service = await Services.findById(serviceID);
+        if (!service) {
+            throw new Error("Service not found");
+        }
+        return service._doc;
+    } catch (error) {
+        throw new Error(error.toString());
+    }
+}
+//Get Service by name - find service
+const getServiceByName = async (serviceName) => {
+    try {
+        const service = await Services.findOne({ title: serviceName });
+        if (!service) {
+            throw new Error("Service not found");
+        }
+        return service._doc;
+    } catch (error) {
+        throw new Error(error.toString());
+    }
+}
+
+// Edit service
+const editService = async (id, {title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status}) => {
+    try {
+        const editService = await Services.findByIdAndUpdate(id, {title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status},{new: true});   //new true là tạo bản ghi mới nếu không tìm thấy {_id:id}
+        if (!editService) {
+            throw new Error("Service not found");
+        }
+        return editService._doc;
+    } catch (error) {
+        throw new Error(error.toString());
+    }
+}
+
+//// Delete service by ID - not use, we hide it by edit status
+// const deleteServiceByID = async (serviceID) => {
+//     try {
+//         const deletedService = await Services.findByIdAndDelete(serviceID);
+//         if (!deletedService) {
+//             throw new Error("Service not found");
+//         }
+//         return deletedService._doc;
+//     } catch (error) {
+//         throw new Error(error.toString());
+//     }
+// }
+
 export default{
     createService,
-    getAllService
+    getAllService,
+    getServiceByID,
+    getServiceByName,
+    editService
+    // deleteServiceByID
 }

@@ -8,17 +8,13 @@ const serviceTypesSchema = new Schema(
       require: [true, "Service name must be required and unique"],
       unique: true,
     },
-    // serviceID: {
-    //   type: String,
-    //   require: true,
-    //   unique: true,
-    // },
-    status: {
-      type: Boolean,
+    serviceID: {
+      type: String,
       require: true,
-    },
+      unique: true,
+    }
   },
   { timestamps: true }
 );
-const ServiceTypes = mongoose.model("servicetypesses", serviceTypesSchema);
+const ServiceTypes = mongoose.model("typeServices", serviceTypesSchema);
 export default ServiceTypes;

@@ -6,6 +6,8 @@ const connectDB = async () => {
   try {
     const db = mongoose.connect(process.env.URI_MONGODB);
     console.log("Connect successfully");
+
+    // use for mapping
     // await ServiceTypes.init();
     // await Services.init();
     // console.log("Schema mapping success");

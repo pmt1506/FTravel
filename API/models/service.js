@@ -6,6 +6,7 @@ const serviceSchema = new Schema(
     title: {
       type: String,
       require: true,
+      unique: true,
     },
     thumbnail: {
       type: String,
