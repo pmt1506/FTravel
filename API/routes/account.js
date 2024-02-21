@@ -14,7 +14,7 @@ accountRouter.post("/login", accountController.getAccountByEmailAndPass);
 accountRouter.patch("/profile/:accID", accountController.updateUserInfo);
 // edit status user (admin)
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
-//get all account
+//
 accountRouter.get("/all", accountController.getAllAccount);
 
 export default accountRouter;
