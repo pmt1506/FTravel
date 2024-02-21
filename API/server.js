@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 dotenv.config();
 
-app.use(`/carts`, cartRouter)
+app.use(`/carts`, cartRouter);
 const PORT = process.env.PORT;
 
 app.get("/", (res, req) => {
