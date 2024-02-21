@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import connectDB from "./database.js";
 
 import { billRouter, commentRouter } from "./routes/index.js";
+import reportRouter from "../API/routes/report.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ app.get("/", (res, req) => {
 app.use(`/bill`, billRouter);
 
 app.use("/comment", commentRouter);
+app.use(`/report`, reportRouter);
 
 app.listen(PORT, async () => {
   connectDB();
