@@ -11,8 +11,7 @@ const addToCart = async ({ userID, serviceID }) => {
 
 const viewCart = async (userID) => {
     try {
-        const populatedCart = await Carts.findOne({ _userID: userID })
-            .populate('serviceID')
+        const populatedCart = await Carts.findOne({ userID: userID })
             .exec();
 
         return populatedCart._doc;
@@ -22,7 +21,7 @@ const viewCart = async (userID) => {
 };
 const deleteFromCart = async (serviceID) => {
     try {
-        return await Carts.deleteOne({ _serviceID: serviceID });
+        return await Carts.deleteOne({ serviceID: serviceID });
     } catch (error) {
         console.log(error.toString());
     }
