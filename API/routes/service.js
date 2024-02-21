@@ -3,17 +3,20 @@ import { serviceController} from '../controller/index.js';
 
 const serviceRouter = express.Router();
 
-
-serviceRouter.get('/', serviceController.getAllService);
+//have filter for user
+serviceRouter.post('/', serviceController.getAllService);
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
+
+//for admin
+serviceRouter.get('/', serviceController.getAllServiceAdmin);
 
 serviceRouter.post('/', serviceController.createService);
 
 serviceRouter.get('/:id', serviceController.getServiceByID);
 
-serviceRouter.get('/service/:serviceName', serviceController.getServiceByName); 
+serviceRouter.get('/name/:serviceName', serviceController.getServiceByName); 
 
 serviceRouter.put('/:id', serviceController.editService); 
 

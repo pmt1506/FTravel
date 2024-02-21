@@ -31,6 +31,21 @@ const getAllService = async (req,res) => {
         //pagination
         const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
         const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
+        const type = req.body.type;
+        const allServices = await serviceDAO.getAllService(page, pageSize, type);
+        res.status(200).json({allServices, page, total: allServices.length});
+    } catch (error) {
+        res.status(500).json({
+            message: error.toString()
+        })
+    }
+}
+
+const getAllServiceAdmin = async (req,res) => {
+    try {
+        //pagination
+        const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
+        const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
         const allServices = await serviceDAO.getAllService(page, pageSize);
         res.status(200).json({allServices, page, total: allServices.length});
     } catch (error) {
@@ -141,6 +156,7 @@ export default{
     getAllService,
     getServiceByID,
     getServiceByName,
-    editService
+    editService,
+    getAllServiceAdmin
     // deleteServiceByID
 }

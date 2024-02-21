@@ -11,7 +11,22 @@ const createService = async ({ title, thumbnail, slot, price, description, start
 }
 
 //Get all services
-const getAllService = async (page, pageSize) => {
+const getAllService = async (page, pageSize, type) => {
+    try {
+        //pagination
+        const startIndex = (page - 1) * pageSize;
+        if(!type){
+            return await Services.find({status: true}).skip(startIndex).limit(pageSize);
+        }
+        const allServices = await Services.find({status: true, type: type}).skip(startIndex).limit(pageSize);
+        return allServices.map(service => service._doc);
+    } catch (error) {
+        throw new Error(error.toString());
+    }
+}
+
+//Get all services for admin
+const getAllServiceAdmin = async (page, pageSize) => {
     try {
         //pagination
         const startIndex = (page - 1) * pageSize;
@@ -78,6 +93,7 @@ export default{
     getAllService,
     getServiceByID,
     getServiceByName,
-    editService
+    editService,
+    getAllServiceAdmin
     // deleteServiceByID
 }
