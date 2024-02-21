@@ -3,7 +3,7 @@ import reportController from "../controller/report.js";
 
 const reportRouter = express.Router();
 
-reportRouter.get("/all", reportController.viewAllReport);
+reportRouter.get("/", reportController.viewAllReport);
 
 reportRouter.post("/create", reportController.createReport);
 
