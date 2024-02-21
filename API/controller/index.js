@@ -9,3 +9,5 @@ export { serviceTypeController, serviceController };
 import cartController from "./cart.js";
 
 export { cartController };
+import accountController from "./account.js";
+export { accountController };

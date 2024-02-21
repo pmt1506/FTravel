@@ -39,7 +39,7 @@ const AccountSchema = new Schema(
     cccd: {
       type: String,
       required: [false],
-      unique: [true, "cccd already exist"],
+      unique: [false, "cccd already exist"],
     },
     address: {
       type: String,

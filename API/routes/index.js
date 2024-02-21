@@ -7,3 +7,5 @@ export { billRouter, commentRouter, serviceTypeRouter, serviceRouter };
 import cartRouter from "./cart.js";
 
 export { cartRouter };
+import accountRouter from "./account.js";
+export { accountRouter };
