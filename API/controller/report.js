@@ -22,7 +22,7 @@ const viewAllReport = async (req, res) => {
 const createReport = async (req, res) => {
     try {
         const { content, serviceID, userID } = req.body;
-        const result = await reportDAO.createReport({ content, serviceID, userID });
+        const newReport = await reportDAO.createReport({ content, serviceID, userID });
         res.status(200).json(newReport);
     } catch (error){
         res.status(500).json({ error: error.toString() });

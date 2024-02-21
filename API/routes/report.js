@@ -7,6 +7,6 @@ reportRouter.get("/all", reportController.viewAllReport);
 
 reportRouter.post("/create", reportController.createReport);
 
-reportRouter.post("/edit", reportController.editReport);
+reportRouter.patch("/edit/:id", reportController.editReport);
 
 export default reportRouter;
