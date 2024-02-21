@@ -6,3 +6,6 @@ import serviceTypeController from "./serviceType.js";
 import serviceController from "./service.js";
 
 export { serviceTypeController, serviceController };
+import cartController from "./cart.js";
+
+export { cartController };

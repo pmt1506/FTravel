@@ -8,6 +8,7 @@ import { json } from "express";
 
 import { billRouter, commentRouter } from "./routes/index.js";
 import reportRouter from "../API/routes/report.js";
+import { cartRouter } from "./routes/index.js";
 
 const app = express();
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(json());
 app.use(cors());
 dotenv.config();
 
+app.use(`/carts`, cartRouter);
 const PORT = process.env.PORT;
 
 app.get("/", (res, req) => {
