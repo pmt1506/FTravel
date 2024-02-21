@@ -33,6 +33,9 @@ const getAllService = async (req,res) => {
         const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
         const type = req.body.type;
         const allServices = await serviceDAO.getAllService(page, pageSize, type);
+        if(allServices.length === 0) {
+            return res.status(404).json({ message: "No services found" });
+        }
         res.status(200).json({allServices, page, total: allServices.length});
     } catch (error) {
         res.status(500).json({
@@ -47,6 +50,9 @@ const getAllServiceAdmin = async (req,res) => {
         const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
         const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
         const allServices = await serviceDAO.getAllService(page, pageSize);
+        if(allServices.length === 0) {
+            return res.status(404).json({ message: "No services found" });
+        }
         res.status(200).json({allServices, page, total: allServices.length});
     } catch (error) {
         res.status(500).json({
