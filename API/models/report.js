@@ -14,6 +14,10 @@ const reportSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "accounts",
     },
+    status: {
+      type: Boolean,
+      require: true,
+    }
   },
   { timestamps: true }
 );
