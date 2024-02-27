@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -43,7 +44,9 @@ const Home = () => {
             <h2>Featured Tour</h2>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button variant="outline-success">See more</Button>
+            <Link to={"/tour"} className="btn btn-outline-success mt-1">
+              See more
+            </Link>
           </Col>
         </Row>
       </Container>
@@ -105,7 +108,9 @@ const Home = () => {
             <h2>Featured Hotel</h2>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button variant="outline-success">See more</Button>
+            <Link to={"/hotel"} className="btn btn-outline-success mt-1">
+              See more
+            </Link>
           </Col>
         </Row>
       </Container>
@@ -167,7 +172,9 @@ const Home = () => {
             <h2>Featured Event</h2>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button variant="outline-success">See more</Button>
+            <Link to={"/event"} className="btn btn-outline-success mt-1">
+              See more
+            </Link>
           </Col>
         </Row>
       </Container>
@@ -262,9 +269,6 @@ const Home = () => {
           <Col>
             <h2>Featured Vendor</h2>
           </Col>
-          <Col className="d-flex justify-content-end">
-            <Button variant="outline-success">See more</Button>
-          </Col>
         </Row>
       </Container>
       {/* Vendor list */}
@@ -334,13 +338,14 @@ const Home = () => {
                   Some quick example text to build on the card title and make up
                   the bulk of the card's content.
                 </Card.Text>
-                <Button variant="outline-success">See more</Button>
               </Card.Body>
             </Card>
           </Col>
         </Row>
         <div className="text-center mt-4">
-          <Button variant="success">See all vendors</Button>
+          <Link to={"/vendor-list"} className="btn btn-success mt-1">
+            See all vendors
+          </Link>
         </div>
       </Container>
     </>
