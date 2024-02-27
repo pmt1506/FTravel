@@ -18,7 +18,7 @@ const getAllService = async (page, pageSize, type) => {
         if(!type){
             return await Services.find({status: true}).skip(startIndex).limit(pageSize);
         }
-        const allServices = await Services.find({status: true, type: type}).skip(startIndex).limit(pageSize);
+        const allServices = await Services.find({status: true, type: type}).populate("type").skip(startIndex).limit(pageSize);
         return allServices.map(service => service._doc);
     } catch (error) {
         throw new Error(error.toString());

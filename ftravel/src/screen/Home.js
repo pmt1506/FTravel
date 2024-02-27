@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  const [allServices, setAllServices] = useState([]);
+  const [tourList, setTourList] = useState([]);
+  const [hotelList, setHotelList] = useState([]);
+  const [eventList, setEventList] = useState([]);
+
+  const tourListID = "65d440dd4ba915fa5c498398";
+  const hotelListID = "65d235961ade018d66152d24";
+  const eventListID = "65d440fb4ba915fa5c498399";
+
+  useEffect(() => {
+    fetch("http://localhost:9999/service")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllServices(data.allServices);
+        // Use data.allServices to filter based on type
+        setTourList(
+          data.allServices.filter((service) => service.type === tourListID)
+        );
+        setHotelList(
+          data.allServices.filter((service) => service.type === hotelListID)
+        );
+        setEventList(
+          data.allServices.filter((service) => service.type === eventListID)
+        );
+      });
+  }, []);
+
   return (
     <>
       <Container fluid className="mt-4">
@@ -52,54 +79,17 @@ const Home = () => {
       </Container>
       <Container className="mb-3">
         <Row>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+          {tourList.slice(0, 4).map((tour, index) => (
+            <Col xs={3} key={index}>
+              <Card>
+                <Card.Img variant="top" src={tour.thumbnail} />
+                <Card.Body>
+                  <Card.Title>{tour.title}</Card.Title>
+                  <Card.Text>{tour.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
       <Container className="mb-3">
@@ -116,54 +106,17 @@ const Home = () => {
       </Container>
       <Container className="mb-3">
         <Row>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+          {hotelList.slice(0, 4).map((hotel, index) => (
+            <Col xs={3} key={index}>
+              <Card>
+                <Card.Img variant="top" src={hotel.thumbnail} />
+                <Card.Body>
+                  <Card.Title>{hotel.title}</Card.Title>
+                  <Card.Text>{hotel.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
       <Container className="mb-3">
@@ -180,54 +133,17 @@ const Home = () => {
       </Container>
       <Container className="mb-3">
         <Row>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Img variant="top" src="https://picsum.photos/200" />
-              <Card.Body>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+        {eventList.slice(0, 4).map((event, index) => (
+            <Col xs={3} key={index}>
+              <Card>
+                <Card.Img variant="top" src={event.thumbnail} />
+                <Card.Body>
+                  <Card.Title>{event.title}</Card.Title>
+                  <Card.Text>{event.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
       {/* List favorited locations */}
@@ -251,7 +167,7 @@ const Home = () => {
                   />
                   <div className="effect"></div>
                   <div className="location-content" style={{ height: "250px" }}>
-                    <p class="title text-center pt-5">Đà Lạt</p>
+                    <p className="title text-center pt-5">Đà Lạt</p>
                     <div className="location-summary">
                       <span>xx province</span>
                       <span>xx province</span>
