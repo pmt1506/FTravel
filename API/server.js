@@ -49,6 +49,7 @@ app.use("/comment", commentRouter);
 app.use(`/report`, reportRouter);
 app.use("/type", serviceTypeRouter);
 app.use("/service", serviceRouter);
+app.use("/account", accountRouter);
 
 //passport authenticate
 app.get(
@@ -79,7 +80,6 @@ app.use("/auth/logout", (req, res) => {
   res.send("bye");
 });
 
-app.use("/account", accountRouter);
 app.listen(PORT, async () => {
   connectDB();
   console.log(`Server is running on port ${PORT} `);
