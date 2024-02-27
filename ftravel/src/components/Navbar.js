@@ -24,81 +24,39 @@ const NavbarComponent = () => {
                 >
                   Home
                 </NavLink>
-                <NavDropdown
-                  title="Tour"
-                  id="tour-dropdown"
-                  className="mx-2"
+                <NavLink
+                  to="/tour"
+                  className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
                     fontSize: "14",
                     textTransform: "uppercase",
                   }}
                 >
-                  <NavLink
-                    to="/tour/destination1"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Destination 1
-                  </NavLink>
-                  <NavLink
-                    to="/tour/destination2"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Destination 2
-                  </NavLink>
-                </NavDropdown>
-                <NavDropdown
-                  title="Hotel"
-                  id="hotel-dropdown"
-                  className="mx-2"
+                  Tour
+                </NavLink>
+                <NavLink
+                  to="/hotel"
+                  className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
                     fontSize: "14",
                     textTransform: "uppercase",
                   }}
                 >
-                  <NavLink
-                    to="/hotel/hotel1"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Hotel 1
-                  </NavLink>
-                  <NavLink
-                    to="/hotel/hotel2"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Hotel 2
-                  </NavLink>
-                </NavDropdown>
-                <NavDropdown
-                  title="Event"
-                  id="event-dropdown"
-                  className="mx-2"
+                  Hotel
+                </NavLink>
+                <NavLink
+                  to="/event"
+                  className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
                     fontSize: "14",
                     textTransform: "uppercase",
                   }}
                 >
-                  <NavLink
-                    to="/event/event1"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Event 1
-                  </NavLink>
-                  <NavLink
-                    to="/event/event2"
-                    className="dropdown-item"
-                    activeClassName="active"
-                  >
-                    Event 2
-                  </NavLink>
-                </NavDropdown>
+                  Event
+                </NavLink>
                 <NavLink
                   to="/about"
                   className="nav-link mx-2"
