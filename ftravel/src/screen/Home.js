@@ -3,7 +3,6 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [allServices, setAllServices] = useState([]);
   const [tourList, setTourList] = useState([]);
   const [hotelList, setHotelList] = useState([]);
   const [eventList, setEventList] = useState([]);
@@ -16,7 +15,6 @@ const Home = () => {
     fetch("http://localhost:9999/service")
       .then((res) => res.json())
       .then((data) => {
-        setAllServices(data.allServices);
         // Use data.allServices to filter based on type
         setTourList(
           data.allServices.filter((service) => service.type === tourListID)
@@ -133,7 +131,7 @@ const Home = () => {
       </Container>
       <Container className="mb-3">
         <Row>
-        {eventList.slice(0, 4).map((event, index) => (
+          {eventList.slice(0, 4).map((event, index) => (
             <Col xs={3} key={index}>
               <Card>
                 <Card.Img variant="top" src={event.thumbnail} />
