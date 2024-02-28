@@ -43,6 +43,25 @@ const Tour = () => {
     cssEase: "linear",
   };
 
+  // Constant demo rating value
+  const demoRating = 4;
+
+  // Function to generate stars based on the demo rating
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className={`star ${i <= demoRating ? "filled" : "unfilled"}`}
+        >
+          &#9733;
+        </span>
+      );
+    }
+    return stars;
+  };
+
   return (
     <>
       <div className="container mt-4">
@@ -140,6 +159,7 @@ const Tour = () => {
                       <div>
                         <h5 className="card-title">{tour.title}</h5>
                         <p className="card-text">${tour.price}</p>
+                        <div className="stars-container">{renderStars()}</div>
                       </div>
                       <button className="btn btn-primary">Buy Now</button>
                     </div>

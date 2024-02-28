@@ -1,3 +1,15 @@
-.btn-more:hover{
-    background-color: rgb(198, 255, 243) !important;
+.btn-more:hover {
+  background-color: rgb(198, 255, 243) !important;
+}
+
+.star {
+  color: #f0c419; /* Default color for both filled and unfilled stars */
+}
+
+.filled {
+  color: #ffd700; /* Filled star color */
+}
+
+.unfilled {
+  color: #c0c0c0; /* Unfilled star color */
 }
