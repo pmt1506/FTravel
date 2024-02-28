@@ -149,7 +149,7 @@ const Tour = () => {
             <div className="row">
               {tourList.map((tour, index) => (
                 <div className="col-md-4" key={index}>
-                  <div className="card">
+                  <div className="card mb-3">
                     <img
                       src={tour.thumbnail}
                       alt="Tour image"
