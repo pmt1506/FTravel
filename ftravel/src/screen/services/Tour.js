@@ -8,16 +8,37 @@ const Tour = () => {
   const tourListID = "65d440dd4ba915fa5c498398";
 
   useEffect(() => {
-    fetch(`http://localhost:9999/service`)
-      .then((res) => res.json())
-      .then((data) => {
-        setTourList(
-          data.allServices.filter((service) => service.type === tourListID)
-        );
-        console.log(
-          data.allServices.filter((service) => service.type === tourListID)
-        );
-      });
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:9999/service", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          body: JSON.stringify({
+            // Add your request payload here
+            type: tourListID,
+            pageSize: 8,
+            page: 2,
+          }),
+        });
+
+        if (response.status === 200) {
+          // Handle the successful response
+          const data = await response.json();
+          console.log(data.allServices);
+          setTourList(data.allServices);
+        } else if (response.status === 404) {
+          // Handle other status codes if needed
+          console.error("Non-OK status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const placeholderImages = [
@@ -148,7 +169,7 @@ const Tour = () => {
             <h2>Featured Tours</h2>
             <div className="row">
               {tourList.map((tour, index) => (
-                <div className="col-md-4" key={index}>
+                <div className="col-md-3 " key={index}>
                   <div className="card mb-3">
                     <img
                       src={tour.thumbnail}

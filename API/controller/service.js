@@ -29,8 +29,8 @@ const createService = async (req, res) => {
 const getAllService = async (req,res) => {
     try {
         //pagination
-        const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
-        const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
+        const page = req.body.page || 1; // Trang mặc định là 1 nếu không fix
+        const pageSize = req.body.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
         const type = req.body.type;
         const allServices = await serviceDAO.getAllService(page, pageSize, type);
         if(allServices.length === 0) {
@@ -47,8 +47,8 @@ const getAllService = async (req,res) => {
 const getAllServiceAdmin = async (req,res) => {
     try {
         //pagination
-        const page = req.query.page || 1; // Trang mặc định là 1 nếu không fix
-        const pageSize = req.query.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
+        const page = req.body.page || 1; // Trang mặc định là 1 nếu không fix
+        const pageSize = req.body.pageSize || 10; //Số lượng hiển thị trên trang là 10 nếu không fix
         const allServices = await serviceDAO.getAllServiceAdmin(page, pageSize);
         if(allServices.length === 0) {
             return res.status(404).json({ message: "No services found" });
