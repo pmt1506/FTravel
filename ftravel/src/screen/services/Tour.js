@@ -4,6 +4,8 @@ import "../../css/services.css";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   const tourListID = "65d440dd4ba915fa5c498398";
 
@@ -20,14 +22,13 @@ const Tour = () => {
             // Add your request payload here
             type: tourListID,
             pageSize: 8,
-            page: 2,
+            page: currentPage,
           }),
         });
 
         if (response.status === 200) {
           // Handle the successful response
           const data = await response.json();
-          console.log(data.allServices);
           setTourList(data.allServices);
         } else if (response.status === 404) {
           // Handle other status codes if needed
@@ -39,6 +40,41 @@ const Tour = () => {
     };
 
     fetchData();
+  }, [currentPage]);
+
+  useEffect(() => {
+    const fetchTourCount = async () => {
+      try {
+        const response = await fetch("http://localhost:9999/service/count", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          body: JSON.stringify({
+            // Add your request payload here
+            type: tourListID,
+          }),
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          const totalItems = data.total;
+          const pageSize = 8; // Set your desired page size
+          const calculatedTotalPages = Math.ceil(totalItems / pageSize);
+
+          setTotalPages(calculatedTotalPages);
+          console.log(calculatedTotalPages);
+        } else if (response.status === 404) {
+          // Handle other status codes if needed
+          console.error("Non-OK status:", response.status);
+          setTotalPages(0);
+          setTourList([]);
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+    fetchTourCount();
   }, []);
 
   const placeholderImages = [
@@ -83,6 +119,10 @@ const Tour = () => {
     return stars;
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <div className="container mt-4">
@@ -119,7 +159,7 @@ const Tour = () => {
                 />
               </div>
               <div className="col-9">
-                <h3>Title</h3>
+                <h3>Cộng tác viên</h3>
                 <p className="text-muted">
                   Danh sách các cộng tác viên đông đảo tại Ong Vò Vẽ
                 </p>
@@ -136,9 +176,9 @@ const Tour = () => {
                 />
               </div>
               <div className="col-9">
-                <h3>Title</h3>
+                <h3>Thanh toán nhanh gọn</h3>
                 <p className="text-muted">
-                  Danh sách các cộng tác viên đông đảo tại Ong Vò Vẽ
+                  Thanh toán đơn hàng nhanh chóng và tiện lợi.
                 </p>
               </div>
             </div>
@@ -153,9 +193,9 @@ const Tour = () => {
                 />
               </div>
               <div className="col-9">
-                <h3>Title</h3>
+                <h3>Địa điểm đa dạng</h3>
                 <p className="text-muted">
-                  Danh sách các cộng tác viên đông đảo tại Ong Vò Vẽ
+                  Nhiều địa điểm thú vị đang chờ đón bạn.
                 </p>
               </div>
             </div>
@@ -166,7 +206,7 @@ const Tour = () => {
       <div className="container mt-4">
         <div className="row">
           <div className="col">
-            <h2>Featured Tours</h2>
+            <h2 className="mb-3">Featured Tours</h2>
             <div className="row">
               {tourList.map((tour, index) => (
                 <div className="col-md-3 " key={index}>
@@ -187,12 +227,59 @@ const Tour = () => {
                   </div>
                 </div>
               ))}
+              <div className="col-12 mt-2">
+                {/* Pagination */}
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-center">
+                    <li
+                      className={`page-item ${
+                        currentPage === 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        tabIndex="-1"
+                      >
+                        Previous
+                      </button>
+                    </li>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <li
+                        key={index}
+                        className={`page-item ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+                    <li
+                      className={`page-item ${
+                        currentPage === totalPages ? "disabled" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="container mt-4"
+        className="container mt-2"
         style={{ background: "#f6b756", padding: "20px" }}
       >
         <div className="row">

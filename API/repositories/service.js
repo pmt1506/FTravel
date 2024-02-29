@@ -25,6 +25,20 @@ const getAllService = async (page, pageSize, type) => {
     }
 }
 
+// Get all services count
+
+const getAllServiceCount = async (type) => {
+    try {
+        if(!type){
+            return await Services.find({status: true}).countDocuments();
+        }
+        const allServices = await Services.find({status: true, type: type}).populate('type').countDocuments();
+        return allServices;
+    } catch (error) {
+        throw new Error(error.toString());
+    }
+}
+
 //Get all services for admin
 const getAllServiceAdmin = async (page, pageSize) => {
     try {
@@ -94,6 +108,7 @@ export default{
     getServiceByID,
     getServiceByName,
     editService,
-    getAllServiceAdmin
+    getAllServiceAdmin,
+    getAllServiceCount
     // deleteServiceByID
 }

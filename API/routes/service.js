@@ -14,6 +14,8 @@ serviceRouter.get('/', serviceController.getAllServiceAdmin);
 
 serviceRouter.post('/', serviceController.createService);
 
+serviceRouter.post('/count', serviceController.getAllServiceCount);
+
 serviceRouter.get('/:id', serviceController.getServiceByID);
 
 serviceRouter.get('/name/:serviceName', serviceController.getServiceByName); 
