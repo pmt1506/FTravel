@@ -16,8 +16,6 @@ const cart = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               // Define your cart item properties here
- *               // Example: product ID, quantity, etc.
  *     responses:
  *       200:
  *         description: Item added to the cart successfully

@@ -36,7 +36,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //routes
-app.use(`/carts`, cartRouter);
+app.use("/carts", cartRouter);
 
 const PORT = process.env.PORT;
 
@@ -44,10 +44,10 @@ app.get("/", (req, res) => {
   res.send("muahahsss");
 });
 
-app.use(`/bill`, billRouter);
+app.use("/bill", billRouter);
 
 app.use("/comment", commentRouter);
-app.use(`/report`, reportRouter);
+app.use("/report", reportRouter);
 app.use("/type", serviceTypeRouter);
 app.use("/service", serviceRouter);
 app.use("/account", accountRouter);
