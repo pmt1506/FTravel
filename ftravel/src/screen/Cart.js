@@ -1,20 +1,43 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Button, Col, Container, Form, FormControl, Row } from "react-bootstrap"
 
 const Cart = () => {
     const { userId } = useParams();
+    const { serviceID } = useParams();
     const [cart, setCart] = useState([]);
     const [service, setService] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:9999/cart`)
+        fetch(`http://localhost:9999/cart/${userId}`)
             .then((res) => res.json())
             .then((data) => {
                 setCart(data)
                 setService(data.serviceID)
             })
     }, []);
+
+    const handleDelete = async (serviceId) => {
+        try {
+            // Thực hiện yêu cầu delete đến API
+            const response = await fetch(`http://localhost:9999/${serviceID}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                // Xử lý khi delete thành công, có thể cập nhật state hoặc thực hiện các thao tác khác
+                console.log('Service deleted successfully');
+            } else {
+                // Xử lý khi có lỗi xảy ra trong quá trình delete
+                console.error('Failed to delete service');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
 
     return (
         <Container className="container-fluid col-lg-8">
@@ -38,18 +61,30 @@ const Cart = () => {
                         <th className="col-md-2">Action</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Tour</td>
-                            <td>This tour is for fvking loser</td>
-                            <td>22/03/2344</td>
-                            <td>1</td>
-                            <td>200000VND</td>
-                            <td>
-                                <Button className="btn-danger" style={{ width: "80px", fontSize: "14px", padding: "2px" }}>Delete</Button>
-                                <Button className="btn-primary" style={{ width: "80px", fontSize: "14px", padding: "2px" }}>Buy</Button>
-
-                            </td>
-                        </tr>
+                        {service.map((s) => {
+                            <tr key={s._id}>
+                                <td>{s.type.serviceName}</td>
+                                <td>
+                                    <Link to={"/detail/" + s._id}>{s.name}</Link>
+                                </td>
+                                <td>{s.startDate}</td>
+                                <td>{s.slot}</td>
+                                <td>{s.price}</td>
+                                <td>
+                                    <Button
+                                        variant="danger"
+                                        style={{ width: "80px", fontSize: "14px", padding: "2px" }}
+                                        onClick={() => handleDelete(s._id)}>
+                                        Delete
+                                    </Button>
+                                    <Button
+                                        variant="primary"
+                                        style={{ width: "80px", fontSize: "14px", padding: "2px" }}>
+                                        Buy now
+                                    </Button>
+                                </td>
+                            </tr>
+                        })}
                     </tbody>
                 </Table>
             </Row>
