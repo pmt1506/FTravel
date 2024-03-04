@@ -1,4 +1,7 @@
 import { accountDAO } from "../repositories/index.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
 
 // get all account
 const getAllAccount = async (req, res) => {
@@ -85,31 +88,96 @@ const getAccountByEmail = async (req, res) => {};
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const found = await accountDAO.findAccountByEmailAndPassword(
-      email,
-      password
+    const foundAccount = await accountDAO.findAccountByEmail(email);
+    if (!foundAccount) {
+      return res.status(400).json({ error: " email not found" });
+    }
+    const matchPassword = bcrypt.compareSync(password, foundAccount.password);
+    if (!matchPassword) {
+      return res.status(400).json({ error: "wrong password" });
+    }
+    const accessToken = jwt.sign(
+      { userId: existingUser._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1hr",
+      }
     );
-
-    if (!found) res.status(200).json({ message: "user login" });
-    else res.status(401).json({ message: "not login" });
-  } catch (error) {
-    res.status(500).json({
-      error: error.toString(),
+    const refreshToken = jwt.sign(
+      { userId: existingUser._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1w",
+      }
+    );
+    const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000), //1hr
+      sameSite: "lax",
+      secure: false,
     });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //1week
+      sameSite: "lax",
+      secure: false,
+    });
+    return res
+      .status(200)
+      .json({ message: "Login success, welcome home", data: filterAcc });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  // try {
+  //   const found = await accountDAO.findAccountByEmailAndPassword(
+  //     email,
+  //     password
+  //   );
+
+  //   if (!found) res.status(200).json({ message: "user login" });
+  //   else res.status(401).json({ message: "not login" });
+  // } catch (error) {
+  //   res.status(500).json({
+  //     error: error.toString(),
+  //   });
+  // }
 };
 
 //add new account
 const createAccount = async (req, res) => {
-  const { username, password, email, phoneNumber } = req.body;
+  const { username, password, rePassword, email, phoneNumber } = req.body;
+  if (
+    username.length == 0 ||
+    email.length == 0 ||
+    phoneNumber.length == 0 ||
+    password.length == 0
+  ) {
+    return res.status(400).json({ error: " fill all the fields please" });
+  }
+  if (rePassword !== password) {
+    return res
+      .status(400)
+      .json({ error: "Confirm password not match, please check" });
+  }
+  const existUser = await accountDAO.findAccountByEmail(email);
+  if (existUser) {
+    return res.status(400).json({ error: "email already sign up" });
+  }
+  const salt = bcrypt.genSaltSync(parseInt(10));
+  const hashedPassword = bcrypt.hashSync(password, salt);
+
   try {
     const rs = await accountDAO.createAccount({
       username,
       phoneNumber,
       email,
-      password,
+      hashedPassword,
     });
-    res.status(200).json(rs);
+    res.status(200).json({ message: "create success" });
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
@@ -150,7 +218,6 @@ const oauth2googleAuthen = async (req, res) => {
       sameSite: "lax",
       secure: false,
     });
-    // res.json({ message: "Login Successful, welcome back", data: oauth2Result });
     return res.redirect("http://localhost:3000/oauth2Redirect");
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -228,7 +295,17 @@ const googleLogin = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const logOut = async (req, res) => {
+  try {
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+    return res.status(200).json({ message: "Logged Out" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 export default {
+  logOut,
   createAccount,
   getAccountByEmail,
   getAccountByEmailAndPass,

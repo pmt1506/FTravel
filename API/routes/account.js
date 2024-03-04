@@ -1,7 +1,7 @@
 import express from "express";
 import { accountController } from "../controller/index.js";
 import * as dotenv from "dotenv";
-// import auth from "./auth.js";
+import auth from "../auth.js";
 import passport from "passport";
 import session from "express-session";
 dotenv.config();
@@ -82,25 +82,22 @@ accountRouter.get(
 );
 // google callback
 accountRouter.get(
-  "/auth/google/callback",
+  "/google/callback",
   passport.authenticate("google", {
     session: false,
   }),
   accountController.oauth2googleAuthen
 );
 //config login success
-accountRouter.get("/auth/protected", isLoggedin, (req, res) => {
-  let name = req.user.displayName;
-  console.log(req.user);
-  res.send(`hi there ${name}`);
-});
+// accountRouter.get("/auth/protected", isLoggedin, (req, res) => {
+//   let name = req.user.displayName;
+//   console.log(req.user);
+//   res.send(`hi there ${name}`);
+// });
 // login fail
-accountRouter.get("/auth/google/failure", (req, res) => {
-  res.send(" fail roi");
-});
+// accountRouter.get("/auth/google/failure", (req, res) => {
+//   res.send(" fail roi");
+// });
 // log out
-accountRouter.use("/auth/logout", (req, res) => {
-  req.session.destroy();
-  res.send("bye");
-});
+accountRouter.use("/auth/logout", accountController.logOut);
 export default accountRouter;
