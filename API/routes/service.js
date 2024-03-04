@@ -18,8 +18,6 @@ const serviceRouter = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               // Define your filter properties here
- *               // Example: category, location, etc.
  *     responses:
  *       200:
  *         description: Success
