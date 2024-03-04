@@ -207,74 +207,90 @@ const Tour = () => {
         <div className="row">
           <div className="col">
             <h2 className="mb-3">Featured Tours</h2>
-            <div className="row">
-              {tourList.map((tour, index) => (
-                <div className="col-md-3 " key={index}>
-                  <div className="card mb-3">
-                    <img
-                      src={tour.thumbnail}
-                      alt="Tour image"
-                      className="card-img-top"
-                    />
-                    <div className="card-body d-flex justify-content-between align-items-center">
-                      <div>
-                        <h5 className="card-title">{tour.title}</h5>
-                        <p className="card-text">${tour.price}</p>
-                        <div className="stars-container">{renderStars()}</div>
+            {tourList.length === 0 ? (
+              <div className="text-center">
+                <h3>No tour available, please stay tune!</h3>
+              </div>
+            ) : (
+              <div className="row">
+                {tourList.map((tour, index) => (
+                  <div className="col-md-3" key={index}>
+                    <div className="card mb-3 d-flex flex-column">
+                      <img
+                        src={tour.thumbnail}
+                        alt="Tour image"
+                        className="card-img-top"
+                      />
+                      <div className="card-body d-flex flex-column">
+                        <div className="row">
+                          <div className="col-12 flex-grow-1">
+                            <h5 className="card-title">{tour.title}</h5>
+                            <p className="card-text">${tour.price}</p>
+                            <div className="stars-container">
+                              {renderStars()}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12 d-flex justify-content-end">
+                            <button className="btn btn-primary">Buy Now</button>
+                          </div>
+                        </div>
                       </div>
-                      <button className="btn btn-primary">Buy Now</button>
                     </div>
                   </div>
-                </div>
-              ))}
-              <div className="col-12 mt-2">
-                {/* Pagination */}
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-center">
-                    <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        tabIndex="-1"
-                      >
-                        Previous
-                      </button>
-                    </li>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <li
-                        key={index}
-                        className={`page-item ${
-                          currentPage === index + 1 ? "active" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(index + 1)}
+                ))}
+                <div className="col-12 mt-2">
+                  {/* Pagination */}
+                  {tourList >= 2 && (
+                    <nav>
+                      <ul className="pagination justify-content-center">
+                        <li
+                          className={`page-item ${
+                            currentPage === 1 ? "disabled" : ""
+                          }`}
                         >
-                          {index + 1}
-                        </button>
-                      </li>
-                    ))}
-                    <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
-                    >
-                      <button
-                        className="page-link"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                      >
-                        Next
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            tabIndex="-1"
+                          >
+                            Previous
+                          </button>
+                        </li>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                          <li
+                            key={index}
+                            className={`page-item ${
+                              currentPage === index + 1 ? "active" : ""
+                            }`}
+                          >
+                            <button
+                              className="page-link"
+                              onClick={() => handlePageChange(index + 1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        ))}
+                        <li
+                          className={`page-item ${
+                            currentPage === totalPages ? "disabled" : ""
+                          }`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                          >
+                            Next
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
