@@ -12,7 +12,6 @@ const addToCart = async ({ userID, serviceID }) => {
 const viewCart = async (userID) => {
     try {
         const populatedCart = await Carts.findOne({ userID: userID })
-            .populate("serviceID")
             .exec();
 
         return populatedCart;
