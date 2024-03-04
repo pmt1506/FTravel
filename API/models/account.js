@@ -29,7 +29,7 @@ const AccountSchema = new Schema(
     },
     userName: {
       type: String,
-      required: [true, "email is required"],
+      required: [true, "username is required"],
       unique: [false],
     },
     verify: {

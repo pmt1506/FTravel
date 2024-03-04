@@ -5,7 +5,7 @@ import auth from "../auth.js";
 import passport from "passport";
 import session from "express-session";
 dotenv.config();
-
+import verifyToken from "../middleware/authen.js";
 const accountRouter = express.Router();
 //check if user loging?
 function isLoggedin(req, res, next) {
@@ -64,13 +64,17 @@ accountRouter.get("/all", accountController.getAllAccount);
  *       500:
  *         description: Server fail
  */
-accountRouter.get("/:accID", accountController.getAccountByID);
+accountRouter.get("/:accID", verifyToken, accountController.getAccountByID);
 //signup
 accountRouter.post("/signup", accountController.createAccount);
 //login route
 accountRouter.post("/login", accountController.getAccountByEmailAndPass);
 // edit profile user
-accountRouter.patch("/profile/:accID", accountController.updateUserInfo);
+accountRouter.patch(
+  "/profile/:accID",
+  verifyToken,
+  accountController.updateUserInfo
+);
 // edit status user (admin)
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //
@@ -88,16 +92,9 @@ accountRouter.get(
   }),
   accountController.oauth2googleAuthen
 );
-//config login success
-// accountRouter.get("/auth/protected", isLoggedin, (req, res) => {
-//   let name = req.user.displayName;
-//   console.log(req.user);
-//   res.send(`hi there ${name}`);
-// });
-// login fail
-// accountRouter.get("/auth/google/failure", (req, res) => {
-//   res.send(" fail roi");
-// });
+// refresh accesstoken
+accountRouter.post("/refresh", accountController.refreshTokenHa);
+
 // log out
 accountRouter.use("/auth/logout", accountController.logOut);
 export default accountRouter;

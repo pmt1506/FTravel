@@ -2,13 +2,14 @@ import Accounts from "../models/account.js";
 // import { accountDAO } from "./index.js";
 
 //create new account
-const createAccount = async ({ username, email, password, phoneNumber }) => {
+const createAccount = async ({ userName, email, password, phoneNumber }) => {
   try {
     const newAccount = await Accounts.create({
-      username,
+      userName,
       email,
       phoneNumber,
       password,
+      accountRole: "65e2ea90d9e75d25d6a2b09a",
       status: true,
     });
     return newAccount;
@@ -88,7 +89,9 @@ const editAccountByID = async (
 // view profile user
 const getAccountInfoByID = async (id) => {
   try {
-    return await Accounts.findById(id).exec();
+    const fo = await Accounts.findById(id).exec();
+    const { createAt, password, updateAt, ...fil } = fo._doc;
+    return fil;
   } catch (error) {
     throw new Error(error.toString());
   }

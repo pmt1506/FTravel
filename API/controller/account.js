@@ -97,61 +97,59 @@ const getAccountByEmailAndPass = async (req, res) => {
       return res.status(400).json({ error: "wrong password" });
     }
     const accessToken = jwt.sign(
-      { userId: existingUser._id },
+      { userId: foundAccount._id },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: "1hr",
+        expiresIn: "30s",
       }
     );
     const refreshToken = jwt.sign(
-      { userId: existingUser._id },
+      { userId: foundAccount._id },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: "1w",
       }
     );
     const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000), //1hr
-      sameSite: "lax",
-      secure: false,
+    delete filterAcc.password;
+    return res.status(200).json({
+      message: "Login success, welcome home",
+      data: filterAcc,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //1week
-      sameSite: "lax",
-      secure: false,
-    });
-    return res
-      .status(200)
-      .json({ message: "Login success, welcome home", data: filterAcc });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-
-  // try {
-  //   const found = await accountDAO.findAccountByEmailAndPassword(
-  //     email,
-  //     password
-  //   );
-
-  //   if (!found) res.status(200).json({ message: "user login" });
-  //   else res.status(401).json({ message: "not login" });
-  // } catch (error) {
-  //   res.status(500).json({
-  //     error: error.toString(),
-  //   });
-  // }
 };
-
+//create access token
+function genAccessToken(id) {
+  return jwt.sign(id, process.env.JWT_SECRET_KEY, {
+    expiresIn: "30s",
+  });
+}
+//refresh token
+let refreshTokenArr = [];
+const refreshTokenHa = async (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null)
+    return res.status(401).json({ error: "ko co refresh token b oi" });
+  if (!refreshTokenArr.includes(refreshToken)) {
+    return res.status(403).json({ error: "m la ai ma trom duoc ref cua t" });
+  }
+  jwt.verify(refreshToken, process.env.JWT_SECRET_KEY, (err, id) => {
+    if (err) {
+      return res.status(403).json({ error: "m la ai ma trom duoc ref cua t" });
+    }
+    const accessToken = jwt.sign(id, process.env.JWT_SECRET_KEY, {});
+    res.json({ accessToken: accessToken });
+  });
+};
 //add new account
 const createAccount = async (req, res) => {
-  const { username, password, rePassword, email, phoneNumber } = req.body;
+  const { userName, password, rePassword, email, phoneNumber } = req.body;
   if (
-    username.length == 0 ||
+    userName.length == 0 ||
     email.length == 0 ||
     phoneNumber.length == 0 ||
     password.length == 0
@@ -172,12 +170,12 @@ const createAccount = async (req, res) => {
 
   try {
     const rs = await accountDAO.createAccount({
-      username,
+      userName,
       phoneNumber,
       email,
-      hashedPassword,
+      password: hashedPassword,
     });
-    res.status(200).json({ message: "create success" });
+    res.status(200).json({ message: "create success", rs });
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
@@ -316,4 +314,5 @@ export default {
   verifyAccount,
   oauth2googleAuthen,
   googleLogin,
+  refreshTokenHa,
 };
