@@ -12,7 +12,7 @@ serviceRouter.post('/', serviceController.getAllService);
 //for admin
 serviceRouter.get('/', serviceController.getAllServiceAdmin);
 
-serviceRouter.post('/', serviceController.createService);
+serviceRouter.post('/create/', serviceController.createService);
 
 serviceRouter.post('/count', serviceController.getAllServiceCount);
 

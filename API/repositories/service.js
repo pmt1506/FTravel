@@ -1,9 +1,9 @@
 import Services from "../models/service.js";
 
 //Create a new service
-const createService = async ({ title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status }) => {
+const createService = async ({ title, thumbnail, slot, price, description, startDate, endDate, vendorID, region, city, type, status }) => {
     try {
-        const newService = await Services.create({ title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status });
+        const newService = await Services.create({ title, thumbnail, slot, price, description, startDate, endDate, vendorID, region, city, type, status });
         return newService._doc; 
     } catch (error) {
         throw new Error(error.toString());
@@ -77,9 +77,9 @@ const getServiceByName = async (serviceName) => {
 }
 
 // Edit service
-const editService = async (id, {title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status}) => {
+const editService = async (id, {title, thumbnail, slot, price, description, startDate, endDate, vendorID, region, city, type, status}) => {
     try {
-        const editService = await Services.findByIdAndUpdate(id, {title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status},{new: true});   //new true là tạo bản ghi mới nếu không tìm thấy {_id:id}
+        const editService = await Services.findByIdAndUpdate(id, {title, thumbnail, slot, price, description, startDate, endDate, vendorID, region, city, type, status},{new: true});   //new true là tạo bản ghi mới nếu không tìm thấy {_id:id}
         if (!editService) {
             throw new Error("Service not found");
         }
