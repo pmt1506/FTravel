@@ -4,10 +4,8 @@ import TourBanner from "../../components/Tour/TourBanner";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
 
-  const tourListID = "65d440dd4ba915fa5c498398";
+  const tourListID = "65e2e9d2d9e75d25d6a2b092";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,90 +14,24 @@ const Tour = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // Add any additional headers if needed
           },
-          body: JSON.stringify({
-            // Add your request payload here
-            type: tourListID,
-            pageSize: 8,
-            page: currentPage,
-          }),
+          // You can remove the body property if not needed
         });
 
-        if (response.status === 200) {
-          // Handle the successful response
-          const data = await response.json();
-          setTourList(data.allServices);
-        } else if (response.status === 404) {
-          // Handle other status codes if needed
-          console.error("Non-OK status:", response.status);
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
         }
+
+        const data = await response.json();
+        setTourList(data); // Assuming the response contains the tour list data
+        console.log(data);
       } catch (error) {
-        console.error("Error during fetch:", error);
+        console.error("Error fetching data:", error.message);
       }
     };
 
     fetchData();
-  }, [currentPage]);
-
-  useEffect(() => {
-    const fetchTourCount = async () => {
-      try {
-        const response = await fetch("http://localhost:9999/service/count", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers if needed
-          },
-          body: JSON.stringify({
-            // Add your request payload here
-            type: tourListID,
-          }),
-        });
-        if (response.status === 200) {
-          const data = await response.json();
-          const totalItems = data.total;
-          const pageSize = 8; // Set your desired page size
-          const calculatedTotalPages = Math.ceil(totalItems / pageSize);
-
-          setTotalPages(calculatedTotalPages);
-          console.log(calculatedTotalPages);
-        } else if (response.status === 404) {
-          // Handle other status codes if needed
-          console.error("Non-OK status:", response.status);
-          setTotalPages(0);
-          setTourList([]);
-        }
-      } catch (error) {
-        console.error("Error during fetch:", error);
-      }
-    };
-    fetchTourCount();
   }, []);
-
-  // Constant demo rating value
-  const demoRating = 4;
-
-  // Function to generate stars based on the demo rating
-  const renderStars = () => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <span
-          key={i}
-          className={`star ${i <= demoRating ? "filled" : "unfilled"}`}
-        >
-          &#9733;
-        </span>
-      );
-    }
-    return stars;
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
   return (
     <>
       <TourBanner />
@@ -182,9 +114,6 @@ const Tour = () => {
                           <div className="col-12 flex-grow-1">
                             <h5 className="card-title">{tour.title}</h5>
                             <p className="card-text">${tour.price}</p>
-                            <div className="stars-container">
-                              {renderStars()}
-                            </div>
                           </div>
                         </div>
                         <div className="row">
@@ -196,55 +125,6 @@ const Tour = () => {
                     </div>
                   </div>
                 ))}
-                <div className="col-12 mt-2">
-                  {/* Pagination */}
-                  {tourList >= 2 && (
-                    <nav>
-                      <ul className="pagination justify-content-center">
-                        <li
-                          className={`page-item ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            tabIndex="-1"
-                          >
-                            Previous
-                          </button>
-                        </li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                          <li
-                            key={index}
-                            className={`page-item ${
-                              currentPage === index + 1 ? "active" : ""
-                            }`}
-                          >
-                            <button
-                              className="page-link"
-                              onClick={() => handlePageChange(index + 1)}
-                            >
-                              {index + 1}
-                            </button>
-                          </li>
-                        ))}
-                        <li
-                          className={`page-item ${
-                            currentPage === totalPages ? "disabled" : ""
-                          }`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() => handlePageChange(currentPage + 1)}
-                          >
-                            Next
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )}
-                </div>
               </div>
             )}
           </div>
