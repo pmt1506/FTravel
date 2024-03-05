@@ -20,7 +20,6 @@ const Cart = () => {
 
     const handleDelete = async (serviceId) => {
         try {
-            // Thực hiện yêu cầu delete đến API
             const response = await fetch(`http://localhost:9999/${serviceID}`, {
                 method: 'DELETE',
                 headers: {
@@ -29,10 +28,8 @@ const Cart = () => {
             });
 
             if (response.ok) {
-                // Xử lý khi delete thành công, có thể cập nhật state hoặc thực hiện các thao tác khác
                 console.log('Service deleted successfully');
             } else {
-                // Xử lý khi có lỗi xảy ra trong quá trình delete
                 console.error('Failed to delete service');
             }
         } catch (error) {
@@ -86,7 +83,7 @@ const Cart = () => {
                                             <Button
                                                 variant="primary"
                                                 style={{ width: "80px", fontSize: "14px", padding: "2px" }}>
-                                                Buy now
+                                                Book now
                                             </Button>
                                         </td>
                                     </tr>
