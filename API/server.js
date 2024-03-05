@@ -36,7 +36,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //routes
-app.use("/carts", cartRouter);
+app.use("/cart", cartRouter);
 
 const PORT = process.env.PORT;
 
