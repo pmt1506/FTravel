@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import DashboardTemplate from '../../template/DashboardTemplate'
+import { Col, Row } from 'react-bootstrap'
 
-const Users= () => {
+
+const Users = () => {
+  
   return (
-    <div>User</div>
+    <DashboardTemplate title="Manage User">
+      <Row className="m-3">
+        Users
+      </Row>
+
+    </DashboardTemplate>
   )
 }
 

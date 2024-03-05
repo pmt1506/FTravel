@@ -1,4 +1,5 @@
 import Services from "../models/service.js";
+import ServiceTypes from "../models/serviceType.js";
 
 //Create a new service
 const createService = async ({ title, thumbnail, slot, price, description, startDate, endDate, companyID, region, city, type, status }) => {
@@ -18,7 +19,7 @@ const getAllService = async (page, pageSize, type) => {
         if(!type){
             return await Services.find({status: true}).skip(startIndex).limit(pageSize);
         }
-        const allServices = await Services.find({status: true, type: type}).populate("type").skip(startIndex).limit(pageSize);
+        const allServices = await Services.find({status: true, type: type}).populate("type", "serviceName").skip(startIndex).limit(pageSize);
         return allServices.map(service => service._doc);
     } catch (error) {
         throw new Error(error.toString());
