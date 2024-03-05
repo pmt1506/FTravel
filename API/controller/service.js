@@ -57,27 +57,40 @@ const createService = async (req, res) => {
 //   }
 // };
 
-const getAllService = async (req, res) =>{
+const getAllServiceByType = async (req, res) => {
   try {
-    const allServices = await serviceDAO.getAllService();
-    res.status(200).json(allServices);
-  } catch (error) {
-    res.status(500).json({
-      message: error.toString(),
-    })
-  }
-}
+    const { type, page, pageSize } = req.query;
 
-// Get all services count
-
-const getAllServiceCount = async (req, res) => {
-  try {
-    const type = req.body.type;
-    const allServices = await serviceDAO.getAllServiceCount(type);
-    if (allServices.length === 0) {
-      return res.status(404).json({ message: "No services found" });
+    if (!type) {
+      return res.status(400).json({
+        message: 'Please provide the "type" parameter in the query.',
+      });
     }
-    res.status(200).json({ total: allServices});
+
+    // Validate and set default values for page and pageSize
+    const validatedPage = parseInt(page, 10) || 1;
+    const validatedPageSize = parseInt(pageSize, 10) || 8;
+
+    if (validatedPage <= 0 || validatedPageSize <= 0) {
+      return res.status(400).json({
+        message: 'Invalid values for "page" or "pageSize".',
+      });
+    }
+
+    // Filter services by type with pagination
+    const servicesByType = await serviceDAO.getAllServiceByType(
+      type,
+      validatedPage,
+      validatedPageSize
+    );
+
+    //get service count by type
+    const serviceCountByType = await serviceDAO.getServiceCountByType(type);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(serviceCountByType / validatedPageSize);
+
+    res.status(200).json({ servicesByType, total: serviceCountByType, totalPages });
   } catch (error) {
     res.status(500).json({
       message: error.toString(),
@@ -211,11 +224,10 @@ const editService = async (req, res) => {
 
 export default {
   createService,
-  getAllService,
+  getAllServiceByType,
   getServiceByID,
   getServiceByName,
   editService,
   getAllServiceAdmin,
-  getAllServiceCount
   // deleteServiceByID
 };

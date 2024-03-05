@@ -4,7 +4,7 @@ import { serviceController} from '../controller/index.js';
 const serviceRouter = express.Router();
 
 //have filter for user
-serviceRouter.post('/', serviceController.getAllService);
+serviceRouter.get('/', serviceController.getAllServiceByType);
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
@@ -13,8 +13,6 @@ serviceRouter.post('/', serviceController.getAllService);
 serviceRouter.get('/', serviceController.getAllServiceAdmin);
 
 serviceRouter.post('/create/', serviceController.createService);
-
-serviceRouter.post('/count', serviceController.getAllServiceCount);
 
 serviceRouter.get('/:id', serviceController.getServiceByID);
 

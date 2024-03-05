@@ -36,26 +36,28 @@ const createService = async ({
   }
 };
 
-//Get all services
-const getAllService = async () => {
+//Get all services by type with pagination
+const getAllServiceByType = async (type, page, pageSize) => {
   try {
-    const services = await Services.find({}).populate("type").exec();
+    const skip = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    const services = await Services.find({ type: type })
+      .skip(skip)
+      .limit(limit)
+      .populate("type")
+      .exec();
+
     return services;
   } catch (error) {
     throw new Error(error.toString());
   }
 };
 
-// Get all services count
-
-const getAllServiceCount = async (type) => {
+// Get services count by type
+const getServiceCountByType = async (type) => {
   try {
-    if (!type) {
-      return await Services.find({ status: true }).countDocuments();
-    }
-    const allServices = await Services.find({ status: true, type: type })
-      .populate("type")
-      .countDocuments();
+    const allServices = await Services.find({ type: type }).populate("type").countDocuments();
     return allServices;
   } catch (error) {
     throw new Error(error.toString());
@@ -160,11 +162,11 @@ const editService = async (
 
 export default {
   createService,
-  getAllService,
+  getAllServiceByType,
+  getServiceCountByType,
   getServiceByID,
   getServiceByName,
   editService,
   getAllServiceAdmin,
-  getAllServiceCount,
   // deleteServiceByID
 };
