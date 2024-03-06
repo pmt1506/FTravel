@@ -28,6 +28,7 @@ const Users = () => {
     <DashboardTemplate title="Manage User">
       <Row className="m-3">
         <div>
+          
           <h1>User Profile</h1>
           <p/><img src={userData.avatarIMG} alt="User Avatar" />
           <p>User Name: {userData.userName}</p>
@@ -42,3 +43,6 @@ const Users = () => {
 }
 
 export default Users;
+
+
+
