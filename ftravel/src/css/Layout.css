@@ -1,0 +1,9 @@
+#tour-dropdown:hover,
+#hotel-dropdown:hover,
+#event-dropdown:hover,
+#about:hover,
+#vendor-list:hover {
+  transition: all 0.3s;
+
+  color: red !important;
+}

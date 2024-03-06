@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 
 const billSchema = new Schema(
   {
-    price: {
-      type: Number,
-      require: true,
-    },
     userID: {
       type: Schema.Types.ObjectId,
       ref: "accounts",
@@ -22,5 +18,5 @@ const billSchema = new Schema(
   },
   { timestamps: true }
 );
-const Bills = mongoose.model("bills", bannerSchema);
+const Bills = mongoose.model("bills", billSchema);
 export default Bills;

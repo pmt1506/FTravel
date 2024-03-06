@@ -6,6 +6,7 @@ const serviceSchema = new Schema(
     title: {
       type: String,
       require: true,
+      unique: true,
     },
     thumbnail: {
       type: String,
@@ -16,7 +17,7 @@ const serviceSchema = new Schema(
       require: true,
     },
     price: {
-      type: String,
+      type: Number,
       require: true,
     },
     description: {
@@ -37,7 +38,7 @@ const serviceSchema = new Schema(
         ref: "comments",
       },
     ],
-    companyID: {
+    accountID: {
       type: Schema.Types.ObjectId,
       ref: "accounts",
       require: true,

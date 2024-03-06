@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Footer from "./components/Footer";
 // import NavbarComponent from "./components/Navbar";
 import Home from "./screen/Home";
@@ -15,9 +15,14 @@ import EditProfile from "./screen/dashboard/EditProfile";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <NavbarComponent />
+      {/* <Header /> */}
+     {/* <NavbarComponent/> */}
       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        {/* Services */}
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/tour" element={<Tour />} />
         <Route path="" element />
 
         <Route path="/dashboard/service" element={<Services/>} />
@@ -25,7 +30,7 @@ function App() {
         <Route path="/dashboard/report" element={<Reports/>} />
         <Route path="/dashboard/edit" element={<EditProfile/>} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
