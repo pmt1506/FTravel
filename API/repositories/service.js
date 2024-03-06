@@ -42,6 +42,10 @@ const getAllServiceByType = async (type, page, pageSize) => {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
 
+    if (!page && !pageSize) {
+      return await Services.find({ status: true, type: type }).populate("type");
+    }
+
     if (!type) {
       return await Services.find({ status: true })
         .populate("type")
