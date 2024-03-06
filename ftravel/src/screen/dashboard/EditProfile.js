@@ -19,9 +19,9 @@ const EditProfile = () => {
 
     useEffect(() => {
         // Gọi API để lấy dữ liệu từ MongoDB
-        axios.get("http://localhost:9999/profile/:accID")  // Thay đổi đường dẫn API nếu cần
+        fetch("http://localhost:9999/profile/:accID")  // Thay đổi đường dẫn API nếu cần
             .then((response) => {
-                setUserData(response.data);
+                setUserData(response.json().data);
             })
             .catch((error) => {
                 console.error("Error fetching user data:", error);

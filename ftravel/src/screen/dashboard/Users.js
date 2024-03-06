@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import DashboardTemplate from '../../template/DashboardTemplate'
 import { Row } from 'react-bootstrap'
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Users = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const {accID} = useParams();
 
   useEffect(() => {
     // Fetch user data from your API endpoint
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:9999/account/:accID'); // Replace with your API endpoint
-        setUserData(response.data);
+        fetch(`http://localhost:9999/account/${accID}`).then; // Replace with your API endpoint
+        setUserData(response.json().data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
