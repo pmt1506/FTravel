@@ -1,9 +1,16 @@
 import mongoose from "mongoose";
+// import ServiceTypes from "./models/serviceType.js";
+// import Services from "./models/service.js";
 
-const connectDB = () => {
+const connectDB = async () => {
   try {
     const db = mongoose.connect(process.env.URI_MONGODB);
-    console.log("connect roi hahaha");
+    console.log("Connect successfully");
+
+    // use for mapping
+    // await ServiceTypes.init();
+    // await Services.init();
+    // console.log("Schema mapping success");
     return db;
   } catch (error) {
     console.log(error.toString());

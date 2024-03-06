@@ -11,6 +11,10 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "accounts",
     },
+    serviceID: {
+      type: Schema.Types.ObjectId,
+      ref: "services",
+    },
   },
   { timestamps: true }
 );
