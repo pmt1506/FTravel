@@ -131,13 +131,14 @@ const Tour = () => {
                         <div className="row">
                           <div className="col-12 flex-grow-1">
                             <h5 className="card-title">{tour.title}</h5>
-                            <p className="card-text">${tour.price}</p>
+                            <p className="card-text">{tour.description}</p>
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-12 d-flex justify-content-end">
-                            <button className="btn btn-primary">Buy Now</button>
+                        <div className="d-flex justify-content-between mt-2">
+                          <div className="pt-2">
+                            <p className="align-middle">${tour.price}</p>
                           </div>
+                          <button className="btn btn-primary">Buy Now</button>
                         </div>
                       </div>
                     </div>
