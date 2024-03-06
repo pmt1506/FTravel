@@ -10,9 +10,9 @@ import swaggerUi from "swagger-ui-express";
 import { billRouter, commentRouter } from "./routes/index.js";
 import reportRouter from "../API/routes/report.js";
 import { cartRouter } from "./routes/index.js";
-
+import session from "express-session";
 import { accountRouter } from "./routes/index.js";
-
+import passport from "passport";
 const app = express();
 app.use(express.json());
 
@@ -42,7 +42,7 @@ app.use(`/cart`, cartRouter);
 //config express session
 app.use(
   session({
-    secret: process.env.secret_key,
+    secret: process.env.secretKey,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
