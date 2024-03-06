@@ -31,5 +31,5 @@ const deleteFromCart = async (serviceID) => {
 export default {
     addToCart,
     viewCart,
-    deleteFromCart
-}
+    deleteFromCart,
+};

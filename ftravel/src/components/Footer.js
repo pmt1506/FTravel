@@ -3,7 +3,8 @@ import { Col, Container, Row } from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <Container className="footer-app">
+    <Container className="footer-app mt-4">
+      <hr />
       <Row className="footer-component">
         <Col md={4}>
           <h5>FTravel</h5>
@@ -14,7 +15,7 @@ const Footer = () => {
         </Col>
         <Col md={4}>
           <h5>Quick Links</h5>
-          <ul style={{ listStyleType: "none", padding: "0"}}>
+          <ul style={{ listStyleType: "none", padding: "0" }}>
             <li>
               <a href="/">Tours</a>
             </li>

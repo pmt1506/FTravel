@@ -22,5 +22,5 @@ const billSchema = new Schema(
   },
   { timestamps: true }
 );
-const Bills = mongoose.model("bills", bannerSchema);
+const Bills = mongoose.model("bills", billSchema);
 export default Bills;
