@@ -2,14 +2,14 @@
   background-color: rgb(198, 255, 243) !important;
 }
 
-.star {
-  color: #f0c419; /* Default color for both filled and unfilled stars */
+.card-thumbnail {
+  height: 200px;
 }
 
-.filled {
-  color: #ffd700; /* Filled star color */
-}
-
-.unfilled {
-  color: #c0c0c0; /* Unfilled star color */
+.card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

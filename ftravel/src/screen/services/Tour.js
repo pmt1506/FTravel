@@ -125,7 +125,7 @@ const Tour = () => {
                       <img
                         src={tour.thumbnail}
                         alt="Tour image"
-                        className="card-img-top"
+                        className="card-img-top card-thumbnail"
                       />
                       <div className="card-body d-flex flex-column">
                         <div className="row">
