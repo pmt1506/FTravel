@@ -24,15 +24,14 @@ function App() {
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="" element />
-        <Route path="" element />
+
         {/* Services */}
         <Route path="/tour" element={<Tour />} />
 
-        <Route path="/dashboard/service" element={<Services/>} />
-        <Route path="/dashboard/user" element={<Users/>} />
-        <Route path="/dashboard/report" element={<Reports/>} />
-        <Route path="/dashboard/edit" element={<EditProfile/>} />
+        <Route path="/dashboard/service" element={<Services />} />
+        <Route path="/dashboard/user/:accID" element={<Users />} />
+        <Route path="/dashboard/report" element={<Reports />} />
+        <Route path="/dashboard/edit/:accID" element={<EditProfile />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
