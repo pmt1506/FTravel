@@ -97,7 +97,7 @@ div.avatar img {
     color: #fff;
 }
 
-.sidebar-menu ul li a:hover,
+.sidebar-menu ul li a:hover, 
 .logout a:hover,
 .user-plan a:hover {
     color: rgb(156, 147, 147);
@@ -116,3 +116,6 @@ div.avatar img {
     padding-bottom: 12px;
     color: #fff;
 }
+
+
+  

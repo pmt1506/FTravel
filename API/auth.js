@@ -1,6 +1,7 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import passport from "passport";
 import * as dotenv from "dotenv";
+import { accountDAO } from "./repositories/index.js";
 dotenv.config();
 
 passport.use(
@@ -11,11 +12,20 @@ passport.use(
       callbackURL: "http://localhost:9999/auth/google/callback",
       passReqToCallback: true,
     },
-    function (request, accessToken, refreshToken, profile, done) {
-      //   User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //     return done(err, user);
-      //   });
-      done(null, profile);
+    async (request, accessToken, refreshToken, profile, done) => {
+      try {
+        const existAccount = await accountDAO.findAccountByEmail(
+          profile._json.email
+        );
+        if (existAccount) {
+          const { createdAt, updatedAt, ...filteredAccount } = existAccount;
+          done(null, filteredAccount);
+        } else {
+          done(null, { error: "email not found, please sign up" });
+        }
+      } catch (error) {
+        done(error);
+      }
     }
   )
 );

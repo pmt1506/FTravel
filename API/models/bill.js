@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 
 const billSchema = new Schema(
   {
-    price: {
-      type: Number,
-      require: true,
-    },
     userID: {
       type: Schema.Types.ObjectId,
       ref: "accounts",
