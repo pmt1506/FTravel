@@ -11,7 +11,9 @@ serviceRouter.get('/', serviceController.getAllServiceByType);
 
 //for admin
 
-serviceRouter.get("/", serviceController.getAllServiceAdmin);
+serviceRouter.get("/all", serviceController.getAllServiceAdmin);
+// http://localhost:9999/service/all
+
 /**
  * @swagger
  * /service:

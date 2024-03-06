@@ -20,7 +20,7 @@ const Services = () => {
     "65e2e9d2d9e75d25d6a2b092": "Event"
   };
   useEffect(() => {
-    fetch("http://localhost:9999/service?pageSize=5")
+    fetch("http://localhost:9999/service/all?pageSize=5")
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
