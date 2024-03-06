@@ -9,8 +9,10 @@ serviceRouter.get('/', serviceController.getAllServiceByType);
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
 
-//for admin
+//for vendor
+serviceRouter.get("/vendor/", serviceController.getAllServiceByVendor);
 
+//for admin
 serviceRouter.get("/all", serviceController.getAllServiceAdmin);
 // http://localhost:9999/service/all
 
@@ -114,6 +116,8 @@ serviceRouter.get("/name/:serviceName", serviceController.getServiceByName);
  *         description: Server error
  */
 serviceRouter.put("/:id", serviceController.editService);
+
+
 
 // Delete service by ID - not use, we hide it by edit status
 // serviceRouter.delete('/:id', serviceController.deleteServiceByID);

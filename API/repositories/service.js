@@ -10,7 +10,7 @@ const createService = async ({
   description,
   startDate,
   endDate,
-  vendorID,
+  accountID,
   region,
   city,
   type,
@@ -25,7 +25,7 @@ const createService = async ({
       description,
       startDate,
       endDate,
-      vendorID,
+      accountID,
       region,
       city,
       type,
@@ -111,6 +111,42 @@ const getServiceByName = async (serviceName) => {
   }
 };
 
+//Get Service by vendor 
+const getServiceByVendor = async (accountID, page, pageSize) => {
+  try {
+    const skip = (page - 1) * pageSize;
+    const limit = pageSize;
+    if (!accountID) {
+      return await Services.find({ status: true })
+        .populate("accountID")
+        .skip(skip)
+        .limit(limit);
+    }
+
+    const services = await Services.find({ status: true, accountID: accountID })
+      .skip(skip)
+      .limit(limit)
+      .populate("accountID")
+      .exec();
+
+    return services;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
+// Get services count by vendor
+const getServiceCountByVedor = async (accountID) => {
+  try {
+    const allServices = await Services.find({ status: true, accountID: accountID })
+      .populate("accountID")
+      .countDocuments();
+    return allServices;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
 // Edit service
 const editService = async (
   id,
@@ -122,7 +158,7 @@ const editService = async (
     description,
     startDate,
     endDate,
-    vendorID,
+    accountID,
     region,
     city,
     type,
@@ -140,7 +176,7 @@ const editService = async (
         description,
         startDate,
         endDate,
-        vendorID,
+        accountID,
         region,
         city,
         type,
@@ -178,5 +214,7 @@ export default {
   getServiceByName,
   editService,
   getAllServiceAdmin,
+  getServiceByVendor,
+  getServiceCountByVedor
   // deleteServiceByID
 };

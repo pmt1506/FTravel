@@ -10,7 +10,7 @@ const createService = async (req, res) => {
       description,
       startDate,
       endDate,
-      vendorID,
+      accountID,
       region,
       city,
       type,
@@ -25,7 +25,7 @@ const createService = async (req, res) => {
       description,
       startDate,
       endDate,
-      vendorID,
+      accountID,
       region,
       city,
       type,
@@ -155,6 +155,46 @@ const getServiceByName = async (req, res) => {
   }
 };
 
+const getAllServiceByVendor = async (req, res) => {
+  try {
+    const { accountID, page, pageSize } = req.query;
+
+    if (!accountID) {
+      return res.status(400).json({
+        message: 'Please provide the "accountID" parameter in the query.',
+      });
+    }
+    // Validate and set default values for page and pageSize
+    const validatedPage = parseInt(page, 10) || 1;
+    const validatedPageSize = parseInt(pageSize, 10) || 8;
+
+    if (validatedPage <= 0 || validatedPageSize <= 0) {
+      return res.status(400).json({
+        message: 'Invalid values for "page" or "pageSize".',
+      });
+    }
+
+    // Filter services by vendor with pagination
+    const servicesByVendor = await serviceDAO.getServiceByVendor(
+      accountID,
+      validatedPage,
+      validatedPageSize
+    );
+
+    // Get service count by vendor
+    const serviceCountByVendor = await serviceDAO.getServiceCountByVedor(accountID);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(serviceCountByVendor / validatedPageSize);
+
+    res.status(200).json({ servicesByVendor, total: serviceCountByVendor, totalPages });
+  } catch (error) {
+    res.status(500).json({
+      message: error.toString(),
+    });
+  }
+};
+
 const editService = async (req, res) => {
   try {
     const { id } = req.params;
@@ -166,7 +206,7 @@ const editService = async (req, res) => {
       description,
       startDate,
       endDate,
-      vendorID,
+      accountID,
       region,
       city,
       type,
@@ -181,7 +221,7 @@ const editService = async (req, res) => {
       description,
       startDate,
       endDate,
-      vendorID,
+      accountID,
       region,
       city,
       type,
@@ -229,5 +269,6 @@ export default {
   getServiceByName,
   editService,
   getAllServiceAdmin,
+  getAllServiceByVendor
   // deleteServiceByID
 };

@@ -38,7 +38,7 @@ const serviceSchema = new Schema(
         ref: "comments",
       },
     ],
-    vendorID: {
+    accountID: {
       type: Schema.Types.ObjectId,
       ref: "accounts",
       require: true,
