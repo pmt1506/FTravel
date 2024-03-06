@@ -1,0 +1,118 @@
+.logo {
+    box-sizing: border-box;
+    padding: 25px 0 15px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.list {
+    justify-content: left;
+    padding-left: 30px;
+    width: 100%;
+}
+
+div.avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    padding-top: 7px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.badge {
+    font-size: 12px;
+    text-transform: capitalize;
+    min-width: 50px;
+    display: inline-block;
+}
+
+.badge-info {
+    color: white;
+    background-color: #17a2b8;
+}
+
+.badge p {
+    margin-bottom: 5px;
+    line-height: 15px;
+    font-size: 10px;
+}
+
+.user-plan {
+    border-bottom: 1px solid #092521;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.user-plan a {
+    color: white;
+    font-size: 13px;
+    background: #d66c00;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none !important;
+}
+
+.sidebar-menu {
+    border-bottom: 1px solid #095047;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-menu ul li {
+    color: white;
+    border: 0;
+    display: block;
+    margin: 0;
+    position: relative;
+}
+
+.sidebar-menu ul li a {
+    border: 0;
+    display: block;
+    font-size: 14px;
+    font-weight: 300px;
+    margin: 0;
+    position: relative;
+    text-decoration: none;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #fff;
+}
+
+.sidebar-menu ul li a:hover,
+.logout a:hover,
+.user-plan a:hover {
+    color: rgb(156, 147, 147);
+    transition: all 0.3s ease;
+}
+
+.logout a {
+    border: 0;
+    display: block;
+    font-size: 14px;
+    font-weight: 300px;
+    margin: 0;
+    position: relative;
+    text-decoration: none !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #fff;
+}
