@@ -9,6 +9,7 @@ import Cart from "./screen/Cart";
 import Services from "./screen/dashboard/Services";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
+import Tour from "./screen/services/Tour";
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
      {/* <NavbarComponent/> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About/>} />
+        <Route path="/about" element={<About />} />
+        {/* Services */}
         <Route path="/cart" element={<Cart />} />
-        <Route path="" element />
+        <Route path="/tour" element={<Tour />} />
         <Route path="" element />
 
         <Route path="/dashboard/service" element={<Services/>} />

@@ -4,45 +4,12 @@ import { serviceController } from "../controller/index.js";
 const serviceRouter = express.Router();
 
 //have filter for user
-/**
- * @swagger
- * /service:
- *   post:
- *     summary: Get all services (filtered for user)
- *     tags: [Services]
- *     requestBody:
- *       description: Filter criteria (if any)
- *       required: false
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *     responses:
- *       200:
- *         description: Success
- *       500:
- *         description: Server error
- */
-
-serviceRouter.post("/", serviceController.getAllService);
+serviceRouter.get('/', serviceController.getAllServiceByType);
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
 
 //for admin
-/**
- * @swagger
- * /service:
- *   get:
- *     summary: Get all services (for admin)
- *     tags: [Services]
- *     responses:
- *       200:
- *         description: Success
- *       500:
- *         description: Server error
- */
 
 serviceRouter.get("/", serviceController.getAllServiceAdmin);
 /**
