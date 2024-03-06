@@ -29,7 +29,7 @@ const Users = () => {
       <Row className="m-3">
         <div>
           <h1>User Profile</h1>
-          <img src={userData.avatarIMG} alt="User Avatar" />
+          <p/><img src={userData.avatarIMG} alt="User Avatar" />
           <p>User Name: {userData.userName}</p>
           <p>Email: {userData.email}</p>
           <p>Phone Number: {userData.phoneNumber}</p>
