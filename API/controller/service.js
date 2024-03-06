@@ -68,8 +68,8 @@ const getAllServiceByType = async (req, res) => {
     }
 
     // Validate and set default values for page and pageSize
-    const validatedPage = parseInt(page, 10) || 1;
-    const validatedPageSize = parseInt(pageSize, 10) || 8;
+    const validatedPage = parseInt(page, 10);
+    const validatedPageSize = parseInt(pageSize, 10);
 
     if (validatedPage <= 0 || validatedPageSize <= 0) {
       return res.status(400).json({
