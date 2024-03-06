@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DashboardTemplate from '../../template/DashboardTemplate'
 import { Col, Row } from 'react-bootstrap'
-import '../../css/Services.css'
+import '../../css/DashboardServices.css'
 
 const Services = () => {
   const [allServices, setAllServices] = useState([]);
