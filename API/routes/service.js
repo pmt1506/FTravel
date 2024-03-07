@@ -25,26 +25,18 @@ const serviceRouter = express.Router();
  *         description: Server error
  */
 
-serviceRouter.post("/", serviceController.getAllService);
+serviceRouter.get("/", serviceController.getAllServiceByType);
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
 
-//for admin
-/**
- * @swagger
- * /service:
- *   get:
- *     summary: Get all services (for admin)
- *     tags: [Services]
- *     responses:
- *       200:
- *         description: Success
- *       500:
- *         description: Server error
- */
+//for vendor
+serviceRouter.get("/vendor/", serviceController.getAllServiceByVendor);
 
-serviceRouter.get("/", serviceController.getAllServiceAdmin);
+//for admin
+serviceRouter.get("/all", serviceController.getAllServiceAdmin);
+// http://localhost:9999/service/all
+
 /**
  * @swagger
  * /service:

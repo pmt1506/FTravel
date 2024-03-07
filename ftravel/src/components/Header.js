@@ -30,7 +30,7 @@ const Header = () => {
             <Button
               variant="outline-primary"
               className="mx-2"
-              onClick={handleShow}
+              onClick={handleShowLogin}
             >
               Login
             </Button>
@@ -40,7 +40,7 @@ const Header = () => {
           </NavLink>
         </Col>
       </Row>
-      <LoginModal show={showLogin} setShow={setShowLogin} />
+      <LoginModal show={showLogin} setShowLogin={setShowLogin} />
     </Container>
   );
 };

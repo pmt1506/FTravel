@@ -3,7 +3,7 @@ import Carts from "../models/cart.js";
 const addToCart = async ({ userID, serviceID }) => {
   try {
     const newCart = await Carts.create({ userID, serviceID });
-    return newCart._doc;
+    return newCart;
   } catch {
     console.log(error.toString());
   }
@@ -11,9 +11,11 @@ const addToCart = async ({ userID, serviceID }) => {
 
 const viewCart = async (userID) => {
   try {
-    const populatedCart = await Carts.findOne({ userID: userID }).exec();
+    const populatedCart = await Carts.findOne({ userID: userID })
+      .populate("serviceID")
+      .exec();
 
-    return populatedCart._doc;
+    return populatedCart;
   } catch (error) {
     console.error(error.toString());
   }

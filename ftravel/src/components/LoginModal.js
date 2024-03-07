@@ -12,7 +12,7 @@ function LoginModal({ show, setShowLogin }) {
     // Retrieve form data using e.target.elements
     // Example: const email = e.target.elements.email.value;
     // Close the modal after submission: handleClose();
-    handleClose();
+    handleCloseLogin();
   };
 
   return (

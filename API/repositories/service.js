@@ -1,4 +1,5 @@
 import Services from "../models/service.js";
+import ServiceTypes from "../models/serviceType.js";
 
 //Create a new service
 const createService = async ({
@@ -9,7 +10,7 @@ const createService = async ({
   description,
   startDate,
   endDate,
-  companyID,
+  accountID,
   region,
   city,
   type,
@@ -24,7 +25,7 @@ const createService = async ({
       description,
       startDate,
       endDate,
-      companyID,
+      accountID,
       region,
       city,
       type,
@@ -36,22 +37,42 @@ const createService = async ({
   }
 };
 
-//Get all services
-const getAllService = async (page, pageSize, type) => {
+//Get all services by type with pagination
+const getAllServiceByType = async (type, page, pageSize) => {
   try {
-    //pagination
-    const startIndex = (page - 1) * pageSize;
+    const skip = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    if (!page && !pageSize) {
+      return await Services.find({ status: true, type: type }).populate("type");
+    }
+
     if (!type) {
       return await Services.find({ status: true })
         .populate("type")
-        .skip(startIndex)
-        .limit(pageSize);
+        .skip(skip)
+        .limit(limit);
     }
+
+    const services = await Services.find({ status: true, type: type })
+      .skip(skip)
+      .limit(limit)
+      .populate("type")
+      .exec();
+
+    return services;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
+// Get services count by type
+const getServiceCountByType = async (type) => {
+  try {
     const allServices = await Services.find({ status: true, type: type })
       .populate("type")
-      .skip(startIndex)
-      .limit(pageSize);
-    return allServices.map((service) => service._doc);
+      .countDocuments();
+    return allServices;
   } catch (error) {
     throw new Error(error.toString());
   }
@@ -94,6 +115,45 @@ const getServiceByName = async (serviceName) => {
   }
 };
 
+//Get Service by vendor
+const getServiceByVendor = async (accountID, page, pageSize) => {
+  try {
+    const skip = (page - 1) * pageSize;
+    const limit = pageSize;
+    if (!accountID) {
+      return await Services.find({ status: true })
+        .populate("accountID")
+        .skip(skip)
+        .limit(limit);
+    }
+
+    const services = await Services.find({ status: true, accountID: accountID })
+      .skip(skip)
+      .limit(limit)
+      .populate("accountID")
+      .exec();
+
+    return services;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
+// Get services count by vendor
+const getServiceCountByVedor = async (accountID) => {
+  try {
+    const allServices = await Services.find({
+      status: true,
+      accountID: accountID,
+    })
+      .populate("accountID")
+      .countDocuments();
+    return allServices;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
 // Edit service
 const editService = async (
   id,
@@ -105,7 +165,7 @@ const editService = async (
     description,
     startDate,
     endDate,
-    companyID,
+    accountID,
     region,
     city,
     type,
@@ -123,7 +183,7 @@ const editService = async (
         description,
         startDate,
         endDate,
-        companyID,
+        accountID,
         region,
         city,
         type,
@@ -155,10 +215,13 @@ const editService = async (
 
 export default {
   createService,
-  getAllService,
+  getAllServiceByType,
+  getServiceCountByType,
   getServiceByID,
   getServiceByName,
   editService,
   getAllServiceAdmin,
+  getServiceByVendor,
+  getServiceCountByVedor,
   // deleteServiceByID
 };
