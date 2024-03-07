@@ -17,7 +17,8 @@ const addToCart = async (req, res) => {
 
 const viewCart = async (req, res) => {
     try {
-        res.status(200).json(await cartDAO.viewCart(req.params.userID))
+        const listCart = await cartDAO.viewCart(req.params.userID)
+        res.status(200).json(listCart)
     } catch (error) {
         res.status(500).json({
             message: error.toString()

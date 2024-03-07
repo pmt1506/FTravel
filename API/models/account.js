@@ -16,29 +16,28 @@ const AccountSchema = new Schema(
       required: [true, "password is required"],
       unique: [false],
     },
-    accountType: {
-      type: Schema.Types.ObjectId,
-      ref: "accountTypes",
-      require: true,
-    },
+
     accountRole: {
       type: Schema.Types.ObjectId,
       ref: "roles",
-      require: true,
+      required: true,
     },
     avatarIMG: {
       type: String,
       required: [false],
       unique: [false],
     },
-    username: {
+    userName: {
       type: String,
       required: [true, "email is required"],
       unique: [false],
     },
+    verify: {
+      type: Boolean,
+    },
     cccd: {
       type: String,
-      required: [false],
+      required: false,
       unique: [false, "cccd already exist"],
     },
     address: {
