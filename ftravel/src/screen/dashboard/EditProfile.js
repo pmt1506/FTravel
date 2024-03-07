@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DashboardTemplate from '../../template/DashboardTemplate'
 import { Row } from 'react-bootstrap'
-import axios from "axios";
+import { useParams } from 'react-router-dom';
 
 const EditProfile = () => {
     const [userData, setUserData] = useState({
@@ -16,17 +16,15 @@ const EditProfile = () => {
         address: "",
         status: false,
     });
+    const { accID } = useParams();
 
     useEffect(() => {
-        // Gọi API để lấy dữ liệu từ MongoDB
-        fetch("http://localhost:9999/profile/:accID")  // Thay đổi đường dẫn API nếu cần
-            .then((response) => {
-                setUserData(response.json().data);
-            })
-            .catch((error) => {
-                console.error("Error fetching user data:", error);
-            });
-    }, []); // useEffect chỉ chạy một lần khi component được mount
+        fetch(`http://localhost:9999/profile/${accID}`) 
+        .then((res) => res.json())
+        .then((data) => {
+            setUserData(data);
+        });
+    });
 
     const handleChange = (e) => {
         setUserData({
@@ -37,14 +35,24 @@ const EditProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Gọi API để cập nhật dữ liệu lên MongoDB
-        axios.put("/api/account", userData)  // Thay đổi đường dẫn API nếu cần
-            .then((response) => {
-                console.log("User data updated successfully:", response.data);
-            })
-            .catch((error) => {
-                console.error("Error updating user data:", error);
+        try {
+            const response = fetch("/api/account", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
             });
+    
+            if (response.ok) {
+                const data = response.json();
+                console.log("User data updated successfully:", data);
+            } else {
+                console.error("Error updating user data:", response.status);
+            }
+        } catch (error) {
+            console.error("Error updating user data:", error);
+        }
     };
 
     return (
