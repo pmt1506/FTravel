@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
+import DefaultTemplate from "../../template/DefaultTemplate";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
@@ -51,7 +52,7 @@ const Tour = () => {
   };
 
   return (
-    <>
+    <DefaultTemplate>
       <TourBanner />
       <div className="container mt-4">
         <div className="row">
@@ -239,7 +240,7 @@ const Tour = () => {
           </div>
         </div>
       </div>
-    </>
+    </DefaultTemplate>
   );
 };
 

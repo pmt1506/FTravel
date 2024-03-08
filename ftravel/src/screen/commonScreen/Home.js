@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DefaultTemplate from "../../template/DefaultTemplate";
 
 const Home = () => {
   const [tourList, setTourList] = useState([]);
@@ -37,7 +38,7 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <DefaultTemplate>
       <Container fluid className="mt-4">
         <Row>
           <Col style={{ padding: "0" }}>
@@ -282,7 +283,7 @@ const Home = () => {
           </Link>
         </div>
       </Container>
-    </>
+    </DefaultTemplate>
   );
 };
 

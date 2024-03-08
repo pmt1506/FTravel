@@ -112,11 +112,23 @@ const getAccountByEmailAndPass = async (req, res) => {
     );
     const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
     delete filterAcc.password;
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
     return res.status(200).json({
       message: "Login success, welcome home",
       data: filterAcc,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -209,23 +221,21 @@ const oauth2googleAuthen = async (req, res) => {
         expiresIn: "1w",
       }
     );
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true,
-    //   path: "/",
-    //   expires: new Date(Date.now() + 60 * 60 * 1000),
-    //   sameSite: "lax",
-    //   secure: false,
-    // });
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   path: "/",
-    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    //   sameSite: "lax",
-    //   secure: false,
-    // });
-    return res
-      .status(200)
-      .json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    return res.redirect("http://localhost:3000");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

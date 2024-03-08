@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -18,7 +18,11 @@ function LoginModal({ show, setShowLogin }) {
   return (
     <Modal show={show}>
       <Modal.Header>
-        <Modal.Title>Login</Modal.Title>
+        <Container>
+          <Row className="justify-content-center">
+            <Modal.Title>Login</Modal.Title>
+          </Row>
+        </Container>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
@@ -37,8 +41,12 @@ function LoginModal({ show, setShowLogin }) {
           {/* Add password input field here */}
         </Form>
         <hr />
-        <div className="justify-content-center">or login with google</div>
-        <Button className="btn-btn-success">Google</Button>
+        <Row className="justify-content-center">
+          <div className="justify-content-center">or login with google</div>
+        </Row>
+        <Row className="justify-content-center">
+          <Button variant="danger">Google</Button>
+        </Row>
       </Modal.Body>
 
       <Modal.Footer>
