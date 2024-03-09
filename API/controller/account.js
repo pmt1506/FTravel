@@ -1,4 +1,7 @@
 import { accountDAO } from "../repositories/index.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
 
 // get all account
 const getAllAccount = async (req, res) => {
@@ -85,31 +88,94 @@ const getAccountByEmail = async (req, res) => {};
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const found = await accountDAO.findAccountByEmailAndPassword(
-      email,
-      password
+    const foundAccount = await accountDAO.findAccountByEmail(email);
+    if (!foundAccount) {
+      return res.status(400).json({ error: " email not found" });
+    }
+    const matchPassword = bcrypt.compareSync(password, foundAccount.password);
+    if (!matchPassword) {
+      return res.status(400).json({ error: "wrong password" });
+    }
+    const accessToken = jwt.sign(
+      { userId: foundAccount._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "30s",
+      }
     );
-
-    if (!found) res.status(200).json({ message: "user login" });
-    else res.status(401).json({ message: "not login" });
-  } catch (error) {
-    res.status(500).json({
-      error: error.toString(),
+    const refreshToken = jwt.sign(
+      { userId: foundAccount._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1w",
+      }
+    );
+    const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
+    delete filterAcc.password;
+    return res.status(200).json({
+      message: "Login success, welcome home",
+      data: filterAcc,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };
-
+//create access token
+function genAccessToken(id) {
+  return jwt.sign(id, process.env.JWT_SECRET_KEY, {
+    expiresIn: "30s",
+  });
+}
+//refresh token
+let refreshTokenArr = [];
+const refreshTokenHa = async (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null)
+    return res.status(401).json({ error: "ko co refresh token b oi" });
+  if (!refreshTokenArr.includes(refreshToken)) {
+    return res.status(403).json({ error: "m la ai ma trom duoc ref cua t" });
+  }
+  jwt.verify(refreshToken, process.env.JWT_SECRET_KEY, (err, id) => {
+    if (err) {
+      return res.status(403).json({ error: "m la ai ma trom duoc ref cua t" });
+    }
+    const accessToken = jwt.sign(id, process.env.JWT_SECRET_KEY, {});
+    res.json({ accessToken: accessToken });
+  });
+};
 //add new account
 const createAccount = async (req, res) => {
-  const { username, password, email, phoneNumber } = req.body;
+  const { userName, password, rePassword, email, phoneNumber } = req.body;
+  if (
+    userName.length == 0 ||
+    email.length == 0 ||
+    phoneNumber.length == 0 ||
+    password.length == 0
+  ) {
+    return res.status(400).json({ error: " fill all the fields please" });
+  }
+  if (rePassword !== password) {
+    return res
+      .status(400)
+      .json({ error: "Confirm password not match, please check" });
+  }
+  const existUser = await accountDAO.findAccountByEmail(email);
+  if (existUser) {
+    return res.status(400).json({ error: "email already sign up" });
+  }
+  const salt = bcrypt.genSaltSync(parseInt(10));
+  const hashedPassword = bcrypt.hashSync(password, salt);
+
   try {
     const rs = await accountDAO.createAccount({
-      username,
+      userName,
       phoneNumber,
       email,
-      password,
+      password: hashedPassword,
     });
-    res.status(200).json(rs);
+    res.status(200).json({ message: "create success", rs });
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
@@ -119,8 +185,15 @@ const createAccount = async (req, res) => {
 const oauth2googleAuthen = async (req, res) => {
   try {
     const oauth2Result = await req.user;
+    // console.log(oauth2Result._doc.email);
     if (oauth2Result && oauth2Result.error) {
       return res.status(400).json({ error: oauth2Result.error });
+    }
+    const foundAccount = await accountDAO.findAccountByEmail(
+      oauth2Result._doc.email
+    );
+    if (!foundAccount) {
+      return res.status(404).json({ error: "User not found in the database" });
     }
     const accessToken = jwt.sign(
       { userId: oauth2Result._id },
@@ -136,22 +209,23 @@ const oauth2googleAuthen = async (req, res) => {
         expiresIn: "1w",
       }
     );
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false,
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false,
-    });
-    // res.json({ message: "Login Successful, welcome back", data: oauth2Result });
-    return res.redirect("http://localhost:3000/oauth2Redirect");
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   path: "/",
+    //   expires: new Date(Date.now() + 60 * 60 * 1000),
+    //   sameSite: "lax",
+    //   secure: false,
+    // });
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   path: "/",
+    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    //   sameSite: "lax",
+    //   secure: false,
+    // });
+    return res
+      .status(200)
+      .json({ accessToken: accessToken, refreshToken: refreshToken });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -164,71 +238,82 @@ const googleLogin = async (req, res) => {
         .status(400)
         .json({ error: "No Token was provided, please try again" });
     }
-    jwt.verify(
-      token,
-      getKey,
-      { algorithms: ["RS256"] },
-      async (err, decodedToken) => {
-        if (err) {
-          return res.status(401).json({ error: "Invalid token" });
-        }
-
-        try {
-          const existingUser = await AuthenticateRepository.getUserByEmail(
-            decodedToken.email
-          );
-          if (!existingUser) {
-            return res.status(400).json({ error: "Email not found" });
-          }
-          const accessToken = jwt.sign(
-            { userId: existingUser._id },
-            process.env.JWT_SECRET_KEY,
-            {
-              expiresIn: "1hr",
-            }
-          );
-
-          const refreshToken = jwt.sign(
-            { userId: existingUser._id },
-            process.env.JWT_SECRET_KEY,
-            {
-              expiresIn: "1w",
-            }
-          );
-
-          const { createdAt, updatedAt, password, ...filteredUser } =
-            existingUser._doc;
-
-          res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-            path: "/",
-            expires: new Date(Date.now() + 60 * 60 * 1000),
-            sameSite: "lax",
-            secure: false,
-          });
-
-          res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            path: "/",
-            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            sameSite: "lax",
-            secure: false,
-          });
-
-          return res.status(200).json({
-            message: "Login successfully! Welcome back",
-            data: filteredUser,
-          });
-        } catch (error) {
-          return res.status(500).json({ error: error.message });
-        }
+    jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken) => {
+      if (err) {
+        return res.status(401).json({ error: "Invalid token" });
       }
-    );
+
+      /////////////
+      try {
+        const existingUser = await accountDAO.findAccountByEmail(
+          decodedToken.email
+        );
+        if (!existingUser) {
+          return res.status(400).json({ error: "Email not found" });
+        }
+        const accessToken = jwt.sign(
+          { userId: existingUser._id },
+          process.env.JWT_SECRET_KEY,
+          {
+            expiresIn: "1hr",
+          }
+        );
+
+        const refreshToken = jwt.sign(
+          { userId: existingUser._id },
+          process.env.JWT_SECRET_KEY,
+          {
+            expiresIn: "1w",
+          }
+        );
+
+        const { createdAt, updatedAt, password, ...filteredUser } =
+          existingUser._doc;
+
+        // res.cookie("accessToken", accessToken, {
+        //   httpOnly: true,
+        //   path: "/",
+        //   expires: new Date(Date.now() + 60 * 60 * 1000),
+        //   sameSite: "lax",
+        //   secure: false,
+        // });
+
+        // res.cookie("refreshToken", refreshToken, {
+        //   httpOnly: true,
+        //   path: "/",
+        //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        //   sameSite: "lax",
+        //   secure: false,
+        // });
+
+        return res.status(200).json({
+          message: "Login successfully! Welcome back",
+          data: filteredUser,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        });
+      } catch (error) {
+        return res.status(500).json({ error: error.message });
+      }
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
+const logOut = async (req, res) => {
+  try {
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("accessToken");
+    return res.status(200).json({ message: "Logged Out" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 export default {
+  logOut,
   createAccount,
   getAccountByEmail,
   getAccountByEmailAndPass,
@@ -239,4 +324,5 @@ export default {
   verifyAccount,
   oauth2googleAuthen,
   googleLogin,
+  refreshTokenHa,
 };

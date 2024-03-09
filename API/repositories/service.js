@@ -89,9 +89,28 @@ const getAllServiceAdmin = async (page, pageSize) => {
     throw new Error(error.toString());
   }
 };
+  try {
+    //pagination
+    const startIndex = (page - 1) * pageSize;
+    const allServices = await Services.find().skip(startIndex).limit(pageSize);
+    return allServices.map((service) => service._doc);
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 
 //Get Service by ID
 const getServiceByID = async (serviceID) => {
+  try {
+    const service = await Services.findById(serviceID);
+    if (!service) {
+      throw new Error("Service not found");
+    }
+    return service._doc;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
   try {
     const service = await Services.findById(serviceID);
     if (!service) {
