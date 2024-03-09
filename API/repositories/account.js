@@ -100,7 +100,7 @@ const getAccountInfoByID = async (id) => {
 // view list account
 const getAllAccount = async () => {
   try {
-    const listAcc = await Accounts.find().populate().exec();
+    const listAcc = await Accounts.find().populate("accountRole", "roleName").exec();
 
     // Destructure the account properties you want to keep
     const filteredAccounts = listAcc.map(({ createAt, updateAt, ...rest }) => {
