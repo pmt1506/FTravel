@@ -100,7 +100,7 @@ const Services = () => {
                   </div>
                 </div>
                 <div className="control-action">
-                  <a href="#" target="_blank" className="btn btn-info">View</a>
+                  <a href="#" className="btn btn-info">View</a>
                   <a href="#" className="btn btn-danger">Hide</a>
                 </div>
               </Col>
