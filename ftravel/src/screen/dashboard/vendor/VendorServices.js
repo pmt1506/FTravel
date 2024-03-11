@@ -47,6 +47,9 @@ const VendorServices = () => {
   return (
     <DashboardTemplate title="Manage Service (vendor)">
       <Row className="m-3">
+        Action Bar
+      </Row>
+      <Row className="m-3">
         {allServices.map(service => (
           <div className="item-list" key={service._id}>
             <Row>

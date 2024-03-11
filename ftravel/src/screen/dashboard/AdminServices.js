@@ -40,6 +40,9 @@ const Services = () => {
   return (
     <DashboardTemplate title="Manage Service">
       <Row className="m-3">
+        Action Bar
+      </Row>
+      <Row className="m-3">
         {allServices.map(service => (
           <div className="item-list" key={service._id}>
             <Row>
@@ -100,7 +103,7 @@ const Services = () => {
                   </div>
                 </div>
                 <div className="control-action">
-                  <a href="#" className="btn btn-info">View</a>
+                  {/* <a href="#" className="btn btn-info">View</a> */}
                   <a href="#" className="btn btn-danger">Hide</a>
                 </div>
               </Col>

@@ -35,12 +35,14 @@ const SideBar = () => {
                 <div className="sidebar-menu">
                     <ul className="main-menu">
 
-                        {/* Hau add from here */}
-                        <li><Link to="/dashboard/service"><i className="bi bi-wallet"></i> Manage Services</Link></li>
-                        <li><Link to="/dashboard/user"><i className="bi bi-wallet"></i> Manage Users</Link></li>
-                        <li><Link to="/dashboard/report"><i className="bi bi-wallet"></i> Manage Reports</Link></li>
+                        {/* Admin */}
+                        <li><Link to="/admin/service"><i className="bi bi-wallet"></i> Manage Services</Link></li>
+                        <li><Link to="/admin/user"><i className="bi bi-wallet"></i> Manage Users</Link></li>
+                        <li><Link to="/admin/report"><i className="bi bi-wallet"></i> Manage Reports</Link></li>
+                        {/* End */}
 
-
+                        {/* Vendor */}
+                        <li><Link to="/vendor/service"><i className="bi bi-wallet"></i> Manage Services - Ven</Link></li>
                         {/* End */}
 
                         {/* <li><a href="#"><i className="bi bi-clock-history"></i> Booking history</a></li>

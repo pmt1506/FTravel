@@ -13,12 +13,13 @@ import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
 import VendorList from "./screen/VendorList";
 import VendorServices from "./screen/dashboard/vendor/VendorServices";
+import UserDetail from "./screen/dashboard/UserDetail";
 
 function App() {
   return (
     <BrowserRouter>
       {/* <Header /> */}
-      <NavbarComponent/>
+      {/* <NavbarComponent/> */}
       <Routes>
         {/* Customer*/}
         <Route path="/cart/:userID" element={<Cart />} />
@@ -32,6 +33,7 @@ function App() {
         {/* For Admin - sua path cho phu hop */}
         <Route path="/admin/service" element={<AdminServices />} />
         <Route path="/admin/user" element={<Users />} />
+        <Route path="/admin/user/detail" element={<UserDetail />} />
         <Route path="/admin/report" element={<Reports />} />
 
         {/* For Vendor - sua path cho phu hop */}
