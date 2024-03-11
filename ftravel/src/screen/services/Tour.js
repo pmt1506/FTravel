@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
 import { Dropdown } from "react-bootstrap";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
@@ -122,8 +125,12 @@ const Tour = () => {
         <div className="row">
           <div className="col">
             <h2 className="mb-3">Featured Tours</h2>
-            <div className="row">
-              <div className="col-md-6 ml-auto mb-3">
+            <div className="row mb-3">
+              <div className="col-md-6">
+                {/* Filter slide */}
+
+              </div>
+              <div className="col-md-6 ml-auto">
                 {/* React Bootstrap dropdown for sorting */}
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="sortDropdown">
