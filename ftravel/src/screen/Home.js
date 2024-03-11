@@ -3,30 +3,36 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [allServices, setAllServices] = useState([]);
   const [tourList, setTourList] = useState([]);
   const [hotelList, setHotelList] = useState([]);
   const [eventList, setEventList] = useState([]);
 
-  const tourListID = "65d440dd4ba915fa5c498398";
-  const hotelListID = "65d235961ade018d66152d24";
-  const eventListID = "65d440fb4ba915fa5c498399";
+  const tourListID = "65e2e9b0d9e75d25d6a2b08e";
+  const hotelListID = "65e2e9c5d9e75d25d6a2b090";
+  const eventListID = "65e2e9d2d9e75d25d6a2b092";
 
   useEffect(() => {
-    fetch("http://localhost:9999/service")
+    fetch(`http://localhost:9999/service?type=${tourListID}`)
       .then((res) => res.json())
       .then((data) => {
-        setAllServices(data.allServices);
-        // Use data.allServices to filter based on type
-        setTourList(
-          data.allServices.filter((service) => service.type === tourListID)
-        );
-        setHotelList(
-          data.allServices.filter((service) => service.type === hotelListID)
-        );
-        setEventList(
-          data.allServices.filter((service) => service.type === eventListID)
-        );
+        setTourList(data.servicesByType);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://localhost:9999/service?type=${hotelListID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setHotelList(data.servicesByType);
+        console.log("Hotel list: ", data.servicesByType);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://localhost:9999/service?type=${eventListID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEventList(data.servicesByType);
       });
   }, []);
 
@@ -82,10 +88,13 @@ const Home = () => {
           {tourList.slice(0, 4).map((tour, index) => (
             <Col xs={3} key={index}>
               <Card>
-                <Card.Img variant="top" src={tour.thumbnail} />
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={tour.thumbnail}
+                />
                 <Card.Body>
                   <Card.Title>{tour.title}</Card.Title>
-                  <Card.Text>{tour.description}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -109,7 +118,11 @@ const Home = () => {
           {hotelList.slice(0, 4).map((hotel, index) => (
             <Col xs={3} key={index}>
               <Card>
-                <Card.Img variant="top" src={hotel.thumbnail} />
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={hotel.thumbnail}
+                />
                 <Card.Body>
                   <Card.Title>{hotel.title}</Card.Title>
                   <Card.Text>{hotel.description}</Card.Text>
@@ -133,10 +146,14 @@ const Home = () => {
       </Container>
       <Container className="mb-3">
         <Row>
-        {eventList.slice(0, 4).map((event, index) => (
+          {eventList.slice(0, 4).map((event, index) => (
             <Col xs={3} key={index}>
               <Card>
-                <Card.Img variant="top" src={event.thumbnail} />
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={event.thumbnail}
+                />
                 <Card.Body>
                   <Card.Title>{event.title}</Card.Title>
                   <Card.Text>{event.description}</Card.Text>
@@ -254,6 +271,7 @@ const Home = () => {
                   Some quick example text to build on the card title and make up
                   the bulk of the card's content.
                 </Card.Text>
+                <Button variant="outline-success">See more</Button>
               </Card.Body>
             </Card>
           </Col>

@@ -38,7 +38,7 @@ const serviceSchema = new Schema(
         ref: "comments",
       },
     ],
-    companyID: {
+    accountID: {
       type: Schema.Types.ObjectId,
       ref: "accounts",
       require: true,

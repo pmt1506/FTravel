@@ -1,9 +1,17 @@
 import { Container, Row } from "react-bootstrap"
 import "../css/sidebar.css"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <Container style={{ background: "#1a2b47", minHeight: "100vh" }}>
+        <Container style={{ background: "#1a2b47", height: "100vh"}}>
             <div className="logo">
                 <Row className="justify-content-center">
                     <div className="avatar">
@@ -26,15 +34,29 @@ const SideBar = () => {
             <Row className="list">
                 <div className="sidebar-menu">
                     <ul className="main-menu">
-                        <li><a href="#"><i className="bi bi-clock-history"></i> Booking history</a></li>
+
+                        {/* Hau add from here */}
+                        <li><Link to="/dashboard/service"><i className="bi bi-wallet"></i> Manage Services</Link></li>
+                        <li><Link to="/dashboard/user"><i className="bi bi-wallet"></i> Manage Users</Link></li>
+                        <li><Link to="/dashboard/report"><i className="bi bi-wallet"></i> Manage Reports</Link></li>
+
+
+                        {/* End */}
+
+                        {/* <li><a href="#"><i className="bi bi-clock-history"></i> Booking history</a></li>
                         <li><a href="#"><i className="bi bi-heart-fill"></i> Wish list</a></li>
                         <li><a href="#"><i className="bi bi-wallet"></i> My wallet</a></li>
-                        <li><a href="#"><i className="bi bi-cart3"></i> Cart</a></li>
+                        <li><a href="#"><i className="bi bi-cart3"></i> Cart</a></li> */}
                         <li><a href="#"><i className="bi bi-person-circle"></i> User profile</a></li>
                         <li><a href="#"><i className="bi bi-key"></i> Change password</a></li>
+
                     </ul>
                 </div>
+
             </Row>
+
+
+
             <Row className="list">
                 <div className="logout">
                     <a href="#"><i className="bi bi-box-arrow-left"></i> Log out</a>

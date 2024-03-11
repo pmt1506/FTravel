@@ -18,7 +18,15 @@ const createAccount = async ({ username, email, password, phoneNumber }) => {
 };
 
 //find account by email
-const findAccountByEmail = async () => {};
+const findAccountByEmail = async (email) => {
+  try {
+    const existAccount = await Accounts.findOne({ email: email });
+
+    return existAccount;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 //Find account by email and password
 const findAccountByEmailAndPassword = async (email, password) => {
@@ -89,7 +97,17 @@ const getAccountInfoByID = async (id) => {
 // view list account
 const getAllAccount = async () => {
   try {
-    return await Accounts.find().populate().exec();
+    const listAcc = await Accounts.find().populate().exec();
+
+    // Destructure the account properties you want to keep
+    const filteredAccounts = listAcc.map(({ createAt, updateAt, ...rest }) => {
+      // Omit the 'password' property entirely
+      const { password, ...filteredRest } = rest._doc;
+      return filteredRest;
+    });
+
+    return filteredAccounts;
+    // return await Accounts.find().populate().exec();
   } catch (error) {
     throw new Error(error.toString());
   }
