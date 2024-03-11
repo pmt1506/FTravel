@@ -37,27 +37,35 @@ const createService = async ({
   }
 };
 
-//Get all services by type with pagination
-const getAllServiceByType = async (type, page, pageSize) => {
+const getAllServiceByType = async (type, page, pageSize, sortBy) => {
   try {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
 
+    let query = { status: true };
+
+    if (type) {
+      query.type = type;
+    }
+
+    let sortQuery = {};
+    if (sortBy) {
+      // Determine sorting order based on the sortBy parameter
+      const sortOrder = sortBy.startsWith("-") ? -1 : 1;
+      const sortField = sortOrder === -1 ? sortBy.substring(1) : sortBy;
+
+      sortQuery[sortField] = sortOrder;
+    }
+
     if (!page && !pageSize) {
-      return await Services.find({ status: true, type: type }).populate("type");
+      return await Services.find(query).populate("type").sort(sortQuery);
     }
 
-    if (!type) {
-      return await Services.find({ status: true })
-        .populate("type")
-        .skip(skip)
-        .limit(limit);
-    }
-
-    const services = await Services.find({ status: true, type: type })
+    const services = await Services.find(query)
       .skip(skip)
       .limit(limit)
       .populate("type")
+      .sort(sortQuery)
       .exec();
 
     return services;
@@ -115,7 +123,7 @@ const getServiceByName = async (serviceName) => {
   }
 };
 
-//Get Service by vendor 
+//Get Service by vendor
 const getServiceByVendor = async (accountID, page, pageSize) => {
   try {
     const skip = (page - 1) * pageSize;
@@ -142,7 +150,10 @@ const getServiceByVendor = async (accountID, page, pageSize) => {
 // Get services count by vendor
 const getServiceCountByVedor = async (accountID) => {
   try {
-    const allServices = await Services.find({ status: true, accountID: accountID })
+    const allServices = await Services.find({
+      status: true,
+      accountID: accountID,
+    })
       .populate("accountID")
       .countDocuments();
     return allServices;
@@ -219,6 +230,6 @@ export default {
   editService,
   getAllServiceAdmin,
   getServiceByVendor,
-  getServiceCountByVedor
+  getServiceCountByVedor,
   // deleteServiceByID
 };

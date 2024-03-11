@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
+import { Dropdown } from "react-bootstrap";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
 
   const tourListID = "65e2e9d2d9e75d25d6a2b092";
   const pageSize = 8;
@@ -14,7 +16,9 @@ const Tour = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}`,
+          `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
+            sortBy.field || ""
+          }&order=${sortBy.order}`,
           {
             method: "GET",
             headers: {
@@ -44,10 +48,15 @@ const Tour = () => {
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, sortBy]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+  const handleSortChange = (field) => {
+    // Toggle between ascending (1) and descending (-1) order
+    const newOrder = sortBy.field === field ? -sortBy.order : 1;
+    setSortBy({ field, order: newOrder });
   };
 
   return (
@@ -113,6 +122,30 @@ const Tour = () => {
         <div className="row">
           <div className="col">
             <h2 className="mb-3">Featured Tours</h2>
+            <div className="row">
+              <div className="col-md-6 ml-auto mb-3">
+                {/* React Bootstrap dropdown for sorting */}
+                <Dropdown>
+                  <Dropdown.Toggle variant="secondary" id="sortDropdown">
+                    Sort By Price
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      active={sortBy.field === "price" && sortBy.order === 1}
+                      onClick={() => handleSortChange("price")}
+                    >
+                      Ascending
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      active={sortBy.field === "price" && sortBy.order === -1}
+                      onClick={() => handleSortChange("-price")}
+                    >
+                      Descending
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </div>
             {tourList.length === 0 ? (
               <div className="text-center">
                 <h3>No tour available, please stay tune!</h3>

@@ -39,17 +39,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/cart", cartRouter);
 
 app.use(`/cart`, cartRouter);
-//config express session
-app.use(
-  session({
-    secret: process.env.secret_key,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+
 const PORT = process.env.PORT;
 
 app.get("/", (req, res) => {

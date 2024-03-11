@@ -59,7 +59,7 @@ const createService = async (req, res) => {
 
 const getAllServiceByType = async (req, res) => {
   try {
-    const { type, page, pageSize } = req.query;
+    const { type, page, pageSize, sortBy } = req.query;
 
     if (!type) {
       return res.status(400).json({
@@ -68,8 +68,8 @@ const getAllServiceByType = async (req, res) => {
     }
 
     // Validate and set default values for page and pageSize
-    const validatedPage = parseInt(page, 10);
-    const validatedPageSize = parseInt(pageSize, 10);
+    const validatedPage = parseInt(page, 10) || 1;
+    const validatedPageSize = parseInt(pageSize, 10) || 10;
 
     if (validatedPage <= 0 || validatedPageSize <= 0) {
       return res.status(400).json({
@@ -77,20 +77,25 @@ const getAllServiceByType = async (req, res) => {
       });
     }
 
-    // Filter services by type with pagination
+    // Filter services by type with pagination and sorting
     const servicesByType = await serviceDAO.getAllServiceByType(
       type,
       validatedPage,
-      validatedPageSize
+      validatedPageSize,
+      sortBy
     );
 
-    //get service count by type
+    // Get service count by type
     const serviceCountByType = await serviceDAO.getServiceCountByType(type);
 
     // Calculate total pages
     const totalPages = Math.ceil(serviceCountByType / validatedPageSize);
 
-    res.status(200).json({ servicesByType, total: serviceCountByType, totalPages });
+    res.status(200).json({
+      servicesByType,
+      total: serviceCountByType,
+      totalPages,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.toString(),
@@ -182,12 +187,16 @@ const getAllServiceByVendor = async (req, res) => {
     );
 
     // Get service count by vendor
-    const serviceCountByVendor = await serviceDAO.getServiceCountByVedor(accountID);
+    const serviceCountByVendor = await serviceDAO.getServiceCountByVedor(
+      accountID
+    );
 
     // Calculate total pages
     const totalPages = Math.ceil(serviceCountByVendor / validatedPageSize);
 
-    res.status(200).json({ servicesByVendor, total: serviceCountByVendor, totalPages });
+    res
+      .status(200)
+      .json({ servicesByVendor, total: serviceCountByVendor, totalPages });
   } catch (error) {
     res.status(500).json({
       message: error.toString(),
@@ -269,6 +278,6 @@ export default {
   getServiceByName,
   editService,
   getAllServiceAdmin,
-  getAllServiceByVendor
+  getAllServiceByVendor,
   // deleteServiceByID
 };
