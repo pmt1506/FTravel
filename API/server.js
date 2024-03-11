@@ -17,7 +17,14 @@ const app = express();
 app.use(express.json());
 
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Only allow requests from this origin
+    methods: "GET,HEAD, POST, PATCH, DELETE", // Only allow specific HTTP methods
+    preflightContinue: false,
+    credentials: true,
+  })
+);
 dotenv.config();
 //swagger config
 const options = {

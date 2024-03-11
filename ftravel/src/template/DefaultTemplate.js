@@ -1,5 +1,3 @@
-import { Container, Row, Col } from "react-bootstrap";
-
 import "../css/Dashboard.css";
 import Footer from "../components/common/Footer";
 import Header from "../components/common/Header";

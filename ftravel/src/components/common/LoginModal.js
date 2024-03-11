@@ -1,17 +1,37 @@
 import React, { useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Toast } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-
 function LoginModal({ show, setShowLogin }) {
   const handleCloseLogin = () => setShowLogin(false);
-  const handleFormSubmit = (e) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to handle form submission (e.g., login request)
-    // Retrieve form data using e.target.elements
-    // Example: const email = e.target.elements.email.value;
-    // Close the modal after submission: handleClose();
+    try {
+      const response = await fetch("http://localhost:9999/account/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        console.log(response);
+        console.log("Login successful!");
+        // Additional logic to handle successful login, such as setting user session
+      } else {
+        console.error("Login failed. Please check your credentials.");
+        // Additional logic to handle login failure, such as displaying an error message
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // Additional error handling logic
+    }
+
     handleCloseLogin();
   };
 
@@ -28,16 +48,29 @@ function LoginModal({ show, setShowLogin }) {
         <Form onSubmit={handleFormSubmit}>
           <Form.Group controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" required />
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
+            />
           </Form.Group>
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Enter password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               required
             />
           </Form.Group>
+          <Button variant="primary" type="submit">
+            Log In
+          </Button>
           {/* Add password input field here */}
         </Form>
         <hr />
@@ -45,16 +78,15 @@ function LoginModal({ show, setShowLogin }) {
           <div className="justify-content-center">or login with google</div>
         </Row>
         <Row className="justify-content-center">
-          <Button variant="danger">Google</Button>
+          <Button variant="danger">
+            <Link to={"http://localhost:9999/account/auth/google"}>google</Link>
+          </Button>
         </Row>
       </Modal.Body>
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseLogin}>
           Close
-        </Button>
-        <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-          Log In
         </Button>
       </Modal.Footer>
     </Modal>

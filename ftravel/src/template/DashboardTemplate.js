@@ -1,5 +1,5 @@
 import SideBar from "../components/common/Sidebar";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import "../css/Dashboard.css";
 

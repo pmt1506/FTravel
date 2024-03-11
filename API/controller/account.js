@@ -280,27 +280,25 @@ const googleLogin = async (req, res) => {
         const { createdAt, updatedAt, password, ...filteredUser } =
           existingUser._doc;
 
-        // res.cookie("accessToken", accessToken, {
-        //   httpOnly: true,
-        //   path: "/",
-        //   expires: new Date(Date.now() + 60 * 60 * 1000),
-        //   sameSite: "lax",
-        //   secure: false,
-        // });
+        res.cookie("accessToken", accessToken, {
+          httpOnly: true,
+          path: "/",
+          expires: new Date(Date.now() + 60 * 60 * 1000),
+          sameSite: "lax",
+          secure: false,
+        });
 
-        // res.cookie("refreshToken", refreshToken, {
-        //   httpOnly: true,
-        //   path: "/",
-        //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        //   sameSite: "lax",
-        //   secure: false,
-        // });
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          path: "/",
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          sameSite: "lax",
+          secure: false,
+        });
 
         return res.status(200).json({
           message: "Login successfully! Welcome back",
           data: filteredUser,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
         });
       } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -310,13 +308,25 @@ const googleLogin = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const generateRandomPassword = () => {
+  // Generate a random string with specified length
+  const length = 10;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let newPassword = "";
+  for (let i = 0; i < length; i++) {
+    newPassword += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return newPassword;
+};
+
 const logOut = async (req, res) => {
   try {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
 
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("accessToken");
     return res.status(200).json({ message: "Logged Out" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
