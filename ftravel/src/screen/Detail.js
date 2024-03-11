@@ -83,7 +83,6 @@ const Detail = () => {
               <dd class="col-9">
                 <span className="text-muted">{service.slot}</span>
               </dd>
-
               <dt class="col-3">Place:</dt>
               <dd class="col-9">{service.city}</dd>
             </Row>
