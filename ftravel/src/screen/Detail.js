@@ -13,29 +13,32 @@ const Detail = () => {
       .then((res) => res.json())
       .then((data) => {
         setService(data);
-        setType(data.type);
+        setType(data.type)
       });
-  });
+  }, []);
 
-  const handleMinus = () => {
-    setValue((prevValue) => Math.max(prevValue - 1, 0));
-  };
+  // useEffect(() => {
+  //   fetch(`http://localhost:9999/type`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setType(data);
+  //     });
+  // });
 
-  const handlePlusClick = () => {
-    setValue((prevValue) => Math.min(prevValue + 1, service.slot));
-  };
+  var startDateString = service.startDate;
 
-  const handleInputChange = (event) => {
-    const inputValue = parseInt(event.target.value, 10);
-    if (!isNaN(inputValue)) {
-      setValue(Math.min(inputValue, service.slot));
-    }
-  };
+  var startDate = new Date(startDateString);
+
+  var day = startDate.getDate();
+  var month = startDate.getMonth() + 1;
+  var year = startDate.getFullYear();
+
+  var formattedDate = day + "/" + month + "/" + year;
 
   return (
     <Container className="py-5">
       <Row className="gx-5">
-        <Col
+        {/* <Col
           lg={6}
           className="border rounded-4 p-0 d-flex justify-content-center"
         >
@@ -51,6 +54,13 @@ const Detail = () => {
               src="https://bizweb.dktcdn.net/100/438/408/files/hinh-anh-meo-hai-huoc-yodyvn2.jpg?v=1694069335855"
             />
           </a>
+        </Col> */}
+        <Col lg={6}>
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100vh", margin: "auto" }}
+            class="rounded-4 fit"
+            src={service.thumbnail}
+          />
         </Col>
         <Col lg={6}>
           <div className="ps-lg-3">
@@ -70,58 +80,40 @@ const Detail = () => {
             </div>
 
             <div class="mb-3">
-              <span class="h5">{service.price}</span>
+              <span class="h5">{service.price}$</span>
             </div>
 
             <p>{service.description}</p>
 
-            <Row>
-              <dt class="col-3">Type:</dt>
-              {/* <dd class="col-9">{service.type.serviceName}</dd> */}
-              <td>muahaha</td>
-              <dt class="col-3">Group size:</dt>
-              <dd class="col-9">
-                <span className="text-muted">{service.slot}</span>
-              </dd>
-              <dt class="col-3">Place:</dt>
-              <dd class="col-9">{service.city}</dd>
-            </Row>
-
+            <div className="col-3">
+              <Row>
+                <dt>Type:</dt>
+                {/* <td style={{ marginLeft: "5px" }}>{service.type}</td> */}
+                <td style={{ marginLeft: "5px" }}>Tour</td>
+              </Row>
+              <Row>
+                <dt>Group size:</dt>
+                <dd>
+                  <span className="text-muted" style={{ marginLeft: "5px" }}>{service.slot}</span>
+                </dd>
+              </Row>
+              <Row>
+                <dt>Region:</dt>
+                <dd style={{ marginLeft: "5px" }}>{service.region}</dd>
+              </Row>
+              <Row>
+                <dt>Place:</dt>
+                <dd style={{ marginLeft: "5px" }}>{service.city}</dd>
+              </Row>
+            </div>
             <hr />
 
             <Row className="mb-4">
               <div className="col-md-4 col-6">
                 <label className="mb-2 d-block">
-                  Start date:<span className="mx-1">{service.startDate}</span>
+                  Start date:<span className="mx-1">{formattedDate}</span>
                 </label>
               </div>
-              {/* <div class="col-md-4 col-6 mb-3">
-                <label class="mb-2 d-block">Slot</label>
-                <div class="input-group mb-3" style={{ width: "170px" }}>
-                  <div
-                    class="btn btn-white border border-secondary px-3"
-                    type="button"
-                    data-mdb-ripple-color="dark"
-                    onClick={handleMinus}
-                  >
-                    <i class="bi bi-dash"></i>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control text-center border border-secondary"
-                    onChange={handleInputChange}
-                    value={service.slot}
-                  />
-                  <div
-                    class="btn btn-white border border-secondary px-3"
-                    type="button"
-                    data-mdb-ripple-color="dark"
-                    onClick={handlePlusClick}
-                  >
-                    <i class="bi bi-plus"></i>
-                  </div>
-                </div>
-              </div> */}
             </Row>
             <Row style={{ marginLeft: "1px" }}>
               <a href="#" className="btn btn-warning shadow-0 mr-2">

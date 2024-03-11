@@ -19,6 +19,7 @@ const viewCart = async (req, res) => {
     try {
         const listCart = await cartDAO.viewCart(req.params.userID)
         res.status(200).json(listCart)
+        console.log(listCart);
     } catch (error) {
         res.status(500).json({
             message: error.toString()

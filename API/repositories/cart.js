@@ -11,10 +11,9 @@ const addToCart = async ({ userID, serviceID }) => {
 
 const viewCart = async (userID) => {
   try {
-    const populatedCart = await Carts.findOne({ userID: userID })
+    const populatedCart = await Carts.find({ userID: userID })
       .populate("serviceID")
       .exec();
-
     return populatedCart;
   } catch (error) {
     console.error(error.toString());

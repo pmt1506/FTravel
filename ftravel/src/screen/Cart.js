@@ -26,9 +26,19 @@ const Cart = () => {
       });
   }, []);
 
-  const handleDelete = async (serviceId) => {
+  var startDateString = service.startDate;
+
+  var startDate = new Date(startDateString);
+
+  var day = startDate.getDate();
+  var month = startDate.getMonth() + 1;
+  var year = startDate.getFullYear();
+
+  var formattedDate = day + "/" + month + "/" + year;
+
+  const handleDelete = async (serviceID) => {
     try {
-      const response = await fetch(`http://localhost:9999/${serviceID}`, {
+      const response = await fetch(`http://localhost:9999/cart/${serviceID}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -71,12 +81,12 @@ const Cart = () => {
           <Row style={{ padding: "15px", backgroundColor: "#fff" }}>
             <Table className="table-striped table-bordered table-responsive mt-5">
               <thead>
-                <th className="col-md-1">Type</th>
-                <th className="col-md-4">Title</th>
-                <th className="col-md-3">Start date</th>
-                <th className="col-md-1">Slot</th>
-                <th className="col-md-1">Price</th>
-                <th className="col-md-1">Action</th>
+                <td className="col-md-1">Type</td>
+                <td className="col-md-4">Title</td>
+                <td className="col-md-3">Start date</td>
+                <td className="col-md-1">Slot</td>
+                <td className="col-md-1">Price</td>
+                <td className="col-md-1">Action</td>
               </thead>
               <tbody>
                 <tr key={service._id}>
@@ -85,7 +95,7 @@ const Cart = () => {
                   <td>
                     <Link to={"/detail/" + service._id}>{service.title}</Link>
                   </td>
-                  <td>{service.startDate}</td>
+                  <td>{formattedDate}</td>
                   <td>{service.slot}</td>
                   <td>{service.price}</td>
                   <td>
