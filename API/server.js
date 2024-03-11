@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: "http://localhost:3000", // Only allow requests from this origin
     methods: "GET,HEAD, POST, PATCH, DELETE", // Only allow specific HTTP methods
-    preflightContinue: false,
+    // preflightContinue: true,
     credentials: true,
   })
 );

@@ -87,6 +87,7 @@ const getAccountByEmail = async (req, res) => {};
 // find account by email and password
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
   try {
     const foundAccount = await accountDAO.findAccountByEmail(email);
     if (!foundAccount) {
@@ -100,7 +101,7 @@ const getAccountByEmailAndPass = async (req, res) => {
       { userId: foundAccount._id },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: "30s",
+        expiresIn: "1hr",
       }
     );
     const refreshToken = jwt.sign(

@@ -16,15 +16,16 @@ function LoginModal({ show, setShowLogin }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email, password: password }),
       });
 
       if (response.ok) {
-        console.log(response);
-        console.log("Login successful!");
+        const data = await response.json();
+        alert(data.message);
         // Additional logic to handle successful login, such as setting user session
       } else {
-        console.error("Login failed. Please check your credentials.");
+        const data = await response.json();
+        alert(data.error);
         // Additional logic to handle login failure, such as displaying an error message
       }
     } catch (error) {

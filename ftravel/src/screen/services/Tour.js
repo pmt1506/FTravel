@@ -31,14 +31,10 @@ const Tour = () => {
         const data = await response.json();
         setTourList(data.servicesByType);
         const totalItems = data.total;
-        console.log("Total tour list item count:", totalItems);
 
         const newTotalPages = Math.ceil(totalItems / pageSize);
 
         setTotalPages(newTotalPages);
-        console.log("Total page: ", newTotalPages);
-
-        console.log("Data: ", data);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
