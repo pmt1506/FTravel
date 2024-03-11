@@ -17,11 +17,13 @@ function LoginModal({ show, setShowLogin }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email: email, password: password }),
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
+        localStorage.setItem("userID", data.data._id);
         // Additional logic to handle successful login, such as setting user session
       } else {
         const data = await response.json();
