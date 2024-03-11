@@ -11,6 +11,7 @@ const createAccount = async ({ userName, email, password, phoneNumber }) => {
       password,
       accountRole: "65e2ea90d9e75d25d6a2b09a",
       status: true,
+      avatarIMG: "https://i.ibb.co/19p9565/avt-FTravel.jpg",
     });
     return newAccount;
   } catch (error) {

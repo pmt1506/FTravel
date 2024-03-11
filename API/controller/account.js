@@ -2,7 +2,6 @@ import { accountDAO } from "../repositories/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
-
 // get all account
 const getAllAccount = async (req, res) => {
   const listAccount = await accountDAO.getAllAccount();
@@ -188,7 +187,7 @@ const createAccount = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res.status(200).json({ message: "create success", rs });
+    res.status(200).json({ message: "create success,Please login " });
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
@@ -205,6 +204,7 @@ const oauth2googleAuthen = async (req, res) => {
     const foundAccount = await accountDAO.findAccountByEmail(
       oauth2Result._doc.email
     );
+    // delete req.sess
     if (!foundAccount) {
       return res.status(404).json({ error: "User not found in the database" });
     }

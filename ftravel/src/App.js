@@ -1,7 +1,8 @@
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Header from "./components/Header";
-
+import { ToastContainer } from "react-toastify";
 import Detail from "./screen/commonScreen/Detail";
 
 // import NavbarComponent from "./components/Navbar";
@@ -32,7 +33,18 @@ function App() {
         <Route path="/dashboard/user" element={<Users />} />
         <Route path="/dashboard/report" element={<Reports />} />
       </Routes>
-      {/* <Footer /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </BrowserRouter>
   );
 }
