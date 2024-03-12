@@ -10,6 +10,7 @@ import {
   Table,
 } from "react-bootstrap";
 import SideBar from "../components/Sidebar";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cart = () => {
   const { userID } = useParams();
@@ -39,9 +40,9 @@ const Cart = () => {
       });
 
       if (response.ok) {
-        console.log("Service deleted successfully");
+        toast.success("Service deleted successfully");
       } else {
-        console.error("Failed to delete service");
+        toast.error("Failed to delete service");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -156,6 +157,7 @@ const Cart = () => {
                 </tr>
               </tfoot>
             </Table>
+            <ToastContainer />
           </Row>
         </Col>
       </Row>
