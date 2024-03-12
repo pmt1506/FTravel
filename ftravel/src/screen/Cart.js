@@ -20,14 +20,20 @@ const Cart = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:9999/cart/${userID}`);
+      const data = await response.json();
+      setCart(data);
+      const serviceIDs = data.map((cartItem) => cartItem.serviceID).flat();
+      setService(serviceIDs);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:9999/cart/${userID}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCart(data);
-        const serviceIDs = data.map((cartItem) => cartItem.serviceID).flat();
-        setService(serviceIDs)
-      });
+    fetchData();
   }, [userID]);
 
   const handleDelete = async (serviceID) => {
@@ -41,6 +47,7 @@ const Cart = () => {
 
       if (response.ok) {
         toast.success("Service deleted successfully");
+        fetchData();
       } else {
         toast.error("Failed to delete service");
       }
@@ -58,7 +65,6 @@ const Cart = () => {
 
   var startDateStrings = service.map(s => s.startDate);
 
-  // Chuyển đổi mỗi chuỗi ngày thành đối tượng Date và lưu vào mảng mới
   var formattedDates = startDateStrings.map(startDateString => {
     var startDate = new Date(startDateString);
     var day = startDate.getDate();
@@ -142,7 +148,6 @@ const Cart = () => {
               <tfoot>
                 <tr>
                   <td colSpan="6" className="text-center">
-                    {/* Hiển thị nút điều hướng giữa các trang */}
                     {Array.from({ length: totalPages }, (_, index) => (
                       <Button
                         key={index}
