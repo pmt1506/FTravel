@@ -16,25 +16,18 @@ const Cart = () => {
   const { serviceID } = useParams();
   const [cart, setCart] = useState([]);
   const [service, setService] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     fetch(`http://localhost:9999/cart/${userID}`)
       .then((res) => res.json())
       .then((data) => {
         setCart(data);
-        setService(data.serviceID);
+        const serviceIDs = data.map((cartItem) => cartItem.serviceID).flat();
+        setService(serviceIDs)
       });
-  }, []);
-
-  var startDateString = service.startDate;
-
-  var startDate = new Date(startDateString);
-
-  var day = startDate.getDate();
-  var month = startDate.getMonth() + 1;
-  var year = startDate.getFullYear();
-
-  var formattedDate = day + "/" + month + "/" + year;
+  }, [userID]);
 
   const handleDelete = async (serviceID) => {
     try {
@@ -54,6 +47,13 @@ const Cart = () => {
       console.error("An error occurred:", error);
     }
   };
+
+  const totalPages = Math.ceil(service.length / pageSize);
+
+  // Lấy dữ liệu cho trang hiện tại
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentServicePage = service.slice(startIndex, endIndex);
 
   return (
     <Container fluid>
@@ -89,40 +89,61 @@ const Cart = () => {
                 <td className="col-md-1">Action</td>
               </thead>
               <tbody>
-                <tr key={service._id}>
-                  {/* <td>{service.type.serviceName}</td> */}
-                  <td>1</td>
-                  <td>
-                    <Link to={"/detail/" + service._id}>{service.title}</Link>
-                  </td>
-                  <td>{formattedDate}</td>
-                  <td>{service.slot}</td>
-                  <td>{service.price}</td>
-                  <td>
-                    <Button
-                      variant="danger"
-                      style={{
-                        width: "80px",
-                        fontSize: "14px",
-                        padding: "2px",
-                      }}
-                      onClick={() => handleDelete(service._id)}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="primary"
-                      style={{
-                        width: "80px",
-                        fontSize: "14px",
-                        padding: "2px",
-                      }}
-                    >
-                      Book now
-                    </Button>
+                {
+                  currentServicePage.map((s) => (
+                    <tr key={s._id}>
+                      {/* <td>{service.type.serviceName}</td> */}
+                      <td>1</td>
+                      <td>
+                        <Link to={"/detail/" + s._id}>{s.title}</Link>
+                      </td>
+                      <td>{s.startDate}</td>
+                      <td>{s.slot}</td>
+                      <td>{s.price}</td>
+                      <td>
+                        <Button
+                          variant="danger"
+                          style={{
+                            width: "80px",
+                            fontSize: "14px",
+                            padding: "2px",
+                          }}
+                          onClick={() => handleDelete(s._id)}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          variant="primary"
+                          style={{
+                            width: "80px",
+                            fontSize: "14px",
+                            padding: "2px",
+                          }}
+                        >
+                          Book now
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    {/* Hiển thị nút điều hướng giữa các trang */}
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <Button
+                        key={index}
+                        variant={currentPage === index + 1 ? "primary" : "outline-primary"}
+                        className="mx-1"
+                        onClick={() => setCurrentPage(index + 1)}
+                      >
+                        {index + 1}
+                      </Button>
+                    ))}
                   </td>
                 </tr>
-              </tbody>
+              </tfoot>
             </Table>
           </Row>
         </Col>
@@ -132,3 +153,12 @@ const Cart = () => {
 };
 
 export default Cart;
+// var startDateString = service.map(s => s.startDate);
+
+// var startDate = new Date(startDateString);
+
+// var day = startDate.getDate();
+// var month = startDate.getMonth() + 1;
+// var year = startDate.getFullYear();
+
+// var formattedDate = day + "/" + month + "/" + year;
