@@ -55,6 +55,17 @@ const Cart = () => {
   const endIndex = startIndex + pageSize;
   const currentServicePage = service.slice(startIndex, endIndex);
 
+  var startDateStrings = service.map(s => s.startDate);
+
+  // Chuyển đổi mỗi chuỗi ngày thành đối tượng Date và lưu vào mảng mới
+  var formattedDates = startDateStrings.map(startDateString => {
+    var startDate = new Date(startDateString);
+    var day = startDate.getDate();
+    var month = startDate.getMonth() + 1;
+    var year = startDate.getFullYear();
+    return day + "/" + month + "/" + year;
+  });
+
   return (
     <Container fluid>
       <Row>
@@ -90,14 +101,14 @@ const Cart = () => {
               </thead>
               <tbody>
                 {
-                  currentServicePage.map((s) => (
+                  currentServicePage.map((s, index) => (
                     <tr key={s._id}>
                       {/* <td>{service.type.serviceName}</td> */}
                       <td>1</td>
                       <td>
                         <Link to={"/detail/" + s._id}>{s.title}</Link>
                       </td>
-                      <td>{s.startDate}</td>
+                      <td>{formattedDates[index]}</td>
                       <td>{s.slot}</td>
                       <td>{s.price}</td>
                       <td>
@@ -153,12 +164,4 @@ const Cart = () => {
 };
 
 export default Cart;
-// var startDateString = service.map(s => s.startDate);
 
-// var startDate = new Date(startDateString);
-
-// var day = startDate.getDate();
-// var month = startDate.getMonth() + 1;
-// var year = startDate.getFullYear();
-
-// var formattedDate = day + "/" + month + "/" + year;
