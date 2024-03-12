@@ -2,7 +2,6 @@ import { accountDAO } from "../repositories/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
-
 // get all account
 const getAllAccount = async (req, res) => {
   const listAccount = await accountDAO.getAllAccount();
@@ -87,6 +86,7 @@ const getAccountByEmail = async (req, res) => {};
 // find account by email and password
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
   try {
     const foundAccount = await accountDAO.findAccountByEmail(email);
     if (!foundAccount) {
@@ -100,7 +100,7 @@ const getAccountByEmailAndPass = async (req, res) => {
       { userId: foundAccount._id },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: "30s",
+        expiresIn: "1hr",
       }
     );
     const refreshToken = jwt.sign(
@@ -112,11 +112,23 @@ const getAccountByEmailAndPass = async (req, res) => {
     );
     const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
     delete filterAcc.password;
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
     return res.status(200).json({
       message: "Login success, welcome home",
       data: filterAcc,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -175,7 +187,7 @@ const createAccount = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res.status(200).json({ message: "create success", rs });
+    res.status(200).json({ message: "create success,Please login " });
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
@@ -183,16 +195,26 @@ const createAccount = async (req, res) => {
   }
 };
 const oauth2googleAuthen = async (req, res) => {
+  // console.log(req.user._doc);
+  // console.log("haha");
   try {
     const oauth2Result = await req.user;
+    // console.log("haha2");
+
     // console.log(oauth2Result._doc.email);
     if (oauth2Result && oauth2Result.error) {
       return res.status(400).json({ error: oauth2Result.error });
     }
+    // console.log("haha3");
+
     const foundAccount = await accountDAO.findAccountByEmail(
       oauth2Result._doc.email
     );
+    // console.log("haha4");
+
+    // delete req.sess
     if (!foundAccount) {
+      // const newAcc= await accountDAO.createAccount(req.user.displayname)
       return res.status(404).json({ error: "User not found in the database" });
     }
     const accessToken = jwt.sign(
@@ -209,23 +231,21 @@ const oauth2googleAuthen = async (req, res) => {
         expiresIn: "1w",
       }
     );
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true,
-    //   path: "/",
-    //   expires: new Date(Date.now() + 60 * 60 * 1000),
-    //   sameSite: "lax",
-    //   secure: false,
-    // });
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   path: "/",
-    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    //   sameSite: "lax",
-    //   secure: false,
-    // });
-    return res
-      .status(200)
-      .json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    return res.redirect("http://localhost:3000");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -270,27 +290,25 @@ const googleLogin = async (req, res) => {
         const { createdAt, updatedAt, password, ...filteredUser } =
           existingUser._doc;
 
-        // res.cookie("accessToken", accessToken, {
-        //   httpOnly: true,
-        //   path: "/",
-        //   expires: new Date(Date.now() + 60 * 60 * 1000),
-        //   sameSite: "lax",
-        //   secure: false,
-        // });
+        res.cookie("accessToken", accessToken, {
+          httpOnly: true,
+          path: "/",
+          expires: new Date(Date.now() + 60 * 60 * 1000),
+          sameSite: "lax",
+          secure: false,
+        });
 
-        // res.cookie("refreshToken", refreshToken, {
-        //   httpOnly: true,
-        //   path: "/",
-        //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        //   sameSite: "lax",
-        //   secure: false,
-        // });
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          path: "/",
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          sameSite: "lax",
+          secure: false,
+        });
 
         return res.status(200).json({
           message: "Login successfully! Welcome back",
           data: filteredUser,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
         });
       } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -300,13 +318,25 @@ const googleLogin = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const generateRandomPassword = () => {
+  // Generate a random string with specified length
+  const length = 10;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let newPassword = "";
+  for (let i = 0; i < length; i++) {
+    newPassword += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return newPassword;
+};
+
 const logOut = async (req, res) => {
   try {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
 
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("accessToken");
     return res.status(200).json({ message: "Logged Out" });
   } catch (error) {
     return res.status(500).json({ message: error.message });

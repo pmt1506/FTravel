@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
+import DefaultTemplate from "../../template/DefaultTemplate";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
@@ -30,14 +31,10 @@ const Tour = () => {
         const data = await response.json();
         setTourList(data.servicesByType);
         const totalItems = data.total;
-        console.log("Total tour list item count:", totalItems);
 
         const newTotalPages = Math.ceil(totalItems / pageSize);
 
         setTotalPages(newTotalPages);
-        console.log("Total page: ", newTotalPages);
-
-        console.log("Data: ", data);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -51,7 +48,7 @@ const Tour = () => {
   };
 
   return (
-    <>
+    <DefaultTemplate>
       <TourBanner />
       <div className="container mt-4">
         <div className="row">
@@ -239,7 +236,7 @@ const Tour = () => {
           </div>
         </div>
       </div>
-    </>
+    </DefaultTemplate>
   );
 };
 

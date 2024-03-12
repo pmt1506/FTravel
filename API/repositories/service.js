@@ -114,7 +114,7 @@ const getServiceByName = async (serviceName) => {
   }
 };
 
-//Get Service by vendor 
+//Get Service by vendor
 const getServiceByVendor = async (accountID, page, pageSize) => {
   try {
     const skip = (page - 1) * pageSize;
@@ -141,7 +141,10 @@ const getServiceByVendor = async (accountID, page, pageSize) => {
 // Get services count by vendor
 const getServiceCountByVedor = async (accountID) => {
   try {
-    const allServices = await Services.find({ status: true, accountID: accountID })
+    const allServices = await Services.find({
+      status: true,
+      accountID: accountID,
+    })
       .populate("accountID")
       .countDocuments();
     return allServices;

@@ -17,7 +17,14 @@ const app = express();
 app.use(express.json());
 
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Only allow requests from this origin
+    methods: "GET,HEAD, POST, PATCH, DELETE", // Only allow specific HTTP methods
+    // preflightContinue: true,
+    credentials: true,
+  })
+);
 dotenv.config();
 //swagger config
 const options = {
@@ -40,16 +47,7 @@ app.use("/cart", cartRouter);
 
 app.use(`/cart`, cartRouter);
 //config express session
-// app.use(
-  // session({
-  //   secret: process.env.secret_key,
-  //   resave: false,
-  //   saveUninitialized: true,
-  //   cookie: { secure: false },
-  // })
-// );
-// app.use(passport.initialize());
-// app.use(passport.session());
+
 const PORT = process.env.PORT;
 
 app.get("/", (req, res) => {

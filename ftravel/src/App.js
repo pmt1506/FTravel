@@ -1,12 +1,18 @@
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Header from "./components/Header";
+import { ToastContainer } from "react-toastify";
+import Detail from "./screen/commonScreen/Detail";
+
+// import NavbarComponent from "./components/Navbar";
+import Home from "./screen/commonScreen/Home";
+import About from "./screen/commonScreen/About";
+import Cart from "./screen//commonScreen/Cart";
 import Footer from "./components/Footer";
 import NavbarComponent from "./components/Navbar";
 import Cart from "./screen/Cart";
 import Detail from "./screen/Detail";
-import Home from "./screen/Home";
-import About from "./screen/About";
 import AdminServices from "./screen/dashboard/AdminServices";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
@@ -18,17 +24,20 @@ import UserDetail from "./screen/dashboard/UserDetail";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
-      {/* <NavbarComponent/> */}
       <Routes>
         {/* Customer*/}
         <Route path="/cart/:userID" element={<Cart />} />
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="" element />
+        <Route path="" element />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        {/* Services */}
         <Route path="/cart" element={<Cart />} />
         <Route path="/tour" element={<Tour />} />
-        <Route path="/vendor-list" element={<VendorList/>} />
+        <Route path="" element />
 
         {/* For Admin - sua path cho phu hop */}
         <Route path="/admin/service" element={<AdminServices />} />
@@ -39,7 +48,18 @@ function App() {
         {/* For Vendor - sua path cho phu hop */}
         <Route path="/vendor/service" element={<VendorServices />} />
       </Routes>
-      {/* <Footer /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </BrowserRouter>
   );
 }

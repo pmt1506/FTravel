@@ -1,13 +1,17 @@
 import { Row, Container, Col, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import logo from "../img/logo.png";
+import logo from "../../img/logo.png";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 import { useState } from "react";
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [showReg, setShowReg] = useState(false);
 
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
+  const handleCloseReg = () => setShowReg(false);
+  const handleShowReg = () => setShowReg(true);
   return (
     <Container className="header-app">
       <Row>
@@ -30,17 +34,20 @@ const Header = () => {
             <Button
               variant="outline-primary"
               className="mx-2"
-              onClick={handleShow}
+              onClick={handleShowLogin}
             >
               Login
             </Button>
           </NavLink>
-          <NavLink to={"/register"} className="align-items-center">
-            <Button variant="outline-success">Register</Button>
+          <NavLink className="align-items-center">
+            <Button variant="outline-success" onClick={handleShowReg}>
+              Register
+            </Button>
           </NavLink>
         </Col>
       </Row>
-      <LoginModal show={showLogin} setShow={setShowLogin} />
+      <LoginModal show={showLogin} setShowLogin={setShowLogin} />
+      <RegisterModal show={showReg} setShowReg={setShowReg} />
     </Container>
   );
 };

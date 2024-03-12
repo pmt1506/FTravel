@@ -89,9 +89,12 @@ accountRouter.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
+    // failureRedirect: "http://localhost:3000/",
+    // successRedirect: "http://localhost:3000/",
   }),
   accountController.oauth2googleAuthen
 );
+accountRouter.post("/googleLogin", accountController.googleLogin);
 // refresh accesstoken
 accountRouter.post("/refresh", accountController.refreshTokenHa);
 
