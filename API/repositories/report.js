@@ -32,7 +32,12 @@ const editReport = async (id, status) => {
 
 const viewAllReport = async () => {
   try {
-    return await Reports.find().exec();
+    const report = await Reports.find()
+    .populate("userID", "username")
+    .populate("serviceID", "title")
+    .exec();
+
+    return report;
   } catch (error) {
     throw new Error(error.toString());
   }
