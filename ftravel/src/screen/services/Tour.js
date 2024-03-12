@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
 import { Dropdown } from "react-bootstrap";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
 
   const tourListID = "65e2e9d2d9e75d25d6a2b092";
   const pageSize = 8;
@@ -21,7 +20,7 @@ const Tour = () => {
         const response = await fetch(
           `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
             sortBy.field || ""
-          }&order=${sortBy.order}`,
+          }&order=${sortBy.order}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
           {
             method: "GET",
             headers: {
@@ -51,7 +50,7 @@ const Tour = () => {
     };
 
     fetchData();
-  }, [currentPage, sortBy]);
+  }, [currentPage, sortBy, minPrice, maxPrice]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -60,6 +59,12 @@ const Tour = () => {
     // Toggle between ascending (1) and descending (-1) order
     const newOrder = sortBy.field === field ? -sortBy.order : 1;
     setSortBy({ field, order: newOrder });
+  };
+
+  // Filter price
+  const handlePriceFilterChange = (min, max) => {
+    setMinPrice(min);
+    setMaxPrice(max);
   };
 
   return (
@@ -126,11 +131,36 @@ const Tour = () => {
           <div className="col">
             <h2 className="mb-3">Featured Tours</h2>
             <div className="row mb-3">
-              <div className="col-md-6">
+              <div className="col-md-6 d-flex">
                 {/* Filter slide */}
-
-              </div>
-              <div className="col-md-6 ml-auto">
+                <Dropdown>
+                  <Dropdown.Toggle variant="secondary" id="priceFilterDropdown">
+                    Filter By Price
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                  <Dropdown.Item
+                      onClick={() => handlePriceFilterChange(0, 1000)}
+                    >
+                      Default
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handlePriceFilterChange(0, 300)}
+                    >
+                      0 - 300
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handlePriceFilterChange(301, 500)}
+                    >
+                      301 - 500
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handlePriceFilterChange(501, 700)}
+                    >
+                      501 - 700
+                    </Dropdown.Item>
+                    {/* Add more options as needed */}
+                  </Dropdown.Menu>
+                </Dropdown>
                 {/* React Bootstrap dropdown for sorting */}
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="sortDropdown">

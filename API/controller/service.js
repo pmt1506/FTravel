@@ -59,7 +59,7 @@ const createService = async (req, res) => {
 
 const getAllServiceByType = async (req, res) => {
   try {
-    const { type, page, pageSize, sortBy } = req.query;
+    const { type, page, pageSize, sortBy, minPrice, maxPrice } = req.query;
 
     if (!type) {
       return res.status(400).json({
@@ -77,12 +77,14 @@ const getAllServiceByType = async (req, res) => {
       });
     }
 
-    // Filter services by type with pagination and sorting
+    // Filter services by type with pagination, sorting, and price range
     const servicesByType = await serviceDAO.getAllServiceByType(
       type,
       validatedPage,
       validatedPageSize,
-      sortBy
+      sortBy,
+      parseInt(minPrice, 10),
+      parseInt(maxPrice, 10)
     );
 
     // Get service count by type
@@ -102,6 +104,7 @@ const getAllServiceByType = async (req, res) => {
     });
   }
 };
+
 
 const getAllServiceAdmin = async (req, res) => {
   try {
