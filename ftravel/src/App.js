@@ -9,15 +9,13 @@ import Detail from "./screen/commonScreen/Detail";
 import Home from "./screen/commonScreen/Home";
 import About from "./screen/commonScreen/About";
 import Cart from "./screen//commonScreen/Cart";
-import Footer from "./components/Footer";
-import NavbarComponent from "./components/Navbar";
-import Cart from "./screen/Cart";
-import Detail from "./screen/Detail";
+import Footer from "./components/common/Footer";
+import NavbarComponent from "./components/common/Navbar";
 import AdminServices from "./screen/dashboard/AdminServices";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
-import VendorList from "./screen/VendorList";
+import VendorList from "./screen/commonScreen/VendorList";
 import VendorServices from "./screen/dashboard/vendor/VendorServices";
 import UserDetail from "./screen/dashboard/UserDetail";
 
@@ -30,14 +28,8 @@ function App() {
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="" element />
-        <Route path="" element />
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        {/* Services */}
-        <Route path="/cart" element={<Cart />} />
         <Route path="/tour" element={<Tour />} />
-        <Route path="" element />
+        <Route path="/vendor-list" element={<VendorList/>}/>
 
         {/* For Admin - sua path cho phu hop */}
         <Route path="/admin/service" element={<AdminServices />} />

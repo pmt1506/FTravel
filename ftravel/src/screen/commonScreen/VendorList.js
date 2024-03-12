@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import '../css/VendorList.css'
+import '../../css/VendorList.css'
+import DefaultTemplate from "../../template/DefaultTemplate";
 
 const VendorList = () => {
     const [vendors, setVendors] = useState([]);
@@ -25,8 +26,10 @@ const VendorList = () => {
         fetchVendors();
     }, []);
     return (
+        <DefaultTemplate>
+
         <Container>
-            <h1>Những nhà cung cấp tốt nhất tại FTravel</h1>
+            <h2 style={{paddingTop: "20px", paddingBottom: "20px"}}>The best vendors at FTravel</h2>
 
             <Row className="item">
             {vendors.map(vendor => (
@@ -40,13 +43,14 @@ const VendorList = () => {
                             <Card.Text className="role">
                                Address: {vendor.address}
                             </Card.Text>
-                            <Button className="primary">Xem lí lịch</Button>
+                            <Button className="primary">View detail</Button>
                         </Card.Body>
                     </Card>
                 </Col>
                ))} 
             </Row>
         </Container>
+        </DefaultTemplate>
     );
 };
 
