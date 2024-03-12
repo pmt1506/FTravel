@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-
 function RegisterModal({ show, setShowReg }) {
   const handleCloseReg = () => setShowReg(false);
   const [email, setEmail] = useState("");
@@ -30,11 +29,11 @@ function RegisterModal({ show, setShowReg }) {
         }),
         credentials: "include",
       });
-
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
-        // localStorage.setItem("userID", data.rs._id);
+        localStorage.setItem("userID", data.rs._id);
+
         // Additional logic to handle successful login, such as setting user session
       } else {
         const data = await response.json();
@@ -48,6 +47,8 @@ function RegisterModal({ show, setShowReg }) {
 
     handleCloseReg();
   };
+  const useID = localStorage.getItem("userID");
+  fetch("");
 
   return (
     <Modal show={show}>
@@ -122,13 +123,12 @@ function RegisterModal({ show, setShowReg }) {
           {/* Add password input field here */}
         </Form>
         <hr />
+
         <Row className="justify-content-center">
-          <div>or register with google</div>
-        </Row>
-        <Row className="justify-content-center">
-          {" "}
           <div>
-            <Button className="btn-btn-success">Google</Button>
+            <Button className="btn-btn-success" type="submit">
+              Register
+            </Button>
           </div>
         </Row>
       </Modal.Body>
@@ -136,9 +136,6 @@ function RegisterModal({ show, setShowReg }) {
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseReg}>
           Close
-        </Button>
-        <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-          Log In
         </Button>
       </Modal.Footer>
     </Modal>

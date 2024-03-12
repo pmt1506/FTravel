@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import Cookie from "js-cookie";
+import { GoogleLogin } from "@react-oauth/google";
 function LoginModal({ show, setShowLogin }) {
   const handleCloseLogin = () => setShowLogin(false);
   const [email, setEmail] = useState("");
@@ -24,6 +26,8 @@ function LoginModal({ show, setShowLogin }) {
       if (response.ok) {
         const data = await response.json();
         toast.success(data.message);
+        const token = Cookie.get("accessToken");
+        console.log(token);
         // alert(data.message);
         localStorage.setItem("userID", data.data._id);
         // Additional logic to handle successful login, such as setting user session
@@ -39,9 +43,12 @@ function LoginModal({ show, setShowLogin }) {
 
     handleCloseLogin();
   };
-  const googleLogin = async () => {
+  const googleLogin = async (token) => {
     try {
-      const response = await fetch("http://localhost:9999/account/auth/google");
+      const response = await fetch(
+        "http://localhost:9999/account/googleLogin",
+        { method: "POST" }
+      );
       if (!response.ok) {
         const data = await response.json();
         toast.error(data.message);
@@ -53,6 +60,7 @@ function LoginModal({ show, setShowLogin }) {
       toast.error(error);
     }
   };
+
   return (
     <Modal show={show}>
       <Modal.Header>
@@ -96,8 +104,20 @@ function LoginModal({ show, setShowLogin }) {
           <div className="justify-content-center">or login with google</div>
         </Row>
         <Row className="justify-content-center">
-          <Button variant="danger" onClick={googleLogin}>
-            google
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              // console.log(credentialResponse?.credential);
+              googleLogin(credentialResponse?.credential);
+            }}
+            onError={() => {
+              toast.error("Something went wrong");
+            }}
+            text="Login with google"
+            size={"large"}
+            width={"395px"}
+          />
+          <Button variant="danger">
+            <Link to={"http://localhost:9999/account/auth/google"}>google</Link>
           </Button>
         </Row>
       </Modal.Body>

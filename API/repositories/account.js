@@ -1,5 +1,6 @@
 import Accounts from "../models/account.js";
 // import { accountDAO } from "./index.js";
+import bcrypt from "bcrypt";
 
 //create new account
 const createAccount = async ({ userName, email, password, phoneNumber }) => {
@@ -29,7 +30,36 @@ const findAccountByEmail = async (email) => {
     throw new Error(error.message);
   }
 };
-
+const generateRandomPassword = () => {
+  // Generate a random string with specified length
+  const length = 10;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let newPassword = "";
+  for (let i = 0; i < length; i++) {
+    newPassword += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return newPassword;
+};
+const createAccountFromGoogle = async (googleData) => {
+  console.log(googleData.displayname);
+  try {
+    const newpass = generateRandomPassword();
+    const salt = bcrypt.genSaltSync(parseInt(10));
+    const hashedPassword = bcrypt.hashSync(newpass, salt);
+    const newAcc = await createAccount({
+      userName: googleData.displayname,
+      email: googleData.email,
+      phoneNumber: "999999 999",
+      password: hashedPassword,
+    });
+    return newAcc;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 //Find account by email and password
 const findAccountByEmailAndPassword = async (email, password) => {
   try {
@@ -126,4 +156,5 @@ export default {
   verifyAccount,
   getAccountInfoByID,
   getAllAccount,
+  createAccountFromGoogle,
 };

@@ -195,17 +195,26 @@ const createAccount = async (req, res) => {
   }
 };
 const oauth2googleAuthen = async (req, res) => {
+  // console.log(req.user._doc);
+  // console.log("haha");
   try {
     const oauth2Result = await req.user;
+    // console.log("haha2");
+
     // console.log(oauth2Result._doc.email);
     if (oauth2Result && oauth2Result.error) {
       return res.status(400).json({ error: oauth2Result.error });
     }
+    // console.log("haha3");
+
     const foundAccount = await accountDAO.findAccountByEmail(
       oauth2Result._doc.email
     );
+    // console.log("haha4");
+
     // delete req.sess
     if (!foundAccount) {
+      // const newAcc= await accountDAO.createAccount(req.user.displayname)
       return res.status(404).json({ error: "User not found in the database" });
     }
     const accessToken = jwt.sign(
