@@ -11,23 +11,36 @@ const Tour = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
 
+  const [uniqueRegions, setUniqueRegions] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [filteredCities, setFilteredCities] = useState([]);
+
   const tourListID = "65e2e9d2d9e75d25d6a2b092";
   const pageSize = 8;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
-            sortBy.field || ""
-          }&order=${sortBy.order}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        let apiUrl = `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
+          sortBy.field || ""
+        }&order=${sortBy.order}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+
+        // Append region and city to the API URL based on selection
+        if (selectedRegion) {
+          apiUrl += `&region=${selectedRegion}`;
+        }
+
+        if (selectedCity) {
+          apiUrl += `&city=${selectedCity}`;
+        }
+
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -43,14 +56,47 @@ const Tour = () => {
         setTotalPages(newTotalPages);
         console.log("Total page: ", newTotalPages);
 
-        console.log("Data: ", data);
+        console.log("Data: ", data.servicesByType);
+
+        const regions = [
+          ...new Set(data.servicesByType.map((tour) => tour.region)),
+        ];
+        setUniqueRegions(regions);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
     };
 
     fetchData();
-  }, [currentPage, sortBy, minPrice, maxPrice]);
+  }, [currentPage, sortBy, minPrice, maxPrice, selectedRegion, selectedCity]);
+
+  // Function to filter cities based on the selected region
+  const filterCitiesByRegion = (region) => {
+    if (selectedRegion === region) {
+      // If the region is already selected, deselect it
+      setSelectedRegion(null);
+      setFilteredCities([]); // Clear filtered cities
+    } else {
+      // If a new region is selected, filter cities for that region
+      setSelectedRegion(region);
+      const citiesInRegion = tourList
+        .filter((tour) => tour.region === region)
+        .map((tour) => tour.city);
+      setFilteredCities([...new Set(citiesInRegion)]);
+      setSelectedCity(null); // Deselect the city when a new region is selected
+    }
+  };
+
+  // Function to handle city click, allowing selection and deselection
+  const handleCityClick = (city) => {
+    if (selectedCity === city) {
+      // If the city is already selected, deselect it
+      setSelectedCity(null);
+    } else {
+      // If a new city is selected, update the selected city
+      setSelectedCity(city);
+    }
+  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -131,14 +177,44 @@ const Tour = () => {
           <div className="col">
             <h2 className="mb-3">Featured Tours</h2>
             <div className="row mb-3">
+              {/* Region filter */}
+              <div className="col-md-6">
+                <div className="d-flex region-container">
+                  {uniqueRegions.map((region, index) => (
+                    <div
+                      key={index}
+                      className={`region-item ${
+                        selectedRegion === region ? "active" : ""
+                      }`}
+                      onClick={() => filterCitiesByRegion(region)}
+                    >
+                      {region}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="d-flex">
+                    {filteredCities.map((city, index) => (
+                      <div
+                        key={index}
+                        className={`city-item ${
+                          selectedCity === city ? "active" : ""
+                        }`}
+                        onClick={() => handleCityClick(city)}
+                      >
+                        {city}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
               <div className="col-md-6 d-flex">
-                {/* Filter slide */}
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="priceFilterDropdown">
                     Filter By Price
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                  <Dropdown.Item
+                    <Dropdown.Item
                       onClick={() => handlePriceFilterChange(0, 1000)}
                     >
                       Default

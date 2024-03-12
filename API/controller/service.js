@@ -59,7 +59,7 @@ const createService = async (req, res) => {
 
 const getAllServiceByType = async (req, res) => {
   try {
-    const { type, page, pageSize, sortBy, minPrice, maxPrice } = req.query;
+    const { type, page, pageSize, sortBy, minPrice, maxPrice, region, city } = req.query;
 
     if (!type) {
       return res.status(400).json({
@@ -84,7 +84,9 @@ const getAllServiceByType = async (req, res) => {
       validatedPageSize,
       sortBy,
       parseInt(minPrice, 10),
-      parseInt(maxPrice, 10)
+      parseInt(maxPrice, 10),
+      region,
+      city
     );
 
     // Get service count by type
@@ -104,6 +106,7 @@ const getAllServiceByType = async (req, res) => {
     });
   }
 };
+
 
 
 const getAllServiceAdmin = async (req, res) => {

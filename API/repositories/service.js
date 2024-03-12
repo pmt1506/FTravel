@@ -37,7 +37,16 @@ const createService = async ({
   }
 };
 
-const getAllServiceByType = async (type, page, pageSize, sortBy, minPrice, maxPrice) => {
+const getAllServiceByType = async (
+  type,
+  page,
+  pageSize,
+  sortBy,
+  minPrice,
+  maxPrice,
+  region,
+  city
+) => {
   try {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
@@ -51,6 +60,15 @@ const getAllServiceByType = async (type, page, pageSize, sortBy, minPrice, maxPr
     // Add min and max price conditions to the query
     if (minPrice !== undefined && maxPrice !== undefined) {
       query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+
+    // Add region and city conditions to the query
+    if (region) {
+      query.region = region;
+    }
+
+    if (city) {
+      query.city = city;
     }
 
     let sortQuery = {};
@@ -78,7 +96,6 @@ const getAllServiceByType = async (type, page, pageSize, sortBy, minPrice, maxPr
     throw new Error(error.toString());
   }
 };
-
 
 // Get services count by type
 const getServiceCountByType = async (type) => {
