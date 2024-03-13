@@ -32,7 +32,7 @@ const Services = () => {
     fetch(`http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data)
+        console.log(data)
         setAllServices(data.allServices);
       });
 
@@ -142,8 +142,8 @@ const Services = () => {
                     <div className="item-title2 rate">
                       <i className="icofont-badge"></i>
                       <div className="service-review tour-review-0">
-                        <span className="review">
-                          0 Đánh giá
+                        <span className="vendor">
+                          Vendor: {service.accountID.username}
                         </span>
                       </div>
                     </div>
@@ -190,9 +190,9 @@ const Services = () => {
                   <div className="item-title2 rate">
                     <i className="icofont-badge"></i>
                     <div className="service-review tour-review-0">
-                      <span className="review">
-                        0 Đánh giá
-                      </span>
+                    <span className="vendor">
+                          Vendor: {service.accountID.username}
+                        </span>
                     </div>
                   </div>
                   <div className="control-action">
