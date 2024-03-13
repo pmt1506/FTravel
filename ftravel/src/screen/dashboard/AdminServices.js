@@ -1,29 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import DashboardTemplate from '../../template/DashboardTemplate'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import { Col, Form, FormCheck, Row } from 'react-bootstrap'
 import '../../css/DashboardServices.css'
 
 const Services = () => {
   const [allServices, setAllServices] = useState([]);
-  const [tourList, setTourList] = useState([]);
-  const [hotelList, setHotelList] = useState([]);
-  const [eventList, setEventList] = useState([]);
-
+  const [selectedType, setSelectedType] = useState('');
+  const [serviceTypes, setServiceTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-
-  const tourListID = "65d440dd4ba915fa5c498398";
-  const hotelListID = "65e2e9c5d9e75d25d6a2b090";
-  const eventListID = "65e2e9d2d9e75d25d6a2b092";
-
-  // chơi bỉn
-  const serviceTypes = {
-    "65e2e9b0d9e75d25d6a2b08e": "Tour",
-    "65e2e9c5d9e75d25d6a2b090": "Hotel",
-    "65e2e9d2d9e75d25d6a2b092": "Event"
-  };
 
   useEffect(() => {
     fetchData();
@@ -33,25 +20,27 @@ const Services = () => {
     const results = allServices.filter(service =>
       service.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setSearchResults(results);
-  }, [searchTerm, allServices]);
+    // Apply filter by type if a type is selected
+    if (selectedType !== '') {
+      setSearchResults(results.filter(service => service.type._id === selectedType));
+    } else {
+      setSearchResults(results);
+    }
+  }, [searchTerm, allServices, selectedType]);
 
   const fetchData = () => {
     fetch(`http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         setAllServices(data.allServices);
-        // Use data.allServices to filter based on type
-        setTourList(
-          data.allServices.filter((service) => service.type === tourListID)
-        );
-        setHotelList(
-          data.allServices.filter((service) => service.type === hotelListID)
-        );
-        setEventList(
-          data.allServices.filter((service) => service.type === eventListID)
-        );
+      });
+
+    // Fetch service types
+    fetch(`http://localhost:9999/type`)
+      .then((res) => res.json())
+      .then((data) => {
+        setServiceTypes(data);
       });
   };
 
@@ -62,12 +51,12 @@ const Services = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleTypeChange = (type) => {
+    setSelectedType(type);
+  };
 
-  // Searching
-  const handleSearch = () => {
-    setSearchResults(allServices.filter(service =>
-      service.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ));
+  const handleDropdownChange = (e) => {
+    setSelectedType(e.target.value);
   };
 
   const highlightText = (text, highlight) => {
@@ -85,18 +74,27 @@ const Services = () => {
 
   return (
     <DashboardTemplate title="Manage Service">
-      <Row className="m-3 ml-auto">
-        <Col >
-          <Form.Control style={{width: "20rem"}}
+      <Row className="m-3 ml-auto w-100">
+        <Col md={4}>
+          <Form.Group className="row">
+            <Form.Control as="select" value={selectedType} onChange={handleDropdownChange}>
+              <option value="">All Services</option>
+              {serviceTypes && serviceTypes.map((type, index) => (
+                <option key={index} value={type._id}>{type.serviceName}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Control style={{ width: "20rem" }}
             type="text"
             placeholder="Search..."
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)
-            }
+            onChange={e => setSearchTerm(e.target.value)}
           />
           {/* <Button onClick={handleSearch}>Search</Button> */}
         </Col>
-        <Col >
+        <Col md={4}>
           <ul className="pagination">
             {Array.from({ length: Math.ceil((searchTerm ? searchResults.length : allServices.length) / itemsPerPage) }).map((_, index) => (
               <li key={index} className="page-item">
@@ -108,8 +106,9 @@ const Services = () => {
           </ul>
         </Col>
       </Row>
+
       <Row className="m-3">
-        {searchTerm ? (
+        {searchTerm || selectedType ? (
           searchResults.length > 0 ? (
             searchResults.map(service => (
               <div className="item-list" key={service._id}>
@@ -130,7 +129,7 @@ const Services = () => {
                     </div>
                     <div className="item-title2">
                       <i className="icofont-license"></i>
-                      Kiểu dịch vụ: <span className="badge badge-info">{serviceTypes[service.type]}</span>
+                      Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
                     </div>
                     <div className="item-title2">
                       <i className="icofont-paper-plane"></i>
@@ -178,7 +177,7 @@ const Services = () => {
                   </div>
                   <div className="item-title2">
                     <i className="icofont-license"></i>
-                    Kiểu dịch vụ: <span className="badge badge-info">{serviceTypes[service.type]}</span>
+                    Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-paper-plane"></i>

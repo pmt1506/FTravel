@@ -83,7 +83,7 @@ const getAllServiceAdmin = async (page, pageSize) => {
   try {
     //pagination
     const startIndex = (page - 1) * pageSize;
-    const allServices = await Services.find().skip(startIndex).limit(pageSize);
+    const allServices = await Services.find().populate("type", "serviceName").skip(startIndex).limit(pageSize);
     return allServices.map((service) => service._doc);
   } catch (error) {
     throw new Error(error.toString());

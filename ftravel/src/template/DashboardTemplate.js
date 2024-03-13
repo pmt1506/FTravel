@@ -19,9 +19,9 @@ const DashboardTemplate = ({ className = "", title, children }) => {
             style={{ textDecoration: "none", color: "black" }}
             className="fa fa-home"
           >
-            <i class="bi bi-house"></i>Home
+            <i className="bi bi-house"></i>Home
           </a>
-          <i class="bi bi-chevron-compact-right"></i>
+          <i className="bi bi-chevron-compact-right"></i>
           <p>{title}</p>
         </Row>
         <Row
