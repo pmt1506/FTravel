@@ -11,9 +11,9 @@ const SideBar = () => {
   };
 
   return (
-    <Container style={{ background: "#1a2b47", height: "100vh" }}>
+    <div className="sidebar" style={{ background: "#1a2b47"}}>
       <div className="logo">
-        <Row className="justify-content-center">
+        <Row className="justify-content-center ">
           <div className="avatar">
             <img src="#"></img>
           </div>
@@ -87,7 +87,7 @@ const SideBar = () => {
           </a>
         </div>
       </Row>
-    </Container>
+    </div>
   );
 };
 

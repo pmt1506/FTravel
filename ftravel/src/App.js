@@ -1,16 +1,12 @@
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import Detail from "./screen/commonScreen/Detail";
 
-// import NavbarComponent from "./components/Navbar";
 import Home from "./screen/commonScreen/Home";
 import About from "./screen/commonScreen/About";
 import Cart from "./screen//commonScreen/Cart";
-import Footer from "./components/common/Footer";
-import NavbarComponent from "./components/common/Navbar";
 import AdminServices from "./screen/dashboard/AdminServices";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";

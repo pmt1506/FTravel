@@ -6,7 +6,7 @@ import "../css/Dashboard.css";
 const DashboardTemplate = ({ className = "", title, children }) => {
   return (
     <Row className={className} style={{ width: "100%" }}>
-      <Col className="col-md-3 col-sm-4">
+      <Col className="col-md-3">
         <SideBar />
       </Col>
       <Col className="col-md-9 col-sm-8">

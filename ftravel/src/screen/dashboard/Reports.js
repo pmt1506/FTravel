@@ -5,14 +5,15 @@ import {
   Row,
   Table,
   Modal,
+  Col,
 } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 
 const Reports = () => {
   const [report, setReport] = useState([]);
-  const [status, setStatus] = useState({});
-
+  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+  const [itemsPerPage] = useState(10); 
   const [acceptedReport, setAcceptedReport] = useState(null); // Biến để lưu trữ báo cáo được chấp nhận
   const [showModal, setShowModal] = useState(false); // Biến để xác định trạng thái hiển thị của modal
 
@@ -37,15 +38,6 @@ const Reports = () => {
         console.error('Error fetching users:', error);
       });
   };
-
-  // useEffect(() => {
-  //   // Cập nhật state `status` dựa trên trạng thái của từng báo cáo trong mảng `report`
-  //   const updatedStatus = {};
-  //   report.forEach((report) => {
-  //     updatedStatus[report._id] = report.status;
-  //   });
-  //   setStatus(updatedStatus);
-  // }, [report]);
 
 
   const handleApprove = (id) => {
@@ -76,10 +68,33 @@ const Reports = () => {
   const handleCloseModal = () => {
     setShowModal(false); // Ẩn modal nếu bị đóng
   };
+
+    // Tính index bắt đầu của mục đầu tiên trên trang hiện tại
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = report.slice(indexOfFirstItem, indexOfLastItem);
+  
+    // Chuyển trang
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <DashboardTemplate title="Manage Report" className="row">
-      <Row className="m-3">
-        Action Bar
+      <Row className="m-3 ml-auto">
+        <Col>
+        {/* Action bar */}
+        </Col>
+        <Col>
+        {/* Phân trang */}
+        <ul className="pagination">
+          {Array.from({ length: Math.ceil(report.length / itemsPerPage) }).map((_, index) => (
+            <li key={index} className="page-item">
+              <button onClick={() => paginate(index + 1)} className="page-link">
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+        </Col>
+      
       </Row>
       <Row style={{ backgroundColor: "#fff" }} className="col-lg-12" >
         <Table className="table-striped table-bordered table-responsive">
@@ -92,7 +107,7 @@ const Reports = () => {
             <th className="col-lg-1">Action</th>
           </thead>
           <tbody>
-            {report.map((report, index) => (
+            {currentItems.map((report, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{report.userID.username}</td>
