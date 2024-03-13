@@ -86,7 +86,7 @@ const Services = () => {
           </Form.Group>
         </Col>
         <Col md={4}>
-          <Form.Control style={{ width: "20rem" }}
+          <Form.Control style={{ width: "20vw" }}
             type="text"
             placeholder="Search..."
             value={searchTerm}

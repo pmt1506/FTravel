@@ -1,8 +1,9 @@
 
 import React, { useEffect, useState } from 'react'
 import DashboardTemplate from '../../../template/DashboardTemplate'
-import { Col, Form, FormCheck, Row } from 'react-bootstrap'
+import { Col, Form, Row } from 'react-bootstrap'
 import '../../../css/DashboardServices.css'
+import { Link } from 'react-router-dom'
 
 const VendorServices = () => {
   const [servicesByVendor, setservicesByVendor] = useState([]);
@@ -75,7 +76,11 @@ const VendorServices = () => {
   };
 
   return (
-    <DashboardTemplate title="Manage Service">
+    <DashboardTemplate title="Manage Service" action={
+      <React.Fragment>
+        <Link to={"add"} className="btn btn-primary ml-2">Add Service</Link>
+      </React.Fragment>
+    }>
       <Row className="m-3 ml-auto w-100">
         <Col md={4}>
           <Form.Group className="row">

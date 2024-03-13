@@ -1,9 +1,10 @@
 import SideBar from "../components/common/Sidebar";
 import { Row, Col } from "react-bootstrap";
+import { Link } from 'react-router-dom'
 
 import "../css/Dashboard.css";
 
-const DashboardTemplate = ({ className = "", title, children }) => {
+const DashboardTemplate = ({ className = "", title, children, action }) => {
   return (
     <Row className={className} style={{ width: "100%" }}>
       <Col className="col-md-3">
@@ -11,7 +12,7 @@ const DashboardTemplate = ({ className = "", title, children }) => {
       </Col>
       <Col className="col-md-9 col-sm-8">
         <Row
-          style={{ justifyContent: "left !important", paddingTop: "10px" }}
+          style={{ justifyContent: "left !important", paddingTop: "10px"}}
           className="ml-3"
         >
           <a
@@ -28,9 +29,13 @@ const DashboardTemplate = ({ className = "", title, children }) => {
           className="ml-3"
           style={{ paddingBottom: "15px", borderBottom: "1px solid #ccc" }}
         >
+
+          <Col>
           <h2>{title}</h2>
+          </Col>
+          <Col className="text-right mr-3">{action}</Col>
         </Row>
-        <Row className="ml-3">{children}</Row>
+        <Col className="ml-3">{children}</Col>
       </Col>
     </Row>
   );

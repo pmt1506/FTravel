@@ -14,6 +14,7 @@ import Tour from "./screen/services/Tour";
 import VendorList from "./screen/commonScreen/VendorList";
 import VendorServices from "./screen/dashboard/vendor/VendorServices";
 import UserDetail from "./screen/dashboard/UserDetail";
+import VendorAddService from "./screen/dashboard/vendor/VendorAddService";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
 
         {/* For Vendor - sua path cho phu hop */}
         <Route path="/vendor/service" element={<VendorServices />} />
+        <Route path="vendor/service/add" element={<VendorAddService />} />
       </Routes>
       <ToastContainer
         position="top-right"
