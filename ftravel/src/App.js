@@ -12,6 +12,7 @@ import Services from "./screen/dashboard/Services";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
+import Hotel from "./screen/services/Hotel";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         {/* Services */}
         <Route path="/cart" element={<Cart />} />
         <Route path="/tour" element={<Tour />} />
-        <Route path="" element />
+        <Route path="/hotel" element={<Hotel/>} />
 
         <Route path="/dashboard/service" element={<Services />} />
         <Route path="/dashboard/user" element={<Users />} />
