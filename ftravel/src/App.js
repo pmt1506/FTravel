@@ -13,6 +13,7 @@ import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
 import Hotel from "./screen/services/Hotel";
+import Event from "./screen/services/Event";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/tour" element={<Tour />} />
         <Route path="/hotel" element={<Hotel/>} />
+        <Route path="/event" element={<Event/>} />
 
         <Route path="/dashboard/service" element={<Services />} />
         <Route path="/dashboard/user" element={<Users />} />
