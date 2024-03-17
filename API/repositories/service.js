@@ -57,8 +57,8 @@ const getAllServiceByType = async (
       query.type = type;
     }
 
-    // Add min and max price conditions to the query
-    if (minPrice !== undefined && maxPrice !== undefined) {
+    // Add min and max price conditions to the query if provided
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
       query.price = { $gte: minPrice, $lte: maxPrice };
     }
 
@@ -69,6 +69,11 @@ const getAllServiceByType = async (
 
     if (city) {
       query.city = city;
+    }
+
+    // Check if both minPrice and maxPrice are NaN, if so, exclude price condition from the query
+    if (isNaN(minPrice) && isNaN(maxPrice)) {
+      delete query.price;
     }
 
     let sortQuery = {};
@@ -96,6 +101,7 @@ const getAllServiceByType = async (
     throw new Error(error.toString());
   }
 };
+
 
 // Get services count by type
 const getServiceCountByType = async (type) => {
