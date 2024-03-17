@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Detail = () => {
   const { serviceID } = useParams();
@@ -17,14 +17,6 @@ const Detail = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:9999/type`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setType(data);
-  //     });
-  // });
-
   var startDateString = service.startDate;
 
   var startDate = new Date(startDateString);
@@ -38,23 +30,6 @@ const Detail = () => {
   return (
     <Container className="py-5">
       <Row className="gx-5">
-        {/* <Col
-          lg={6}
-          className="border rounded-4 p-0 d-flex justify-content-center"
-        >
-          <a
-            data-fslightbox="mygalley"
-            class="rounded-4"
-            target="_blank"
-            data-type="image"
-          >
-            <img
-              style={{ maxWidth: "100%", maxHeight: "100vh", margin: "auto" }}
-              class="rounded-4 fit"
-              src="https://bizweb.dktcdn.net/100/438/408/files/hinh-anh-meo-hai-huoc-yodyvn2.jpg?v=1694069335855"
-            />
-          </a>
-        </Col> */}
         <Col lg={6}>
           <img
             style={{ maxWidth: "100%", maxHeight: "100vh", margin: "auto" }}
@@ -120,17 +95,10 @@ const Detail = () => {
                 {" "}
                 Book now{" "}
               </a>
-              <a href="#" className="btn btn-primary shadow-0 mr-2">
+              <Link to={"/"} className="btn btn-primary shadow-0 mr-2">
                 {" "}
                 <i class="bi bi-cart3"></i> Add to cart{" "}
-              </a>
-              <a
-                href="#"
-                className="btn btn-light border border-secondary py-2 icon-hover px-3"
-              >
-                {" "}
-                Add to wishlist{" "}
-              </a>
+              </Link>
             </Row>
           </div>
         </Col>

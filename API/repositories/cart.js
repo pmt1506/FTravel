@@ -2,10 +2,16 @@ import Carts from "../models/cart.js";
 
 const addToCart = async ({ userID, serviceID }) => {
   try {
-    const newCart = await Carts.create({ userID, serviceID });
-    return newCart;
-  } catch {
+    const existingCart = await Carts.findOne({ userID, serviceID });
+    if (existingCart) {
+      return existingCart;
+    } else {
+      const newCart = await Carts.create({ userID, serviceID });
+      return newCart;
+    }
+  } catch (error) {
     console.log(error.toString());
+    throw error;
   }
 };
 
