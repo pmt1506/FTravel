@@ -139,6 +139,22 @@ const getServiceByID = async (serviceID) => {
     throw new Error(error.toString());
   }
 };
+// Get service(s) by name with status
+const getServicesByNameWithStatus = async (serviceName) => {
+  try {
+    const services = await Services.find({
+      title: { $regex: serviceName, $options: "i" },
+      status: true,
+    }).populate("type");
+    if (services.length === 0) {
+      throw new Error("No services found");
+    }
+    return services;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
 //Get Service by name - find service
 const getServiceByName = async (serviceName) => {
   try {
@@ -260,5 +276,6 @@ export default {
   getAllServiceAdmin,
   getServiceByVendor,
   getServiceCountByVedor,
+  getServicesByNameWithStatus,
   // deleteServiceByID
 };

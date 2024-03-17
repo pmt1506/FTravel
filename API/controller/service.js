@@ -59,7 +59,8 @@ const createService = async (req, res) => {
 
 const getAllServiceByType = async (req, res) => {
   try {
-    const { type, page, pageSize, sortBy, minPrice, maxPrice, region, city } = req.query;
+    const { type, page, pageSize, sortBy, minPrice, maxPrice, region, city } =
+      req.query;
 
     if (!type) {
       return res.status(400).json({
@@ -107,8 +108,6 @@ const getAllServiceByType = async (req, res) => {
   }
 };
 
-
-
 const getAllServiceAdmin = async (req, res) => {
   try {
     //pagination
@@ -154,6 +153,26 @@ const getServiceByName = async (req, res) => {
     const serviceByName = await serviceDAO.getServiceByName(serviceName);
     if (serviceByName) {
       res.status(200).json(serviceByName);
+    } else {
+      res.status(404).json({
+        message: "Service not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+};
+
+// Get service name with true status
+const getServiceByNameWithStatus = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+    const services = await serviceDAO.getServicesByNameWithStatus(keyword);
+    console.log(services);
+    if (services.length > 0) {
+      res.status(200).json(services);
     } else {
       res.status(404).json({
         message: "Service not found",
@@ -285,5 +304,6 @@ export default {
   editService,
   getAllServiceAdmin,
   getAllServiceByVendor,
+  getServiceByNameWithStatus,
   // deleteServiceByID
 };
