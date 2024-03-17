@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import Header from "./components/Header";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NavbarComponent from "./components/Navbar";
 import Detail from "./screen/Detail";
@@ -18,7 +18,7 @@ import Event from "./screen/services/Event";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
+      <Header />
       {/* <NavbarComponent/> */}
       <Routes>
         <Route path="/cart/:userID" element={<Cart />} />
