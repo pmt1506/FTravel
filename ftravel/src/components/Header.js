@@ -10,6 +10,7 @@ const Header = () => {
   const [hotelList, setHotelList] = useState([]);
   const [eventList, setEventList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -30,7 +31,6 @@ const Header = () => {
         );
         const data = await response.json();
 
-        // Check if data.tourList, data.hotelList, and data.eventList are iterable
         const updatedTourList = Array.isArray(data.tourList)
           ? data.tourList
           : [];
@@ -49,14 +49,31 @@ const Header = () => {
           ...updatedHotelList,
           ...updatedEventList,
         ]);
-        console.log(data);
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        // Suppress error logging for unsuccessful HTTP requests
+        if (error.name !== "AbortError") {
+          console.error("Error fetching search results:", error);
+        }
       }
     };
 
     fetchSearchResults(searchTerm);
   }, [searchTerm]);
+
+  const handleItemSelection = () => {
+    setSearchTerm("");
+    setTourList([]);
+    setHotelList([]);
+    setEventList([]);
+  };
+
+  const handleSearchBlur = () => {
+    setIsSearchFocused(false);
+  };
+
+  const handleSearchFocus = () => {
+    setIsSearchFocused(true);
+  };
 
   return (
     <Container className="header-app">
@@ -74,13 +91,16 @@ const Header = () => {
         <Col xs={6} className="mt-4 justify-content-center align-items-center">
           <div className="search-form">
             <Form.Control
+              className="search-input"
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={handleSearchChange}
+              onBlur={handleSearchBlur}
+              onFocus={handleSearchFocus}
             />
             {/* render search result here */}
-            {searchResults.length > 0 && (
+            {searchResults.length > 0 && isSearchFocused && (
               <div className="search-results">
                 {tourList.length > 0 && (
                   <div>
@@ -93,7 +113,10 @@ const Header = () => {
                             alt={item.title}
                             className="search-results-image"
                           />
-                          <NavLink to={`/detail/${item._id}`}>
+                          <NavLink
+                            to={`/detail/${item._id}`}
+                            onClick={handleItemSelection}
+                          >
                             {item.title}
                           </NavLink>
                         </li>
@@ -112,7 +135,10 @@ const Header = () => {
                             alt={item.title}
                             className="search-results-image"
                           />
-                          <NavLink to={`/detail/${item._id}`}>
+                          <NavLink
+                            to={`/detail/${item._id}`}
+                            onClick={handleItemSelection}
+                          >
                             {item.title}
                           </NavLink>
                         </li>
@@ -131,7 +157,10 @@ const Header = () => {
                             alt={item.title}
                             className="search-results-image"
                           />
-                          <NavLink to={`/detail/${item._id}`}>
+                          <NavLink
+                            to={`/detail/${item._id}`}
+                            onClick={handleItemSelection}
+                          >
                             {item.title}
                           </NavLink>
                         </li>

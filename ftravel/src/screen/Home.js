@@ -94,6 +94,7 @@ const Home = () => {
                 />
                 <Card.Body>
                   <Card.Title>{tour.title}</Card.Title>
+                  <Card.Text>{tour.description}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>

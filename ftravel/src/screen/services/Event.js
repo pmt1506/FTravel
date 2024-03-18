@@ -49,14 +49,10 @@ const Event = () => {
         const data = await response.json();
         setEventList(data.servicesByType);
         const totalItems = data.total;
-        console.log("Total event list item count:", totalItems);
 
         const newTotalPages = Math.ceil(totalItems / pageSize);
 
         setTotalPages(newTotalPages);
-        console.log("Total page: ", newTotalPages);
-
-        console.log("Data: ", data.servicesByType);
 
         const regions = [
           ...new Set(data.servicesByType.map((event) => event.region)),
@@ -130,7 +126,7 @@ const Event = () => {
               <div className="col-9">
                 <h3>Cộng tác viên</h3>
                 <p className="text-muted">
-                  Danh sách các cộng tác viên đông đảo tại Ong Vò Vẽ
+                  Danh sách các cộng tác viên đông đảo tại FTravel
                 </p>
               </div>
             </div>
