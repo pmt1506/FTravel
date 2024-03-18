@@ -3,6 +3,7 @@ import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DefaultTemplate from "../../template/DefaultTemplate";
 
 const Event = () => {
   const [eventList, setEventList] = useState([]);
@@ -111,7 +112,7 @@ const Event = () => {
   };
 
   return (
-    <>
+    <DefaultTemplate>
       <TourBanner />
       <div className="container mt-4">
         <div className="row">
@@ -386,7 +387,7 @@ const Event = () => {
           </div>
         </div>
       </div>
-    </>
+    </DefaultTemplate>
   );
 };
 
