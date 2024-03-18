@@ -97,8 +97,9 @@ const bannAccountByID = async (id, status) => {
 //edit user Profile
 const editAccountByID = async (
   id,
-  { email, phoneNumber, avatarIMG, username, address }
+  { email, phoneNumber, avatarIMG, userName, address }
 ) => {
+  console.log(id);
   try {
     const updateAcc = await Accounts.findByIdAndUpdate(
       id,
@@ -106,7 +107,7 @@ const editAccountByID = async (
         email,
         phoneNumber,
         avatarIMG,
-        username,
+        userName,
         address,
       },
       { new: true }

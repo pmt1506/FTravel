@@ -47,7 +47,7 @@ function LoginModal({ show, setShowLogin }) {
     try {
       const response = await fetch(
         "http://localhost:9999/account/googleLogin",
-        { method: "POST" }
+        { method: "POST", body: { token: token } }
       );
       if (!response.ok) {
         const data = await response.json();
@@ -103,19 +103,19 @@ function LoginModal({ show, setShowLogin }) {
         <Row className="justify-content-center">
           <div className="justify-content-center">or login with google</div>
         </Row>
+        {/* <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            console.log(credentialResponse?.credential);
+            googleLogin(credentialResponse?.credential);
+          }}
+          onError={() => {
+            toast.error("Something went wrong");
+          }}
+          text="Login with google"
+          size={"large"}
+          width={"395px"}
+        /> */}
         <Row className="justify-content-center">
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              // console.log(credentialResponse?.credential);
-              googleLogin(credentialResponse?.credential);
-            }}
-            onError={() => {
-              toast.error("Something went wrong");
-            }}
-            text="Login with google"
-            size={"large"}
-            width={"395px"}
-          />
           <Button variant="danger">
             <Link to={"http://localhost:9999/account/auth/google"}>google</Link>
           </Button>

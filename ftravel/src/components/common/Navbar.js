@@ -14,7 +14,7 @@ const NavbarComponent = () => {
               <Nav className="mr-auto" style={{ margin: "auto" }}>
                 <NavLink
                   exact
-                  to="/"
+                  to={"/"}
                   className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
@@ -25,7 +25,7 @@ const NavbarComponent = () => {
                   Home
                 </NavLink>
                 <NavLink
-                  to="/tour"
+                  to={"/tour"}
                   className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
@@ -36,7 +36,7 @@ const NavbarComponent = () => {
                   Tour
                 </NavLink>
                 <NavLink
-                  to="/hotel"
+                  to={"/hotel"}
                   className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
@@ -47,7 +47,7 @@ const NavbarComponent = () => {
                   Hotel
                 </NavLink>
                 <NavLink
-                  to="/event"
+                  to={"/event"}
                   className="nav-link mx-2"
                   style={{
                     fontWeight: "600",
@@ -70,7 +70,7 @@ const NavbarComponent = () => {
                   About
                 </NavLink>
                 <NavLink
-                  to="/vendor-list"
+                  to={"/vendor-list"}
                   className="nav-link mx-2"
                   id="vendor-list"
                   style={{

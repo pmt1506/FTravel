@@ -58,13 +58,14 @@ const updateAccountStatus = async (req, res) => {
 // get edit profile user
 const updateUserInfo = async (req, res) => {
   const id = req.params.accID;
+  console.log("haha");
   try {
-    const { email, phoneNumber, avatarIMG, username, address } = req.body;
+    const { email, phoneNumber, avatarIMG, userName, address } = req.body;
     const updateAccount = await accountDAO.editAccountByID(id, {
       email,
       phoneNumber,
       avatarIMG,
-      username,
+      userName,
       address,
     });
     if (updateAccount !== null) {
