@@ -102,7 +102,6 @@ const getAllServiceByType = async (
   }
 };
 
-
 // Get services count by type
 const getServiceCountByType = async (type) => {
   try {
@@ -139,16 +138,29 @@ const getServiceByID = async (serviceID) => {
     throw new Error(error.toString());
   }
 };
-// Get service(s) by name with status
-const getServicesByNameWithStatus = async (serviceName) => {
+// Get services by name with status, filtering based on keyword
+const getServicesByNameWithStatus = async (keyword) => {
   try {
-    const services = await Services.find({
-      title: { $regex: serviceName, $options: "i" },
+    if (!keyword) {
+      return []; // Return an empty array if keyword is empty
+    }
+
+    const servicesStartsWith = await Services.find({
+      title: { $regex: `^${keyword}`, $options: "i" },
       status: true,
     }).populate("type");
+
+    const servicesContains = await Services.find({
+      title: { $regex: keyword, $options: "i" },
+      status: true,
+    }).populate("type");
+
+    const services = [...servicesStartsWith, ...servicesContains];
+
     if (services.length === 0) {
       throw new Error("No services found");
     }
+
     return services;
   } catch (error) {
     throw new Error(error.toString());

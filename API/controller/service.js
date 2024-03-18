@@ -169,8 +169,15 @@ const getServiceByName = async (req, res) => {
 const getServiceByNameWithStatus = async (req, res) => {
   try {
     const { keyword } = req.query;
+
+    if (!keyword) {
+      res.status(404).json({
+        message: "Keyword is empty",
+      });
+      return; // Exit the function early if keyword is empty
+    }
+
     const services = await serviceDAO.getServicesByNameWithStatus(keyword);
-    console.log(services);
     if (services.length > 0) {
       res.status(200).json(services);
     } else {
