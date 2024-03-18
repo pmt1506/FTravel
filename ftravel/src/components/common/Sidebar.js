@@ -1,6 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import "../../css/sidebar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
@@ -9,9 +9,21 @@ const SideBar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    fetch(`http://localhost:9999/account/}`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
   return (
-    <div className="sidebar" style={{ background: "#1a2b47"}}>
+    <div className="sidebar" style={{ background: "#1a2b47" }}>
       <div className="logo">
         <Row className="justify-content-center ">
           <div className="avatar">
@@ -46,13 +58,29 @@ const SideBar = () => {
         <div className="sidebar-menu">
           <ul className="main-menu">
             {/* Admin */}
-            <li><Link to="/admin/service"><i className="bi bi-wallet"></i> Manage Services</Link></li>
-            <li><Link to="/admin/user"><i className="bi bi-wallet"></i> Manage Users</Link></li>
-            <li><Link to="/admin/report"><i className="bi bi-wallet"></i> Manage Reports</Link></li>
+            <li>
+              <Link to="/admin/service">
+                <i className="bi bi-wallet"></i> Manage Services
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/user">
+                <i className="bi bi-wallet"></i> Manage Users
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/report">
+                <i className="bi bi-wallet"></i> Manage Reports
+              </Link>
+            </li>
             {/* End */}
 
             {/* Vendor */}
-            <li><Link to="/vendor/service"><i className="bi bi-wallet"></i> Manage Services - Ven</Link></li>
+            <li>
+              <Link to="/vendor/service">
+                <i className="bi bi-wallet"></i> Manage Services - Ven
+              </Link>
+            </li>
             {/* End */}
 
             {/* <li><a href="#"><i className="bi bi-clock-history"></i> Booking history</a></li>

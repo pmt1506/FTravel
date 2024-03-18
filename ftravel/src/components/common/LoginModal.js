@@ -20,14 +20,11 @@ function LoginModal({ show, setShowLogin }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email: email, password: password }),
-        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
         toast.success(data.message);
-        const token = Cookie.get("accessToken");
-        console.log(token);
         // alert(data.message);
         localStorage.setItem("userID", data.data._id);
         // Additional logic to handle successful login, such as setting user session

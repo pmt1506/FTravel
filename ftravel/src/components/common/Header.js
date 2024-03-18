@@ -1,11 +1,11 @@
-import { Row, Container, Col, Button, Form } from "react-bootstrap";
+import { Row, Container, Col, Button, Form, Image } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import logo from "../../img/logo.png";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { useEffect, useState } from "react";
-import '../../css/header.css';
-
+import "../../css/header.css";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -86,6 +86,24 @@ const Header = () => {
   const handleSearchFocus = () => {
     setIsSearchFocused(true);
   };
+  const [userAVT, setUserAvt] = useState("");
+  const atoken = Cookies.get("accessToken");
+  const rtoken = Cookies.get("refreshToken");
+  const userID = Cookies.get("userID");
+
+  useEffect(() => {
+    fetch(`http://localhost:9999/account/}`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserAvt(data.avatarIMG);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
   return (
     <Container className="header-app">
@@ -189,20 +207,28 @@ const Header = () => {
           style={{ textAlign: "right", marginTop: "30px" }}
           className="header-right"
         >
-          <NavLink className="align-items-center">
-            <Button
-              variant="outline-primary"
-              className="mx-2"
-              onClick={handleShowLogin}
-            >
-              Login
-            </Button>
-          </NavLink>
-          <NavLink className="align-items-center">
-            <Button variant="outline-success" onClick={handleShowReg}>
-              Register
-            </Button>
-          </NavLink>
+          {!userAVT ? (
+            <>
+              <NavLink className="align-items-center">
+                <Button
+                  variant="outline-primary"
+                  className="mx-2"
+                  onClick={handleShowLogin}
+                >
+                  Login
+                </Button>
+              </NavLink>
+              <NavLink className="align-items-center">
+                <Button variant="outline-success" onClick={handleShowReg}>
+                  Register
+                </Button>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <Image src={userAVT} style={{ width: "5rem" }} roundedCircle />
+            </>
+          )}
         </Col>
       </Row>
       <LoginModal show={showLogin} setShowLogin={setShowLogin} />

@@ -5,17 +5,16 @@ import connectDB from "./database.js";
 import serviceTypeRouter from "./routes/serviceType.js";
 import serviceRouter from "./routes/service.js";
 import { json } from "express";
+import cookieParser from "cookie-parser";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { billRouter, commentRouter } from "./routes/index.js";
 import reportRouter from "../API/routes/report.js";
 import { cartRouter } from "./routes/index.js";
-import session from "express-session";
 import { accountRouter } from "./routes/index.js";
-import passport from "passport";
 const app = express();
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(json());
 app.use(
   cors({

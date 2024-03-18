@@ -3,7 +3,7 @@ import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DefaultTemplate from "../../template/DefaultTemplate";
+import DefaultTemplate from "../../template/DefaultTemplate.js";
 
 const Event = () => {
   const [eventList, setEventList] = useState([]);

@@ -22,9 +22,10 @@ const getAllAccount = async (req, res) => {
 
 // get accouny info by ID
 const getAccountByID = async (req, res) => {
-  const id = req.params.accID;
+  const id = req.cookies.userID;
   try {
     const accProfile = await accountDAO.getAccountInfoByID(id);
+    console.log(accProfile);
     if (accProfile !== null) {
       res.status(200).json(accProfile);
     } else {
@@ -43,7 +44,7 @@ const getAccountByID = async (req, res) => {
 const updateAccountStatus = async (req, res) => {
   const id = req.params.accID;
   const accStatus = req.body.status;
-  const newStat = !accStatus;  
+  const newStat = !accStatus;
   try {
     const updateAccount = await accountDAO.bannAccountByID(id, newStat);
     if (updateAccount !== null) {
@@ -58,7 +59,6 @@ const updateAccountStatus = async (req, res) => {
 // get edit profile user
 const updateUserInfo = async (req, res) => {
   const id = req.params.accID;
-  console.log("haha");
   try {
     const { email, phoneNumber, avatarIMG, userName, address } = req.body;
     const updateAccount = await accountDAO.editAccountByID(id, {
@@ -69,7 +69,9 @@ const updateUserInfo = async (req, res) => {
       address,
     });
     if (updateAccount !== null) {
-      res.status(200).json({message: "Edit successfully!", data: updateAccount});
+      res
+        .status(200)
+        .json({ message: "Edit successfully!", data: updateAccount });
     }
   } catch (error) {
     res.status(500).json({
@@ -88,7 +90,7 @@ const updateUserInfo = async (req, res) => {
 //     const updatePassword = await accountDAO.editPassword(id, {
 //       password,
 //     });
-    
+
 //     if (updatePassword !== null) {
 //       res.status(200).json({message: "Edit successfully!", data: updatePassword});
 //     }
@@ -109,7 +111,9 @@ const updatePassword = async (req, res) => {
     const updatePassword = await accountDAO.editPassword(accID, { password });
 
     // Send response
-    res.status(200).json({ message: "Password updated successfully", data: updatePassword });
+    res
+      .status(200)
+      .json({ message: "Password updated successfully", data: updatePassword });
   } catch (error) {
     // Handle errors
     res.status(500).json({ error: error.toString() });
@@ -125,7 +129,6 @@ const getAccountByEmail = async (req, res) => {};
 // find account by email and password
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
   try {
     const foundAccount = await accountDAO.findAccountByEmail(email);
     if (!foundAccount) {
@@ -151,6 +154,7 @@ const getAccountByEmailAndPass = async (req, res) => {
     );
     const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
     delete filterAcc.password;
+    const userID = filterAcc._id;
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       path: "/",
@@ -159,6 +163,13 @@ const getAccountByEmailAndPass = async (req, res) => {
       secure: false,
     });
     res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("userID", userID, {
       httpOnly: true,
       path: "/",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -249,13 +260,11 @@ const oauth2googleAuthen = async (req, res) => {
     const foundAccount = await accountDAO.findAccountByEmail(
       oauth2Result._doc.email
     );
-    // console.log("haha4");
-
-    // delete req.sess
     if (!foundAccount) {
       // const newAcc= await accountDAO.createAccount(req.user.displayname)
       return res.status(404).json({ error: "User not found in the database" });
     }
+    const userID = foundAccount._id;
     const accessToken = jwt.sign(
       { userId: oauth2Result._id },
       process.env.JWT_SECRET_KEY,
@@ -281,6 +290,13 @@ const oauth2googleAuthen = async (req, res) => {
       httpOnly: true,
       path: "/",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
+    });
+    res.cookie("userID", userID, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
       sameSite: "lax",
       secure: false,
     });

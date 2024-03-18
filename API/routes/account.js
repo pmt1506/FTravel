@@ -39,7 +39,7 @@ accountRouter.use(passport.session());
  *       500:
  *         description: Server fail
  */
-accountRouter.get("/all", accountController.getAllAccount);
+accountRouter.get("/all", verifyToken, accountController.getAllAccount);
 //get account info by id
 /**
  * @swagger
@@ -81,8 +81,7 @@ accountRouter.patch("/password/:accID", accountController.updatePassword);
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //
 
-
-// Khong can 
+// Khong can
 accountRouter.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
