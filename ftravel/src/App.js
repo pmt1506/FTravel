@@ -27,6 +27,7 @@ function App() {
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        {/* Services */}
         <Route path="/tour" element={<Tour />} />
         <Route path="/hotel" element={<Hotel/>} />
         <Route path="/event" element={<Event/>} />

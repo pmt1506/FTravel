@@ -132,7 +132,7 @@ const getAllServiceAdmin = async (page, pageSize) => {
 //Get Service by ID
 const getServiceByID = async (serviceID) => {
   try {
-    const service = await Services.findById(serviceID);
+    const service = await Services.findById(serviceID).populate("type").exec();
     if (!service) {
       throw new Error("Service not found");
     }

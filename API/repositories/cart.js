@@ -2,29 +2,37 @@ import Carts from "../models/cart.js";
 
 const addToCart = async ({ userID, serviceID }) => {
   try {
-    const newCart = await Carts.create({ userID, serviceID });
-    return newCart;
-  } catch {
-    console.log(error.toString());
+    const existingCart = await Carts.findOne({ userID, serviceID });
+    if (existingCart) {
+      return existingCart;
+    } else {
+      const newCart = await Carts.create({ userID, serviceID });
+      return newCart;
+    }
+  } catch (error) {
+    throw error;
   }
 };
 
-const viewCart = async (userID) => {
+const viewCart = async (userID, page = 1, pageSize = 5) => {
   try {
-    const populatedCart = await Carts.findOne({ userID: userID })
+    const skip = (page - 1) * pageSize;
+    const populatedCart = await Carts.find({ userID: userID })
       .populate("serviceID")
+      .skip(skip)
+      .limit(pageSize)
       .exec();
-
     return populatedCart;
   } catch (error) {
-    console.error(error.toString());
+    throw error;
   }
 };
+
 const deleteFromCart = async (serviceID) => {
   try {
     return await Carts.deleteOne({ serviceID: serviceID });
   } catch (error) {
-    console.log(error.toString());
+    throw error;
   }
 };
 

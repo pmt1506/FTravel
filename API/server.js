@@ -45,8 +45,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //routes
 app.use("/cart", cartRouter);
 
-app.use(`/cart`, cartRouter);
-
 const PORT = process.env.PORT;
 
 app.get("/", (req, res) => {
