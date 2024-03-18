@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import DashboardTemplate from '../../template/DashboardTemplate'
-import {
-  Button,
-  Row,
-  Table,
-  Modal,
-  Col,
-} from "react-bootstrap";
-import { Link } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import DashboardTemplate from "../../template/DashboardTemplate";
+import { toast } from "react-toastify";
+import { Button, Row, Table, Modal, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Reports = () => {
   const [report, setReport] = useState([]);
@@ -16,7 +10,6 @@ const Reports = () => {
   const [itemsPerPage] = useState(10);
   const [acceptedReport, setAcceptedReport] = useState(null); // Biến để lưu trữ báo cáo được chấp nhận
   const [showModal, setShowModal] = useState(false); // Biến để xác định trạng thái hiển thị của modal
-
 
   useEffect(() => {
     fetchData();
@@ -35,13 +28,12 @@ const Reports = () => {
         // console.log(data);
       })
       .catch((error) => {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       });
   };
 
-
   const handleApprove = (id) => {
-    const acceptedReport = report.find(report => report._id === id); // Tìm báo cáo được chấp nhận
+    const acceptedReport = report.find((report) => report._id === id); // Tìm báo cáo được chấp nhận
     setAcceptedReport(acceptedReport); // Lưu báo cáo được chấp nhận vào state
     setShowModal(true); // Hiển thị modal
   };
@@ -49,9 +41,9 @@ const Reports = () => {
   const handleAcceptReport = () => {
     if (acceptedReport) {
       fetch(`http://localhost:9999/report/edit/${acceptedReport._id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ status: true }), // Set status for "Processed"
       })
@@ -59,9 +51,10 @@ const Reports = () => {
         .then((data) => {
           fetchData();
           setShowModal(false);
+          toast.success("Accepted Report!")
         })
         .catch((error) => {
-          console.error('Error updating report status:', error);
+          console.error("Error updating report status:", error);
         });
     }
   };
@@ -79,24 +72,26 @@ const Reports = () => {
   return (
     <DashboardTemplate title="Manage Report" className="row">
       <Row className="m-3 ml-auto">
-        <Col>
-          {/* Action bar */}
-        </Col>
+        <Col>{/* Action bar */}</Col>
         <Col>
           {/* Phân trang */}
           <ul className="pagination">
-            {Array.from({ length: Math.ceil(report.length / itemsPerPage) }).map((_, index) => (
+            {Array.from({
+              length: Math.ceil(report.length / itemsPerPage),
+            }).map((_, index) => (
               <li key={index} className="page-item">
-                <button onClick={() => paginate(index + 1)} className="page-link">
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className="page-link"
+                >
                   {index + 1}
                 </button>
               </li>
             ))}
           </ul>
         </Col>
-
       </Row>
-      <Row style={{ backgroundColor: "#fff" }} className="col-lg-12" >
+      <Row style={{ backgroundColor: "#fff" }} className="col-lg-12">
         <Table className="table-striped table-bordered table-responsive">
           <thead>
             <tr>
@@ -113,15 +108,25 @@ const Reports = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{report.userID.username}</td>
-                <td><Link to={"/detail/" + report.serviceID._id}>{report.serviceID.title}</Link></td>
+                <td>
+                  <Link to={"/detail/" + report.serviceID._id}>
+                    {report.serviceID.title}
+                  </Link>
+                </td>
                 {/* Nên có title cho report. Tạo thêm một action view detail - vì khả năng có content dài, 
                 khi click vào sẽ hiện popup detail của report 
                 Có thể gồm title, service name + type, content chi tiết 
                 
                 Hoặc hướng khác cho content dài là limit độ dài hiển thị ở bảng VD: "This is example report's cont..."
                 Và click detail -> nhảy popup hiện full - rồi làm gì thì hông pit - để đọc thôi ak :vvvv*/}
-                <td >{report.content}</td>
-                <td style={{ fontSize: "0.8rem", color: report.status ? "orange" : "green", fontWeight: "bold" }}>
+                <td>{report.content}</td>
+                <td
+                  style={{
+                    fontSize: "0.8rem",
+                    color: report.status ? "orange" : "green",
+                    fontWeight: "bold",
+                  }}
+                >
                   {report.status ? "Pending" : "Processed"}
                 </td>
                 <td>
@@ -149,7 +154,7 @@ const Reports = () => {
                           fontSize: "14px",
                           padding: "2px",
                         }}
-                      // onClick={() => handleDelete(report._id)}
+                        // onClick={() => handleDelete(report._id)}
                       >
                         Reject
                       </Button>
@@ -178,6 +183,6 @@ const Reports = () => {
         </Modal.Footer>
       </Modal>
     </DashboardTemplate>
-  )
-}
-export default Reports
+  );
+};
+export default Reports;
