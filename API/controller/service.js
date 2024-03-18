@@ -166,7 +166,7 @@ const getServiceByName = async (req, res) => {
 };
 
 // Get service name with true status
-const getServiceByNameWithStatus = async (req, res) => {
+const getServicesByNameWithStatusAndTypes = async (req, res) => {
   try {
     const { keyword } = req.query;
 
@@ -177,9 +177,27 @@ const getServiceByNameWithStatus = async (req, res) => {
       return; // Exit the function early if keyword is empty
     }
 
-    const services = await serviceDAO.getServicesByNameWithStatus(keyword);
+    // Ensure serviceID is converted to string as it is in your data
+    const tourList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9b0d9e75d25d6a2b08e"
+    );
+    const hotelList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9c5d9e75d25d6a2b090"
+    );
+    const eventList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9d2d9e75d25d6a2b092"
+    );
+
+    const services = [...tourList, ...hotelList, ...eventList]; 
     if (services.length > 0) {
-      res.status(200).json(services);
+      res.status(200).json({
+        tourList: tourList,
+        hotelList: hotelList,
+        eventList: eventList,
+      });
     } else {
       res.status(404).json({
         message: "Service not found",
@@ -311,6 +329,6 @@ export default {
   editService,
   getAllServiceAdmin,
   getAllServiceByVendor,
-  getServiceByNameWithStatus,
+  getServicesByNameWithStatusAndTypes,
   // deleteServiceByID
 };

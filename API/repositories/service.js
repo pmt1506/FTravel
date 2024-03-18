@@ -138,28 +138,26 @@ const getServiceByID = async (serviceID) => {
     throw new Error(error.toString());
   }
 };
-// Get services by name with status, filtering based on keyword
-const getServicesByNameWithStatus = async (keyword) => {
+
+const getServicesByNameWithStatusAndTypes = async (keyword, serviceID) => {
   try {
-    if (!keyword) {
-      return []; // Return an empty array if keyword is empty
+    if (!keyword || !serviceID) {
+      return []; // Return an empty array if keyword is empty or serviceIDs is not valid
     }
 
     const servicesStartsWith = await Services.find({
-      title: { $regex: `^${keyword}`, $options: "i" },
+      title: { $regex: `^${keyword}` },
+      type: serviceID,
       status: true,
     }).populate("type");
 
     const servicesContains = await Services.find({
-      title: { $regex: keyword, $options: "i" },
+      title: { $regex: keyword },
+      type: serviceID,
       status: true,
     }).populate("type");
 
     const services = [...servicesStartsWith, ...servicesContains];
-
-    if (services.length === 0) {
-      throw new Error("No services found");
-    }
 
     return services;
   } catch (error) {
@@ -288,6 +286,6 @@ export default {
   getAllServiceAdmin,
   getServiceByVendor,
   getServiceCountByVedor,
-  getServicesByNameWithStatus,
+  getServicesByNameWithStatusAndTypes,
   // deleteServiceByID
 };

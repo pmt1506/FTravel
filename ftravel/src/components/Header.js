@@ -1,46 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { Row, Container, Col, Button, Form, Dropdown } from "react-bootstrap";
+import { Row, Container, Col, Button, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import logo from "../img/logo.png";
 import "../css/header.css";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  //   const [tourList, setTourList] = useState([]);
-  //   const [hotelList, setHotelList] = useState([]);
-  //   const [eventList, setEventList] = useState([]);
+  const [tourList, setTourList] = useState([]);
+  const [hotelList, setHotelList] = useState([]);
+  const [eventList, setEventList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-
-  const tourListID = "65e2e9b0d9e75d25d6a2b08e";
-  const hotelListID = "65e2e9c5d9e75d25d6a2b090";
-  const eventListID = "65e2e9d2d9e75d25d6a2b092";
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    console.log("Search terms: ", e.target.value);
-    fetchSearchResults(e.target.value);
   };
 
-  const fetchSearchResults = (keyword) => {
-    if (!keyword) {
-      setSearchResults([]); // Set search results to an empty array if keyword is empty
-      return;
-    }
+  useEffect(() => {
+    const fetchSearchResults = async (keyword) => {
+      if (!keyword) {
+        setSearchResults([]);
+        return;
+      }
 
-    fetch(
-      `http://localhost:9999/service/search?keyword=${encodeURIComponent(
-        keyword
-      )}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setSearchResults(data);
-        console.log(data); // Assuming the API returns an array of results
-      })
-      .catch((error) => {
+      try {
+        const response = await fetch(
+          `http://localhost:9999/service/search?keyword=${encodeURIComponent(
+            keyword
+          )}`
+        );
+        const data = await response.json();
+
+        // Check if data.tourList, data.hotelList, and data.eventList are iterable
+        const updatedTourList = Array.isArray(data.tourList)
+          ? data.tourList
+          : [];
+        const updatedHotelList = Array.isArray(data.hotelList)
+          ? data.hotelList
+          : [];
+        const updatedEventList = Array.isArray(data.eventList)
+          ? data.eventList
+          : [];
+
+        setTourList(updatedTourList);
+        setHotelList(updatedHotelList);
+        setEventList(updatedEventList);
+        setSearchResults([
+          ...updatedTourList,
+          ...updatedHotelList,
+          ...updatedEventList,
+        ]);
+        console.log(data);
+      } catch (error) {
         console.error("Error fetching search results:", error);
-      });
-  };
+      }
+    };
+
+    fetchSearchResults(searchTerm);
+  }, [searchTerm]);
 
   return (
     <Container className="header-app">
@@ -66,18 +82,63 @@ const Header = () => {
             {/* render search result here */}
             {searchResults.length > 0 && (
               <div className="search-results">
-                <ul>
-                  {searchResults.map((result, index) => (
-                    <li key={index} className="d-flex">
-                      <img
-                        src={result.thumbnail}
-                        alt={result.title}
-                        className="search-results-image"
-                      />
-                      {result.title}
-                    </li>
-                  ))}
-                </ul>
+                {tourList.length > 0 && (
+                  <div>
+                    <h4 className="text-center">Tour</h4>
+                    <ul>
+                      {tourList.map((item, index) => (
+                        <li key={index} className="d-flex">
+                          <img
+                            src={item.thumbnail}
+                            alt={item.title}
+                            className="search-results-image"
+                          />
+                          <NavLink to={`/detail/${item._id}`}>
+                            {item.title}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {hotelList.length > 0 && (
+                  <div>
+                    <h4 className="text-center">Hotel</h4>
+                    <ul>
+                      {hotelList.map((item, index) => (
+                        <li key={index} className="d-flex">
+                          <img
+                            src={item.thumbnail}
+                            alt={item.title}
+                            className="search-results-image"
+                          />
+                          <NavLink to={`/detail/${item._id}`}>
+                            {item.title}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {eventList.length > 0 && (
+                  <div>
+                    <h4 className="text-center">Event</h4>
+                    <ul>
+                      {eventList.map((item, index) => (
+                        <li key={index} className="d-flex">
+                          <img
+                            src={item.thumbnail}
+                            alt={item.title}
+                            className="search-results-image"
+                          />
+                          <NavLink to={`/detail/${item._id}`}>
+                            {item.title}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>

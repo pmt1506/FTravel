@@ -5,7 +5,7 @@ const serviceRouter = express.Router();
 
 //have filter for user
 serviceRouter.get('/', serviceController.getAllServiceByType);
-serviceRouter.get('/search', serviceController.getServiceByNameWithStatus);
+serviceRouter.get('/search', serviceController.getServicesByNameWithStatusAndTypes);
 
 //test pagination
 //http://localhost:9999/service?page=2
