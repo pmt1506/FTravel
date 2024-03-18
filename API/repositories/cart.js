@@ -10,7 +10,6 @@ const addToCart = async ({ userID, serviceID }) => {
       return newCart;
     }
   } catch (error) {
-    console.log(error.toString());
     throw error;
   }
 };
@@ -25,8 +24,7 @@ const viewCart = async (userID, page = 1, pageSize = 5) => {
       .exec();
     return populatedCart;
   } catch (error) {
-    console.error(error.toString());
-    throw error; // Re-throw the error to be caught in the calling function
+    throw error;
   }
 };
 
@@ -34,7 +32,7 @@ const deleteFromCart = async (serviceID) => {
   try {
     return await Carts.deleteOne({ serviceID: serviceID });
   } catch (error) {
-    console.log(error.toString());
+    throw error;
   }
 };
 
