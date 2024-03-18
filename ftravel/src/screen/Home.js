@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import HomeBanner from "../components/Tour/HomeBanner";
 
 const Home = () => {
   const [tourList, setTourList] = useState([]);
@@ -40,22 +41,7 @@ const Home = () => {
       <Container fluid className="mt-4">
         <Row>
           <Col style={{ padding: "0" }}>
-            <Card className="bg-dark text-white">
-              <Card.Img
-                src="https://petapixel.com/assets/uploads/2022/08/fdfs19-800x533.jpg"
-                alt="Card image"
-                height="450px"
-              />
-              <Card.ImgOverlay>
-                <Card.Title>Card title</Card.Title>
-                <Card.Text>
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </Card.Text>
-                <Card.Text>Last updated 3 mins ago</Card.Text>
-              </Card.ImgOverlay>
-            </Card>
+            <HomeBanner/>
           </Col>
         </Row>
       </Container>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
 import { Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Tour = () => {
   const [tourList, setTourList] = useState([]);
@@ -171,7 +172,7 @@ const Tour = () => {
       <div className="container mt-4">
         <div className="row">
           <div className="col">
-            <h2 className="mb-3">Featured Tours</h2>
+            <h2 className="mb-3 text-center">Featured Tours</h2>
             <div className="row mb-3">
               {/* Region filter */}
               <div className="col-md-6">
@@ -204,16 +205,16 @@ const Tour = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 d-flex">
+              <div className="col-md-6 d-flex mt-2">
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="priceFilterDropdown">
-                    Filter By Price
+                    Lọc tầm giá
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item
                       onClick={() => handlePriceFilterChange(0, 1000)}
                     >
-                      Default
+                      Mặc định
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => handlePriceFilterChange(0, 300)}
@@ -236,20 +237,20 @@ const Tour = () => {
                 {/* React Bootstrap dropdown for sorting */}
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="sortDropdown">
-                    Sort By Price
+                    Sắp xếp giá
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item
                       active={sortBy.field === "price" && sortBy.order === 1}
                       onClick={() => handleSortChange("price")}
                     >
-                      Ascending
+                      Tăng dần
                     </Dropdown.Item>
                     <Dropdown.Item
                       active={sortBy.field === "price" && sortBy.order === -1}
                       onClick={() => handleSortChange("-price")}
                     >
-                      Descending
+                      Giảm dần
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -272,7 +273,12 @@ const Tour = () => {
                       <div className="card-body d-flex flex-column">
                         <div className="row">
                           <div className="col-12 flex-grow-1">
-                            <h5 className="card-title">{tour.title}</h5>
+                            {/* Link to detail */}
+                            <h5 className="card-title">
+                              <Link to={`/detail/${tour._id}`}>
+                                {tour.title}
+                              </Link>
+                            </h5>
                             <p className="card-text">{tour.description}</p>
                           </div>
                         </div>
