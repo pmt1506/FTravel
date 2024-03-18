@@ -46,7 +46,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/cart", cartRouter);
 
 app.use(`/cart`, cartRouter);
-//config express session
 
 const PORT = process.env.PORT;
 

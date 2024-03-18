@@ -14,10 +14,54 @@
     text-overflow: ellipsis;
   }
   
-  .card-text{
+  .card-text {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  /* Add this style in your CSS file or style tag */
+  .region-item {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #3498db; /* Blue */
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .region-item.active {
+    background-color: #3498db; /* Blue */
+    color: #fff;
+    border-color: #3498db; /* Blue */
+    transition: all 0.3s ease;
+  }
+  
+  .region-container {
+    margin-top: 8px;
+  }
+  
+  .city-item {
+    margin-right: 7px;
+    margin-bottom: 7px;
+    padding: 8px;
+    border: 1px solid #2ecc71; /* Green */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .city-item.active {
+    color: #fff;
+    background-color: #2ecc71; /* Green */
+    border-color: #27ae60; /* Darker Green */
+    transition: all 0.3s ease;
+  }
+  
+  .row.mb-3 {
+    background-color: #f8f9fa; /* Light gray color, you can change this */
+    padding: 10px; /* Adjust padding as needed */
+    border-radius: 8px; /* Optional: Add border-radius for rounded corners */
   }

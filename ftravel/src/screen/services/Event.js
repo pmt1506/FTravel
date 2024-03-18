@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../../css/services.css";
 import TourBanner from "../../components/Tour/TourBanner";
-import DefaultTemplate from "../../template/DefaultTemplate";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Tour = () => {
-  const [tourList, setTourList] = useState([]);
+const Event = () => {
+  const [eventList, setEventList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
@@ -18,13 +17,13 @@ const Tour = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredCities, setFilteredCities] = useState([]);
 
-  const tourListID = "65e2e9b0d9e75d25d6a2b08e";
+  const eventListID = "65e2e9d2d9e75d25d6a2b092";
   const pageSize = 8;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let apiUrl = `http://localhost:9999/service?type=${tourListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
+        let apiUrl = `http://localhost:9999/service?type=${eventListID}&page=${currentPage}&pageSize=${pageSize}&sortBy=${
           sortBy.field || ""
         }&order=${sortBy.order}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
 
@@ -49,7 +48,7 @@ const Tour = () => {
         }
 
         const data = await response.json();
-        setTourList(data.servicesByType);
+        setEventList(data.servicesByType);
         const totalItems = data.total;
 
         const newTotalPages = Math.ceil(totalItems / pageSize);
@@ -57,7 +56,7 @@ const Tour = () => {
         setTotalPages(newTotalPages);
 
         const regions = [
-          ...new Set(data.servicesByType.map((tour) => tour.region)),
+          ...new Set(data.servicesByType.map((event) => event.region)),
         ];
         setUniqueRegions(regions);
       } catch (error) {
@@ -77,9 +76,9 @@ const Tour = () => {
     } else {
       // If a new region is selected, filter cities for that region
       setSelectedRegion(region);
-      const citiesInRegion = tourList
-        .filter((tour) => tour.region === region)
-        .map((tour) => tour.city);
+      const citiesInRegion = eventList
+        .filter((event) => event.region === region)
+        .map((event) => event.city);
       setFilteredCities([...new Set(citiesInRegion)]);
       setSelectedCity(null); // Deselect the city when a new region is selected
     }
@@ -112,7 +111,7 @@ const Tour = () => {
   };
 
   return (
-    <DefaultTemplate>
+    <>
       <TourBanner />
       <div className="container mt-4">
         <div className="row">
@@ -173,7 +172,7 @@ const Tour = () => {
       <div className="container mt-4">
         <div className="row">
           <div className="col">
-            <h2 className="mb-3 text-center">Featured Tours</h2>
+            <h2 className="mb-3 text-center">Featured Events</h2>
             <div className="row mb-3">
               {/* Region filter */}
               <div className="col-md-6">
@@ -257,35 +256,34 @@ const Tour = () => {
                 </Dropdown>
               </div>
             </div>
-            {tourList.length === 0 ? (
+            {eventList.length === 0 ? (
               <div className="text-center">
-                <h3>No tour available, please stay tune!</h3>
+                <h3>No event available, please stay tune!</h3>
               </div>
             ) : (
               <div className="row">
-                {tourList.map((tour, index) => (
+                {eventList.map((event, index) => (
                   <div className="col-md-3" key={index}>
                     <div className="card mb-3 d-flex flex-column">
                       <img
-                        src={tour.thumbnail}
-                        alt="Tour image"
+                        src={event.thumbnail}
+                        alt="Event image"
                         className="card-img-top card-thumbnail"
                       />
                       <div className="card-body d-flex flex-column">
                         <div className="row">
                           <div className="col-12 flex-grow-1">
-                            {/* Link to detail */}
                             <h5 className="card-title">
-                              <Link to={`/detail/${tour._id}`}>
-                                {tour.title}
+                              <Link to={`/detail/${event._id}`}>
+                                {event.title}
                               </Link>
                             </h5>
-                            <p className="card-text">{tour.description}</p>
+                            <p className="card-text">{event.description}</p>
                           </div>
                         </div>
                         <div className="d-flex justify-content-between mt-2">
                           <div className="pt-2">
-                            <p className="align-middle">${tour.price}</p>
+                            <p className="align-middle">${event.price}</p>
                           </div>
                           <button className="btn btn-primary">Buy Now</button>
                         </div>
@@ -388,8 +386,8 @@ const Tour = () => {
           </div>
         </div>
       </div>
-    </DefaultTemplate>
+    </>
   );
 };
 
-export default Tour;
+export default Event;

@@ -59,7 +59,8 @@ const createService = async (req, res) => {
 
 const getAllServiceByType = async (req, res) => {
   try {
-    const { type, page, pageSize } = req.query;
+    const { type, page, pageSize, sortBy, minPrice, maxPrice, region, city } =
+      req.query;
 
     if (!type) {
       return res.status(400).json({
@@ -68,8 +69,8 @@ const getAllServiceByType = async (req, res) => {
     }
 
     // Validate and set default values for page and pageSize
-    const validatedPage = parseInt(page, 10);
-    const validatedPageSize = parseInt(pageSize, 10);
+    const validatedPage = parseInt(page, 10) || 1;
+    const validatedPageSize = parseInt(pageSize, 10) || 10;
 
     if (validatedPage <= 0 || validatedPageSize <= 0) {
       return res.status(400).json({
@@ -77,20 +78,29 @@ const getAllServiceByType = async (req, res) => {
       });
     }
 
-    // Filter services by type with pagination
+    // Filter services by type with pagination, sorting, and price range
     const servicesByType = await serviceDAO.getAllServiceByType(
       type,
       validatedPage,
-      validatedPageSize
+      validatedPageSize,
+      sortBy,
+      parseInt(minPrice, 10),
+      parseInt(maxPrice, 10),
+      region,
+      city
     );
 
-    //get service count by type
+    // Get service count by type
     const serviceCountByType = await serviceDAO.getServiceCountByType(type);
 
     // Calculate total pages
     const totalPages = Math.ceil(serviceCountByType / validatedPageSize);
 
-    res.status(200).json({ servicesByType, total: serviceCountByType, totalPages });
+    res.status(200).json({
+      servicesByType,
+      total: serviceCountByType,
+      totalPages,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.toString(),
@@ -155,6 +165,51 @@ const getServiceByName = async (req, res) => {
   }
 };
 
+// Get service name with true status
+const getServicesByNameWithStatusAndTypes = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+      res.status(404).json({
+        message: "Keyword is empty",
+      });
+      return; // Exit the function early if keyword is empty
+    }
+
+    // Ensure serviceID is converted to string as it is in your data
+    const tourList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9b0d9e75d25d6a2b08e"
+    );
+    const hotelList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9c5d9e75d25d6a2b090"
+    );
+    const eventList = await serviceDAO.getServicesByNameWithStatusAndTypes(
+      keyword,
+      "65e2e9d2d9e75d25d6a2b092"
+    );
+
+    const services = [...tourList, ...hotelList, ...eventList]; 
+    if (services.length > 0) {
+      res.status(200).json({
+        tourList: tourList,
+        hotelList: hotelList,
+        eventList: eventList,
+      });
+    } else {
+      res.status(404).json({
+        message: "Service not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+};
+
 const getAllServiceByVendor = async (req, res) => {
   try {
     const { accountID, page, pageSize } = req.query;
@@ -182,12 +237,16 @@ const getAllServiceByVendor = async (req, res) => {
     );
 
     // Get service count by vendor
-    const serviceCountByVendor = await serviceDAO.getServiceCountByVedor(accountID);
+    const serviceCountByVendor = await serviceDAO.getServiceCountByVedor(
+      accountID
+    );
 
     // Calculate total pages
     const totalPages = Math.ceil(serviceCountByVendor / validatedPageSize);
 
-    res.status(200).json({ servicesByVendor, total: serviceCountByVendor, totalPages });
+    res
+      .status(200)
+      .json({ servicesByVendor, total: serviceCountByVendor, totalPages });
   } catch (error) {
     res.status(500).json({
       message: error.toString(),
@@ -269,6 +328,7 @@ export default {
   getServiceByName,
   editService,
   getAllServiceAdmin,
-  getAllServiceByVendor
+  getAllServiceByVendor,
+  getServicesByNameWithStatusAndTypes,
   // deleteServiceByID
 };

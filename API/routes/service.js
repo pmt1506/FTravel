@@ -26,6 +26,8 @@ const serviceRouter = express.Router();
  */
 
 serviceRouter.get("/", serviceController.getAllServiceByType);
+serviceRouter.get('/search', serviceController.getServicesByNameWithStatusAndTypes);
+
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5

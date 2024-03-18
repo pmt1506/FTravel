@@ -37,27 +37,63 @@ const createService = async ({
   }
 };
 
-//Get all services by type with pagination
-const getAllServiceByType = async (type, page, pageSize) => {
+const getAllServiceByType = async (
+  type,
+  page,
+  pageSize,
+  sortBy,
+  minPrice,
+  maxPrice,
+  region,
+  city
+) => {
   try {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
 
+    let query = { status: true };
+
+    if (type) {
+      query.type = type;
+    }
+
+    // Add min and max price conditions to the query if provided
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    }
+
+    // Add region and city conditions to the query
+    if (region) {
+      query.region = region;
+    }
+
+    if (city) {
+      query.city = city;
+    }
+
+    // Check if both minPrice and maxPrice are NaN, if so, exclude price condition from the query
+    if (isNaN(minPrice) && isNaN(maxPrice)) {
+      delete query.price;
+    }
+
+    let sortQuery = {};
+    if (sortBy) {
+      // Determine sorting order based on the sortBy parameter
+      const sortOrder = sortBy.startsWith("-") ? -1 : 1;
+      const sortField = sortOrder === -1 ? sortBy.substring(1) : sortBy;
+
+      sortQuery[sortField] = sortOrder;
+    }
+
     if (!page && !pageSize) {
-      return await Services.find({ status: true, type: type }).populate("type");
+      return await Services.find(query).populate("type").sort(sortQuery);
     }
 
-    if (!type) {
-      return await Services.find({ status: true })
-        .populate("type")
-        .skip(skip)
-        .limit(limit);
-    }
-
-    const services = await Services.find({ status: true, type: type })
+    const services = await Services.find(query)
       .skip(skip)
       .limit(limit)
       .populate("type")
+      .sort(sortQuery)
       .exec();
 
     return services;
@@ -105,6 +141,33 @@ const getServiceByID = async (serviceID) => {
     throw new Error(error.toString());
   }
 };
+
+const getServicesByNameWithStatusAndTypes = async (keyword, serviceID) => {
+  try {
+    if (!keyword || !serviceID) {
+      return []; // Return an empty array if keyword is empty or serviceIDs is not valid
+    }
+
+    const servicesStartsWith = await Services.find({
+      title: { $regex: `^${keyword}` },
+      type: serviceID,
+      status: true,
+    }).populate("type");
+
+    const servicesContains = await Services.find({
+      title: { $regex: keyword },
+      type: serviceID,
+      status: true,
+    }).populate("type");
+
+    const services = [...servicesStartsWith, ...servicesContains];
+
+    return services;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
 //Get Service by name - find service
 const getServiceByName = async (serviceName) => {
   try {
@@ -226,6 +289,7 @@ export default {
   editService,
   getAllServiceAdmin,
   getServiceByVendor,
-  getServiceCountByVedor
+  getServiceCountByVedor,
+  getServicesByNameWithStatusAndTypes,
   // deleteServiceByID
 };

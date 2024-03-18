@@ -11,6 +11,8 @@ import AdminServices from "./screen/dashboard/AdminServices";
 import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
+import Hotel from "./screen/services/Hotel";
+import Event from "./screen/services/Event";
 import VendorList from "./screen/commonScreen/VendorList";
 import VendorServices from "./screen/dashboard/vendor/VendorServices";
 import UserDetail from "./screen/dashboard/UserDetail";
@@ -26,6 +28,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/tour" element={<Tour />} />
+        <Route path="/hotel" element={<Hotel/>} />
+        <Route path="/event" element={<Event/>} />
         <Route path="/vendor-list" element={<VendorList/>}/>
 
         {/* For Admin - sua path cho phu hop */}
