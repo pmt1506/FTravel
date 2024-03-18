@@ -16,7 +16,7 @@ const VendorList = () => {
                 }
                 const data = await response.json();
                 console.log(data)
-                const filteredVendors = data.filter(vendor => vendor.accountRole && vendor.accountRole.roleName === "vendor");
+                const filteredVendors = data.filter(vendor => vendor.accountRole && vendor.accountRole.roleID === "2");
                 setVendors(filteredVendors);
             } catch (error) {
                 console.error('Error fetching data:', error);
