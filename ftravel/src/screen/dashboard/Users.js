@@ -13,7 +13,7 @@ const Users = () => {
       .then((data) => {
         setUserData(data);
       });
-  });
+  }, []);
   console.log(userData);
   // Fetch user data from your API endpoint
 

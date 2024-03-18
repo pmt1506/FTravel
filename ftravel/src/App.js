@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Header from "./components/Header";
-import Footer from "./components/Footer";
-import NavbarComponent from "./components/Navbar";
+// import Footer from "./components/Footer";
+// import NavbarComponent from "./components/Navbar";
 import Detail from "./screen/Detail";
 // import NavbarComponent from "./components/Navbar";
 import Home from "./screen/Home";
@@ -13,25 +13,27 @@ import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
 import EditProfile from "./screen/dashboard/EditProfile";
+import ChangePass from "./screen/dashboard/ChangePass";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
-      {/* <NavbarComponent/> */}
+      {/* <Header />
+      <NavbarComponent/> */}
       <Routes>
         <Route path="/cart/:userID" element={<Cart />} />
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Services */}
+        {/* <Services/> */}
         <Route path="/tour" element={<Tour />} />
 
         <Route path="/dashboard/service" element={<Services />} />
-        <Route path="/dashboard/user/:accID" element={<Users />} />
+        <Route path="/dashboard/:accID" element={<Users />} />
         <Route path="/dashboard/report" element={<Reports />} />
-        <Route path="/dashboard/edit/:accID" element={<EditProfile />} />
+        <Route path="/dashboard/profile/:accID" element={<EditProfile />} />
+        <Route path="/dashboard/password/:accID" element={<ChangePass />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

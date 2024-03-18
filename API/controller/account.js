@@ -57,21 +57,59 @@ const updateAccountStatus = async (req, res) => {
 const updateUserInfo = async (req, res) => {
   const id = req.params.accID;
   try {
-    const { email, phoneNumber, avatarIMG, username, address } = req.body;
+    const { email, phoneNumber, avatarIMG, userName, address } = req.body;
     const updateAccount = await accountDAO.editAccountByID(id, {
       email,
       phoneNumber,
       avatarIMG,
-      username,
+      userName,
       address,
     });
     if (updateAccount !== null) {
-      res.status(200).json(updateAccount);
+      res.status(200).json({message: "Edit successfully!", data: updateAccount});
     }
   } catch (error) {
     res.status(500).json({
       error: error.toString(),
     });
+  }
+};
+
+// get edit profile password
+// const updatePassword = async (req, res) => {
+//   const { id } = req.params;
+
+//   console.log(id);
+//   try {
+//     const { password } = req.body;
+//     const updatePassword = await accountDAO.editPassword(id, {
+//       password,
+//     });
+    
+//     if (updatePassword !== null) {
+//       res.status(200).json({message: "Edit successfully!", data: updatePassword});
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       error: error.toString(),
+//     });
+//   }
+// };
+
+const updatePassword = async (req, res) => {
+  const { accID } = req.params;
+
+  try {
+    const { password } = req.body;
+
+    // Call DAO function to update password
+    const updatePassword = await accountDAO.editPassword(accID, { password });
+
+    // Send response
+    res.status(200).json({ message: "Password updated successfully", data: updatePassword });
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ error: error.toString() });
   }
 };
 
@@ -236,6 +274,7 @@ export default {
   getAllAccount,
   updateAccountStatus,
   updateUserInfo,
+  updatePassword,
   verifyAccount,
   oauth2googleAuthen,
   googleLogin,

@@ -65,7 +65,7 @@ const bannAccountByID = async (id, status) => {
 //edit user Profile
 const editAccountByID = async (
   id,
-  { email, phoneNumber, avatarIMG, username, address }
+  { email, phoneNumber, avatarIMG, userName, address }
 ) => {
   try {
     const updateAcc = await Accounts.findByIdAndUpdate(
@@ -74,13 +74,57 @@ const editAccountByID = async (
         email,
         phoneNumber,
         avatarIMG,
-        username,
+        userName,
         address,
       },
       { new: true }
     );
     if (!updateAcc) throw new Error("not found to update");
     return updateAcc;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+
+// //edit user Profile
+// const editPassword = async (
+//   id,
+//   { password }
+// ) => {
+//   try {
+//     const updatePass = await Accounts.findByIdAndUpdate(
+//       id,
+//       {
+//         password
+//       },
+//       { new: true }
+//     );
+//     if (!updatePass) throw new Error("not found to update");
+//     return updatePass;
+//   } catch (error) {
+//     throw new Error(error.toString());
+//   }
+// };
+
+const editPassword = async (id, { password }) => {
+  try {
+    // Validate input
+    if (!password) {
+      throw new Error("Password is required");
+    }
+
+    // Update password
+    const updatePass = await Accounts.findByIdAndUpdate(
+      id,
+      { password },
+      { new: true }
+    );
+
+    if (!updatePass) {
+      throw new Error("Account not found");
+    }
+
+    return updatePass;
   } catch (error) {
     throw new Error(error.toString());
   }
@@ -117,6 +161,7 @@ export default {
   bannAccountByID,
   createAccount,
   editAccountByID,
+  editPassword,
   findAccountByEmail,
   findAccountByEmailAndPassword,
   verifyAccount,

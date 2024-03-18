@@ -71,6 +71,8 @@ accountRouter.post("/signup", accountController.createAccount);
 accountRouter.post("/login", accountController.getAccountByEmailAndPass);
 // edit profile user
 accountRouter.patch("/profile/:accID", accountController.updateUserInfo);
+
+accountRouter.patch("/password/:accID", accountController.updatePassword);
 // edit status user (admin)
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //
