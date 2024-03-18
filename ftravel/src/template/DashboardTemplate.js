@@ -12,24 +12,9 @@ const DashboardTemplate = ({ className = "", title, children, action }) => {
       </Col>
       <Col className="col-md-9 col-sm-8">
         <Row
-          style={{ justifyContent: "left !important", paddingTop: "10px"}}
           className="ml-3"
+          style={{ paddingBottom: "15px"}}
         >
-          <a
-            href="/"
-            style={{ textDecoration: "none", color: "black" }}
-            className="fa fa-home"
-          >
-            <i className="bi bi-house"></i>Home
-          </a>
-          <i className="bi bi-chevron-compact-right"></i>
-          <p>{title}</p>
-        </Row>
-        <Row
-          className="ml-3"
-          style={{ paddingBottom: "15px", borderBottom: "1px solid #ccc" }}
-        >
-
           <Col>
           <h2>{title}</h2>
           </Col>

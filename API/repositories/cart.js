@@ -2,13 +2,8 @@ import Carts from "../models/cart.js";
 
 const addToCart = async ({ userID, serviceID }) => {
   try {
-    const existingCart = await Carts.findOne({ userID, serviceID });
-    if (existingCart) {
-      return existingCart;
-    } else {
-      const newCart = await Carts.create({ userID, serviceID });
-      return newCart;
-    }
+    const newCart = await Carts.create({ userID, serviceID });
+    return newCart;
   } catch (error) {
     throw error;
   }
@@ -36,8 +31,18 @@ const deleteFromCart = async (serviceID) => {
   }
 };
 
+const checkDuplicate = async (userID, serviceID) => {
+  try {
+    const existingCart = await Carts.findOne({ userID, serviceID });
+    return existingCart;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   addToCart,
   viewCart,
   deleteFromCart,
+  checkDuplicate,
 };

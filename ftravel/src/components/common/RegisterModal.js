@@ -120,17 +120,17 @@ function RegisterModal({ show, setShowReg }) {
               </Form.Group>
             </Col>
           </Row>
-          {/* Add password input field here */}
-        </Form>
-        <hr />
+          <hr />
 
-        <Row className="justify-content-center">
-          <div>
-            <Button className="btn-btn-success" type="submit">
-              Register
-            </Button>
-          </div>
-        </Row>
+          <Row className="justify-content-center">
+            <div>
+              <Button className="btn-btn-success" type="submit">
+                Register
+              </Button>
+            </div>
+          </Row>
+        </Form>
+
       </Modal.Body>
 
       <Modal.Footer>
