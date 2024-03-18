@@ -17,6 +17,8 @@ import VendorList from "./screen/commonScreen/VendorList";
 import VendorServices from "./screen/dashboard/vendor/VendorServices";
 import UserDetail from "./screen/dashboard/UserDetail";
 import VendorAddService from "./screen/dashboard/vendor/VendorAddService";
+import EditProfile from "./screen/dashboard/EditProfile";
+import ChangePass from "./screen/dashboard/ChangePass";
 
 function App() {
   return (
@@ -29,19 +31,25 @@ function App() {
         <Route path="/about" element={<About />} />
         {/* Services */}
         <Route path="/tour" element={<Tour />} />
-        <Route path="/hotel" element={<Hotel/>} />
-        <Route path="/event" element={<Event/>} />
-        <Route path="/vendor-list" element={<VendorList/>}/>
+        <Route path="/hotel" element={<Hotel />} />
+        <Route path="/event" element={<Event />} />
+        <Route path="/vendor-list" element={<VendorList />} />
 
         {/* For Admin - sua path cho phu hop */}
         <Route path="/admin/service" element={<AdminServices />} />
         <Route path="/admin/user" element={<Users />} />
-        <Route path="/admin/user/detail" element={<UserDetail />} />
+        {/* <Route path="/admin/user/detail" element={<UserDetail />} /> */}
         <Route path="/admin/report" element={<Reports />} />
 
         {/* For Vendor - sua path cho phu hop */}
         <Route path="/vendor/service" element={<VendorServices />} />
-        <Route path="vendor/service/add" element={<VendorAddService />} />
+        <Route path="/vendor/service/add" element={<VendorAddService />} />
+        <Route path="/dashboard" element={<UserDetail />} />
+        <Route
+          path="/dashboard/profile/edit/:accID"
+          element={<EditProfile />}
+        />
+        <Route path="/dashboard/password/:accID" element={<ChangePass />} />
       </Routes>
       <ToastContainer
         position="top-right"

@@ -75,11 +75,14 @@ accountRouter.patch(
   verifyToken,
   accountController.updateUserInfo
 );
+
+accountRouter.patch("/password/:accID", accountController.updatePassword);
 // edit status user (admin)
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //
-accountRouter.get("/all", accountController.getAllAccount);
 
+
+// Khong can 
 accountRouter.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })

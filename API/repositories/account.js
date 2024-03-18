@@ -118,6 +118,50 @@ const editAccountByID = async (
     throw new Error(error.toString());
   }
 };
+
+// //edit user Profile
+// const editPassword = async (
+//   id,
+//   { password }
+// ) => {
+//   try {
+//     const updatePass = await Accounts.findByIdAndUpdate(
+//       id,
+//       {
+//         password
+//       },
+//       { new: true }
+//     );
+//     if (!updatePass) throw new Error("not found to update");
+//     return updatePass;
+//   } catch (error) {
+//     throw new Error(error.toString());
+//   }
+// };
+
+const editPassword = async (id, { password }) => {
+  try {
+    // Validate input
+    if (!password) {
+      throw new Error("Password is required");
+    }
+
+    // Update password
+    const updatePass = await Accounts.findByIdAndUpdate(
+      id,
+      { password },
+      { new: true }
+    );
+
+    if (!updatePass) {
+      throw new Error("Account not found");
+    }
+
+    return updatePass;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 // view profile user
 const getAccountInfoByID = async (id) => {
   try {
@@ -152,6 +196,7 @@ export default {
   bannAccountByID,
   createAccount,
   editAccountByID,
+  editPassword,
   findAccountByEmail,
   findAccountByEmailAndPassword,
   verifyAccount,

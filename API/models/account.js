@@ -16,7 +16,6 @@ const AccountSchema = new Schema(
       required: [true, "password is required"],
       unique: [false],
     },
-
     accountRole: {
       type: Schema.Types.ObjectId,
       ref: "roles",
