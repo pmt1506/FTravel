@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, Container, Row, Col, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import "../css/Layout.css";
+import "../../css/Layout.css";
 
 const NavbarComponent = () => {
   return (

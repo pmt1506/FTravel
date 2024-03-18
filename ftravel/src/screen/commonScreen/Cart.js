@@ -9,8 +9,8 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import SideBar from "../components/Sidebar";
-
+// import DefaultTemplate from "../../template/DefaultTemplate";
+import DashboardTemplate from "../../template/DashboardTemplate";
 const Cart = () => {
   const { userID } = useParams();
   const { serviceID } = useParams();
@@ -46,12 +46,9 @@ const Cart = () => {
   };
 
   return (
-    <Container fluid>
-      <Row>
-        <Col xs={3} className="p-0">
-          <SideBar />
-        </Col>
-        <Col xs={9}>
+    <DashboardTemplate>
+      <Container fluid>
+        <Row>
           <Row style={{ justifyContent: "left !important" }} className="ml-3">
             <a
               href="/"
@@ -115,9 +112,9 @@ const Cart = () => {
               </tbody>
             </Table>
           </Row>
-        </Col>
-      </Row>
-    </Container>
+        </Row>
+      </Container>
+    </DashboardTemplate>
   );
 };
 

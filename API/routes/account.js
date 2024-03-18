@@ -1,11 +1,11 @@
 import express from "express";
 import { accountController } from "../controller/index.js";
 import * as dotenv from "dotenv";
-// import auth from "./auth.js";
+import auth from "../auth.js";
 import passport from "passport";
 import session from "express-session";
 dotenv.config();
-
+import verifyToken from "../middleware/authen.js";
 const accountRouter = express.Router();
 //check if user loging?
 function isLoggedin(req, res, next) {
@@ -64,13 +64,17 @@ accountRouter.get("/all", accountController.getAllAccount);
  *       500:
  *         description: Server fail
  */
-accountRouter.get("/:accID", accountController.getAccountByID);
+accountRouter.get("/:accID", verifyToken, accountController.getAccountByID);
 //signup
 accountRouter.post("/signup", accountController.createAccount);
 //login route
 accountRouter.post("/login", accountController.getAccountByEmailAndPass);
 // edit profile user
-accountRouter.patch("/profile/:accID", accountController.updateUserInfo);
+accountRouter.patch(
+  "/profile/:accID",
+  verifyToken,
+  accountController.updateUserInfo
+);
 // edit status user (admin)
 accountRouter.patch("/accStatus/:accID", accountController.updateAccountStatus);
 //
@@ -82,25 +86,18 @@ accountRouter.get(
 );
 // google callback
 accountRouter.get(
-  "/auth/google/callback",
+  "/google/callback",
   passport.authenticate("google", {
     session: false,
+    // failureRedirect: "http://localhost:3000/",
+    // successRedirect: "http://localhost:3000/",
   }),
   accountController.oauth2googleAuthen
 );
-//config login success
-accountRouter.get("/auth/protected", isLoggedin, (req, res) => {
-  let name = req.user.displayName;
-  console.log(req.user);
-  res.send(`hi there ${name}`);
-});
-// login fail
-accountRouter.get("/auth/google/failure", (req, res) => {
-  res.send(" fail roi");
-});
+accountRouter.post("/googleLogin", accountController.googleLogin);
+// refresh accesstoken
+accountRouter.post("/refresh", accountController.refreshTokenHa);
+
 // log out
-accountRouter.use("/auth/logout", (req, res) => {
-  req.session.destroy();
-  res.send("bye");
-});
+accountRouter.use("/auth/logout", accountController.logOut);
 export default accountRouter;

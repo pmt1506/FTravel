@@ -1,3 +1,12 @@
+.sidebar {
+    position: fixed;
+    top: 0; /* Đặt vị trí của sidebar theo phía trên */
+    left: 0; /* Đặt vị trí của sidebar theo phía trái */
+    bottom: 0; /* Đặt vị trí của sidebar theo phía dưới */
+    width: 22%;
+  }
+  
+
 .logo {
     box-sizing: border-box;
     padding: 25px 0 15px;
@@ -8,7 +17,7 @@
 
 .list {
     justify-content: left;
-    padding-left: 30px;
+    padding: 0 30px 0 30px;
     width: 100%;
 }
 
@@ -47,7 +56,7 @@ div.avatar img {
 }
 
 .user-plan {
-    border-bottom: 1px solid #092521;
+    /* border-bottom: 1px solid #092521; */
     margin-bottom: 25px;
     padding-bottom: 20px;
     text-align: center;

@@ -1,0 +1,35 @@
+.vendor-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-top: 2rem;
+}
+
+.vendor-card img {
+    border-radius: 50%;
+    width: 100px; 
+    height: auto;
+}
+
+/* .img-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%;
+}
+
+.centered-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+} */
+
+.role{
+    padding: 0.25rem 0.4rem;
+    font-weight: 400;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    background-color: "lightgrey";
+}

@@ -4,7 +4,28 @@ import { serviceController } from "../controller/index.js";
 const serviceRouter = express.Router();
 
 //have filter for user
-serviceRouter.get('/', serviceController.getAllServiceByType);
+/**
+ * @swagger
+ * /service:
+ *   post:
+ *     summary: Get all services (filtered for user)
+ *     tags: [Services]
+ *     requestBody:
+ *       description: Filter criteria (if any)
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *     responses:
+ *       200:
+ *         description: Success
+ *       500:
+ *         description: Server error
+ */
+
+serviceRouter.get("/", serviceController.getAllServiceByType);
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
@@ -116,8 +137,6 @@ serviceRouter.get("/name/:serviceName", serviceController.getServiceByName);
  *         description: Server error
  */
 serviceRouter.put("/:id", serviceController.editService);
-
-
 
 // Delete service by ID - not use, we hide it by edit status
 // serviceRouter.delete('/:id', serviceController.deleteServiceByID);

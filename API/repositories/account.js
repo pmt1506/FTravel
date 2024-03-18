@@ -1,15 +1,18 @@
 import Accounts from "../models/account.js";
 // import { accountDAO } from "./index.js";
+import bcrypt from "bcrypt";
 
 //create new account
-const createAccount = async ({ username, email, password, phoneNumber }) => {
+const createAccount = async ({ userName, email, password, phoneNumber }) => {
   try {
     const newAccount = await Accounts.create({
-      username,
+      userName,
       email,
       phoneNumber,
       password,
+      accountRole: "65e2ea90d9e75d25d6a2b09a",
       status: true,
+      avatarIMG: "https://i.ibb.co/19p9565/avt-FTravel.jpg",
     });
     return newAccount;
   } catch (error) {
@@ -27,7 +30,36 @@ const findAccountByEmail = async (email) => {
     throw new Error(error.message);
   }
 };
-
+const generateRandomPassword = () => {
+  // Generate a random string with specified length
+  const length = 10;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let newPassword = "";
+  for (let i = 0; i < length; i++) {
+    newPassword += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+  return newPassword;
+};
+const createAccountFromGoogle = async (googleData) => {
+  console.log(googleData.displayname);
+  try {
+    const newpass = generateRandomPassword();
+    const salt = bcrypt.genSaltSync(parseInt(10));
+    const hashedPassword = bcrypt.hashSync(newpass, salt);
+    const newAcc = await createAccount({
+      userName: googleData.displayname,
+      email: googleData.email,
+      phoneNumber: "999999 999",
+      password: hashedPassword,
+    });
+    return newAcc;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 //Find account by email and password
 const findAccountByEmailAndPassword = async (email, password) => {
   try {
@@ -45,7 +77,7 @@ const findAccountByEmailAndPassword = async (email, password) => {
 //verifyAccount
 const verifyAccount = async () => {};
 
-//ban account (admin)
+//ban account (admin) ------ nen doi thanh updateAccountStatusByID 
 const bannAccountByID = async (id, status) => {
   try {
     const updatedAccount = await Accounts.findByIdAndUpdate(
@@ -54,7 +86,7 @@ const bannAccountByID = async (id, status) => {
       {
         new: true,
       }
-    );
+    ).populate("accountRole", "roleName");
     if (!updatedAccount) throw new Error("not found to update");
     return updatedAccount;
   } catch (error) {
@@ -88,7 +120,9 @@ const editAccountByID = async (
 // view profile user
 const getAccountInfoByID = async (id) => {
   try {
-    return await Accounts.findById(id).exec();
+    const fo = await Accounts.findById(id).exec();
+    const { createAt, password, updateAt, ...fil } = fo._doc;
+    return fil;
   } catch (error) {
     throw new Error(error.toString());
   }
@@ -97,7 +131,7 @@ const getAccountInfoByID = async (id) => {
 // view list account
 const getAllAccount = async () => {
   try {
-    const listAcc = await Accounts.find().populate().exec();
+    const listAcc = await Accounts.find().populate("accountRole", "roleID").exec();
 
     // Destructure the account properties you want to keep
     const filteredAccounts = listAcc.map(({ createAt, updateAt, ...rest }) => {
@@ -122,4 +156,5 @@ export default {
   verifyAccount,
   getAccountInfoByID,
   getAllAccount,
+  createAccountFromGoogle,
 };
