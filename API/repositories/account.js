@@ -77,7 +77,7 @@ const findAccountByEmailAndPassword = async (email, password) => {
 //verifyAccount
 const verifyAccount = async () => {};
 
-//ban account (admin)
+//ban account (admin) ------ nen doi thanh updateAccountStatusByID 
 const bannAccountByID = async (id, status) => {
   try {
     const updatedAccount = await Accounts.findByIdAndUpdate(
@@ -86,7 +86,7 @@ const bannAccountByID = async (id, status) => {
       {
         new: true,
       }
-    );
+    ).populate("accountRole", "roleName");
     if (!updatedAccount) throw new Error("not found to update");
     return updatedAccount;
   } catch (error) {

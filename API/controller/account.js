@@ -39,11 +39,11 @@ const getAccountByID = async (req, res) => {
   }
 };
 
-// get edit status account
+//  edit account status
 const updateAccountStatus = async (req, res) => {
   const id = req.params.accID;
   const accStatus = req.body.status;
-  const newStat = !accStatus;
+  const newStat = !accStatus;  
   try {
     const updateAccount = await accountDAO.bannAccountByID(id, newStat);
     if (updateAccount !== null) {

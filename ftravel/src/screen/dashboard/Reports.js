@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 const Reports = () => {
   const [report, setReport] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-  const [itemsPerPage] = useState(10); 
+  const [itemsPerPage] = useState(10);
   const [acceptedReport, setAcceptedReport] = useState(null); // Biến để lưu trữ báo cáo được chấp nhận
   const [showModal, setShowModal] = useState(false); // Biến để xác định trạng thái hiển thị của modal
 
@@ -30,9 +30,9 @@ const Reports = () => {
         data.sort((a, b) => {
           return a.status === b.status ? 0 : a.status ? -1 : 1;
         });
-        
+
         setReport(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.error('Error fetching users:', error);
@@ -69,49 +69,51 @@ const Reports = () => {
     setShowModal(false); // Ẩn modal nếu bị đóng
   };
 
-    // Tính index bắt đầu của mục đầu tiên trên trang hiện tại
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = report.slice(indexOfFirstItem, indexOfLastItem);
-  
-    // Chuyển trang
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // Tính index bắt đầu của mục đầu tiên trên trang hiện tại
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = report.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Chuyển trang
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <DashboardTemplate title="Manage Report" className="row">
       <Row className="m-3 ml-auto">
         <Col>
-        {/* Action bar */}
+          {/* Action bar */}
         </Col>
         <Col>
-        {/* Phân trang */}
-        <ul className="pagination">
-          {Array.from({ length: Math.ceil(report.length / itemsPerPage) }).map((_, index) => (
-            <li key={index} className="page-item">
-              <button onClick={() => paginate(index + 1)} className="page-link">
-                {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
+          {/* Phân trang */}
+          <ul className="pagination">
+            {Array.from({ length: Math.ceil(report.length / itemsPerPage) }).map((_, index) => (
+              <li key={index} className="page-item">
+                <button onClick={() => paginate(index + 1)} className="page-link">
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
         </Col>
-      
+
       </Row>
       <Row style={{ backgroundColor: "#fff" }} className="col-lg-12" >
         <Table className="table-striped table-bordered table-responsive">
           <thead>
-            <th className="col-lg-1">No.</th>
-            <th className="col-lg-2">Reporter</th>
-            <th className="col-lg-3">Service name</th>
-            <th className="col-lg-4">Content</th>
-            <th className="col-lg-1">Status</th>
-            <th className="col-lg-1">Action</th>
+            <tr>
+              <th className="col-lg-1">No.</th>
+              <th className="col-lg-2">Reporter</th>
+              <th className="col-lg-3">Service name</th>
+              <th className="col-lg-4">Content</th>
+              <th className="col-lg-1">Status</th>
+              <th className="col-lg-1">Action</th>
+            </tr>
           </thead>
           <tbody>
             {currentItems.map((report, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{report.userID.username}</td>
-                <td><Link to={"/detail/" + report.serviceID}>{report.serviceID.title}</Link></td>
+                <td><Link to={"/detail/" + report.serviceID._id}>{report.serviceID.title}</Link></td>
                 {/* Nên có title cho report. Tạo thêm một action view detail - vì khả năng có content dài, 
                 khi click vào sẽ hiện popup detail của report 
                 Có thể gồm title, service name + type, content chi tiết 

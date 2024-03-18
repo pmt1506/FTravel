@@ -32,7 +32,7 @@ const Services = () => {
     fetch(`http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         setAllServices(data.allServices);
       });
 
