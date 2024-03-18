@@ -9,11 +9,11 @@ import Home from "./screen/Home";
 import About from "./screen/About";
 import Cart from "./screen/Cart";
 import Services from "./screen/dashboard/Services";
-import Users from "./screen/dashboard/Users";
 import Reports from "./screen/dashboard/Reports";
 import Tour from "./screen/services/Tour";
 import EditProfile from "./screen/dashboard/EditProfile";
 import ChangePass from "./screen/dashboard/ChangePass";
+import UserDetail from "./screen/dashboard/UserDetail";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         <Route path="/tour" element={<Tour />} />
 
         <Route path="/dashboard/service" element={<Services />} />
-        <Route path="/dashboard/:accID" element={<Users />} />
+        <Route path="/dashboard/:accID" element={<UserDetail />} />
         <Route path="/dashboard/report" element={<Reports />} />
         <Route path="/dashboard/profile/:accID" element={<EditProfile />} />
         <Route path="/dashboard/password/:accID" element={<ChangePass />} />

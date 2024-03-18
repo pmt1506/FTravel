@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import DashboardTemplate from "../../template/DashboardTemplate";
 import { Row } from "react-bootstrap";
 
-const Users = () => {
+const UserDetail = () => {
   const [userData, setUserData] = useState({});
   //accID lấy từ App.js (cái m truyền vào link)
   const { accID } = useParams();
@@ -39,4 +39,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UserDetail;
