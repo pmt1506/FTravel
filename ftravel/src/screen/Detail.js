@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Detail = () => {
   const { serviceID } = useParams();
+  const { userID } = useParams();
   const [value, setValue] = useState(1);
   const [service, setService] = useState([]);
   const [type, setType] = useState([]);
@@ -16,6 +18,27 @@ const Detail = () => {
         setType(data.type)
       });
   }, []);
+
+  const addToCart = async (e) => {
+    e.preventDefault();
+    const requestData = {
+      userID: userID,
+      serviceID: serviceID
+    }
+    try {
+      const res = await fetch("http://localhost:9999/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      toast.success("Added successfully")
+    }
+    catch (error) {
+      toast.error("Failed");
+    }
+  }
 
   var startDateString = service.startDate;
 
@@ -95,10 +118,11 @@ const Detail = () => {
                 {" "}
                 Book now{" "}
               </a>
-              <Link to={"/"} className="btn btn-primary shadow-0 mr-2">
+              <Button onClick={addToCart} className="btn btn-primary shadow-0 mr-2">
                 {" "}
                 <i class="bi bi-cart3"></i> Add to cart{" "}
-              </Link>
+              </Button>
+              <ToastContainer />
             </Row>
           </div>
         </Col>
