@@ -24,7 +24,6 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => {
         setHotelList(data.servicesByType);
-        console.log("Hotel list: ", data.servicesByType);
       });
   }, []);
 
