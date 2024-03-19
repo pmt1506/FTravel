@@ -68,7 +68,11 @@ const VendorAddService = () => {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
+          reader.onload = () => {
+            const base64 = reader.result; // Get the base64 representation
+            console.log("Base64 representation:", base64); // Log the base64 representation
+            resolve(base64);
+          };
           reader.onerror = (error) => reject(error);
         });
       })

@@ -5,7 +5,7 @@ import ServiceTypes from "../models/serviceType.js";
 
 const createService = async ({
   title,
-  thumbnail,
+  thumbnails, // Change 'thumbnail' to 'thumbnails'
   slot,
   price,
   description,
@@ -19,7 +19,7 @@ const createService = async ({
   try {
     const newService = await Services.create({
       title,
-      thumbnail,
+      thumbnails, // Change 'thumbnail' to 'thumbnails'
       slot,
       price,
       description,
@@ -186,7 +186,6 @@ const getServiceByVendor = async (accountID, page, pageSize) => {
   try {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
-
 
     const services = await Services.find({ accountID: accountID })
       .skip(skip)

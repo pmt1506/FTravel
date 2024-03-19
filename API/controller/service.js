@@ -4,7 +4,7 @@ const createService = async (req, res) => {
   try {
     const {
       title,
-      thumbnail,
+      thumbnails, // Change 'thumbnail' to 'thumbnails'
       slot,
       price,
       description,
@@ -18,7 +18,7 @@ const createService = async (req, res) => {
 
     const result = await serviceDAO.createService({
       title,
-      thumbnail,
+      thumbnails, // Change 'thumbnail' to 'thumbnails'
       slot,
       price,
       description,
@@ -189,7 +189,7 @@ const getServicesByNameWithStatusAndTypes = async (req, res) => {
       "65e2e9d2d9e75d25d6a2b092"
     );
 
-    const services = [...tourList, ...hotelList, ...eventList]; 
+    const services = [...tourList, ...hotelList, ...eventList];
     if (services.length > 0) {
       res.status(200).json({
         tourList: tourList,
