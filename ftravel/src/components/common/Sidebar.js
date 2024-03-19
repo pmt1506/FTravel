@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const userID = localStorage.getItem("userID");
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -85,7 +85,7 @@ const SideBar = () => {
             )}
 
             {/* End */}
-            {role === "endor" ? (
+            {role === "Vendor" ? (
               <>
                 {" "}
                 <li>
@@ -114,14 +114,19 @@ const SideBar = () => {
               <>
                 {" "}
                 <li>
-                  <a href="#">
-                    <i className="bi bi-person-circle"></i> User profile
+                  <a href={`/dashboard/profile/edit/${userID}`}>
+                    <i className="bi bi-person-circle"></i>Edit profile
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href={`/dashboard/password/${userID}`}>
                     <i className="bi bi-key"></i> Change password
                   </a>
+                </li>
+                <li>
+                  <Link to={`/cart/`}>
+                    <i className="bi bi-wallet"></i> Cart{" "}
+                  </Link>
                 </li>
               </>
             ) : (

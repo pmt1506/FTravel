@@ -27,7 +27,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Customer*/}
-        <Route path="/cart/:userID" element={<Cart />} />
+        <Route path="/cart/" element={<Cart />} />
         <Route path="/detail/:serviceID" element={<Detail />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

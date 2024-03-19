@@ -16,7 +16,9 @@ const Reports = () => {
   }, []);
 
   const fetchData = () => {
-    fetch(`http://localhost:9999/report`)
+    fetch(`http://localhost:9999/report`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         // Sắp xếp mảng report sao cho các báo cáo có status là true được đẩy lên đầu
@@ -45,13 +47,14 @@ const Reports = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ status: true }), // Set status for "Processed"
       })
         .then((res) => res.json())
         .then((data) => {
           fetchData();
           setShowModal(false);
-          toast.success("Accepted Report!")
+          toast.success("Accepted Report!");
         })
         .catch((error) => {
           console.error("Error updating report status:", error);

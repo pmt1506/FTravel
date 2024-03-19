@@ -7,7 +7,9 @@ const Users = () => {
   const [user, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:9999/account/all`)
+    fetch(`http://localhost:9999/account/all`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

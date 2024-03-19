@@ -46,7 +46,7 @@ cart.post("/", cartController.addToCart);
  *       500:
  *         description: Server error
  */
-cart.get("/:userID", cartController.viewCart);
+cart.get("/", cartController.viewCart);
 /**
  * @swagger
  * /carts/{serviceID}:

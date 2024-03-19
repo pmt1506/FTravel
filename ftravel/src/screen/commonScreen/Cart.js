@@ -13,7 +13,6 @@ import DashboardTemplate from "../../template/DashboardTemplate";
 import { ToastContainer, toast } from "react-toastify";
 
 const Cart = () => {
-
   const [cart, setCart] = useState([]);
   const [service, setService] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +20,9 @@ const Cart = () => {
   const userID = localStorage.getItem("userID");
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:9999/cart/${userID}`);
+      const response = await fetch(`http://localhost:9999/cart/`, {
+        credentials: "include",
+      });
       const data = await response.json();
       setCart(data);
       const serviceIDs = data.map((cartItem) => cartItem.serviceID).flat();

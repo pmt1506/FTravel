@@ -2,8 +2,8 @@ import { cartDAO } from "../repositories/index.js";
 
 const addToCart = async (req, res) => {
   try {
-    const { userID, serviceID } = req.body;
-
+    const { serviceID } = req.body;
+    const userID = req.cookies.userID;
     const isExisted = await cartDAO.checkDuplicate(userID, serviceID);
 
     if (!isExisted) {
