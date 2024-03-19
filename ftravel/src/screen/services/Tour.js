@@ -222,7 +222,7 @@ const Tour = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 d-flex mt-2">
+              <div className="col-md-6 d-flex justify-content-end mt-2">
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="priceFilterDropdown">
                     Lọc tầm giá
@@ -252,7 +252,7 @@ const Tour = () => {
                   </Dropdown.Menu>
                 </Dropdown>
                 {/* React Bootstrap dropdown for sorting */}
-                <Dropdown>
+                <Dropdown className="ml-1">
                   <Dropdown.Toggle variant="secondary" id="sortDropdown">
                     Sắp xếp giá
                   </Dropdown.Toggle>
@@ -281,32 +281,31 @@ const Tour = () => {
               <div className="row">
                 {tourList.map((tour, index) => (
                   <div className="col-md-3" key={index}>
-                    <div className="card mb-3 d-flex flex-column">
-                      <img
-                        src={tour.thumbnail}
-                        alt="Tour image"
-                        className="card-img-top card-thumbnail"
-                      />
-                      <div className="card-body d-flex flex-column">
-                        <div className="row">
-                          <div className="col-12 flex-grow-1">
-                            {/* Link to detail */}
-                            <h6 className="card-title">
-                              <Link to={`/detail/${tour._id}`}>
-                                {tour.title}
-                              </Link>
-                            </h6>
+                    <Link to={`/detail/${tour._id}`} className="card-link">
+                      <div className="card mb-3 d-flex flex-column">
+                        <img
+                          src={tour.thumbnail}
+                          alt="Tour image"
+                          className="card-img-top card-thumbnail"
+                        />
+                        <div className="card-body d-flex flex-column">
+                          <div className="row">
+                            <div className="col-12 flex-grow-1">
+                              {/* Title */}
+                              <h6 className="card-title">{tour.title}</h6>
+                            </div>
                           </div>
-                        </div>
-                        <div className="d-flex justify-content-between mt-2">
-                          <div className="pt-2">
-                            <p className="align-middle price">
-                              {formatPrice(tour.price)}
-                            </p>
+                          <div className="d-flex justify-content-between mt-2">
+                            <div className="pt-2">
+                              {/* Price */}
+                              <p className="align-middle price">
+                                {formatPrice(tour.price)}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
                 {/* Bootstrap Pagination */}
@@ -324,7 +323,7 @@ const Tour = () => {
                               className="page-link"
                               onClick={() => handlePageChange(currentPage - 1)}
                             >
-                              Previous
+                              Trang trước
                             </button>
                           </li>
                           {Array.from({ length: totalPages }, (_, i) => (
@@ -351,7 +350,7 @@ const Tour = () => {
                               className="page-link"
                               onClick={() => handlePageChange(currentPage + 1)}
                             >
-                              Next
+                              Trang sau
                             </button>
                           </li>
                         </ul>

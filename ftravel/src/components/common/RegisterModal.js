@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -49,17 +49,21 @@ function RegisterModal({ show, setShowReg }) {
   };
 
   return (
-    <Modal show={show}>
+    <Modal show={show} style={{ marginTop: "8rem" }}>
       <Modal.Header>
-        <Modal.Title>Register</Modal.Title>
+        <Container>
+          <Row className="justify-content-center">
+            <Modal.Title>Đăng kí</Modal.Title>
+          </Row>
+        </Container>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
           <Form.Group controlId="email">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Địa chỉ Email</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Nhập địa chỉ Email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -67,10 +71,10 @@ function RegisterModal({ show, setShowReg }) {
             />
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter password"
+              placeholder="Nhập mật khẩu"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -78,24 +82,24 @@ function RegisterModal({ show, setShowReg }) {
             />
           </Form.Group>
           <Form.Group controlId="rePassword">
-            <Form.Label>Re-enter Password</Form.Label>
+            <Form.Label>Xác nhận mật khẩu</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Confirm your password"
+              placeholder="Nhập lại mật khẩu"
               onChange={(e) => {
                 setRePassword(e.target.value);
               }}
+              autoComplete="new-password"
               required
             />
           </Form.Group>
           <Row>
             <Col>
-              {" "}
               <Form.Group controlId="userName">
-                <Form.Label>User Name</Form.Label>
+                <Form.Label>Tên tài khoản</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter username"
+                  placeholder="Nhập tên tài khoản"
                   onChange={(e) => {
                     setUserName(e.target.value);
                   }}
@@ -104,12 +108,11 @@ function RegisterModal({ show, setShowReg }) {
               </Form.Group>
             </Col>
             <Col>
-              {" "}
               <Form.Group controlId="phoneNumber">
-                <Form.Label>Phone Number</Form.Label>
+                <Form.Label>Số điện thoại</Form.Label>
                 <Form.Control
                   type="tel"
-                  placeholder="Enter phone number"
+                  placeholder="Nhập số điện thoại"
                   onChange={(e) => {
                     setPhoneNumber(e.target.value);
                   }}
@@ -122,8 +125,12 @@ function RegisterModal({ show, setShowReg }) {
 
           <Row className="justify-content-center">
             <div>
-              <Button className="btn-btn-success" type="submit">
-                Register
+              <Button
+                className="btn-btn-success"
+                type="submit"
+                variant="success"
+              >
+                Đăng kí ngay
               </Button>
             </div>
           </Row>
@@ -132,7 +139,8 @@ function RegisterModal({ show, setShowReg }) {
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseReg}>
-          Close
+          <i class="bi bi-x-lg mr-1"></i>
+          Đóng
         </Button>
       </Modal.Footer>
     </Modal>

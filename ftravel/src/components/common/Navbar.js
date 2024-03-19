@@ -22,7 +22,7 @@ const NavbarComponent = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  Home
+                  Trang chủ
                 </NavLink>
                 <NavLink
                   to={"/tour"}
@@ -44,7 +44,7 @@ const NavbarComponent = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  Hotel
+                  Khách sạn
                 </NavLink>
                 <NavLink
                   to={"/event"}
@@ -55,7 +55,7 @@ const NavbarComponent = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  Event
+                  Sự kiện
                 </NavLink>
                 <NavLink
                   to="/about"
@@ -67,7 +67,7 @@ const NavbarComponent = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  About
+                  Về chúng tôi
                 </NavLink>
                 <NavLink
                   to={"/vendor-list"}
@@ -79,7 +79,7 @@ const NavbarComponent = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  Vendor List
+                  Danh sách nhà cung cấp
                 </NavLink>
               </Nav>
             </Navbar.Collapse>

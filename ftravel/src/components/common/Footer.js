@@ -9,28 +9,28 @@ const Footer = () => {
         <Col md={4}>
           <h5>FTravel</h5>
           <p>
-            Welcome to FTravel - Your Ultimate Travel Companion. Explore the
-            world with us!
+            Chào mừng bạn đến với FTravel - Người bạn du lịch tuyệt vời nhất của
+            bạn. Khám phá thế giới cùng chúng tôi!
           </p>
         </Col>
         <Col md={4}>
-          <h5>Quick Links</h5>
+          <h5>Liên kết nhanh</h5>
           <ul style={{ listStyleType: "none", padding: "0" }}>
             <li>
               <a href="/">Tours</a>
             </li>
             <li>
-              <a href="/">Hotels</a>
+              <a href="/">Khách sạn</a>
             </li>
             <li>
-              <a href="/">Events</a>
+              <a href="/">Sự kiện</a>
             </li>
           </ul>
         </Col>
         <Col md={4}>
-          <h5>Contact Us</h5>
+          <h5>Liên hệ</h5>
           <p>Email: info@ftravel.com</p>
-          <p>Phone: +1 (123) 456-7890</p>
+          <p>Điện thoại: +1 (123) 456-7890</p>
         </Col>
       </Row>
     </Container>

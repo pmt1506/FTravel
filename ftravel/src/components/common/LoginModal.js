@@ -59,21 +59,21 @@ function LoginModal({ show, setShowLogin }) {
   };
 
   return (
-    <Modal show={show}>
+    <Modal show={show} style={{ marginTop: "8rem" }}>
       <Modal.Header>
         <Container>
           <Row className="justify-content-center">
-            <Modal.Title>Login</Modal.Title>
+            <Modal.Title>Đăng nhập</Modal.Title>
           </Row>
         </Container>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
           <Form.Group controlId="email">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Nhập email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -81,24 +81,29 @@ function LoginModal({ show, setShowLogin }) {
             />
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter password"
+              placeholder="Nhập mật khẩu"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
               required
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Log In
-          </Button>
-          {/* Add password input field here */}
+          <div className="text-center mt-3">
+            {/* Wrap the button inside a div with text-center class */}
+            <Button variant="success" type="submit">
+              Login
+            </Button>
+          </div>
         </Form>
+
         <hr />
         <Row className="justify-content-center">
-          <div className="justify-content-center">or login with google</div>
+          <div className="justify-content-center">
+            Hoặc đăng nhập bằng Google
+          </div>
         </Row>
         {/* <GoogleLogin
           onSuccess={(credentialResponse) => {
@@ -112,16 +117,20 @@ function LoginModal({ show, setShowLogin }) {
           size={"large"}
           width={"395px"}
         /> */}
-        <Row className="justify-content-center">
-          <Button variant="danger">
-            <Link to={"http://localhost:9999/account/auth/google"}>google</Link>
-          </Button>
+        <Row className="justify-content-center mt-2">
+          <Link to="http://localhost:9999/account/auth/google">
+            <Button variant="primary" className="google-sign-in-button">
+              <i class="bi bi-google mr-2"></i>
+              Sign in with Google
+            </Button>
+          </Link>
         </Row>
       </Modal.Body>
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseLogin}>
-          Close
+          <i class="bi bi-x-lg mr-1"></i>
+          Đóng
         </Button>
       </Modal.Footer>
     </Modal>

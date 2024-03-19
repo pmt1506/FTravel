@@ -129,22 +129,21 @@ const Hotel = () => {
 
   return (
     <DefaultTemplate>
-      <TourBanner />
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-4">
             <div className="row">
               <div className="col-3">
                 <img
-                  src="https://static.vecteezy.com/system/resources/previews/026/641/257/original/user-icon-in-flat-style-person-icon-user-icon-for-web-site-user-icon-illustration-vector.jpg"
+                  src="https://png.pngtree.com/png-vector/20190521/ourmid/pngtree-hotel-icon-for-personal-and-commercial-use-png-image_1044892.jpg"
                   alt="Image"
                   style={{ width: "80px", height: "80px" }}
                 />
               </div>
               <div className="col-9">
-                <h3>Cộng tác viên</h3>
+                <h3>Khách sạn tốt</h3>
                 <p className="text-muted">
-                  Danh sách các cộng tác viên đông đảo tại FTravel
+                  Trải nghiệm khách sạn cao cấp với ưu đãi tốt
                 </p>
               </div>
             </div>
@@ -153,7 +152,7 @@ const Hotel = () => {
             <div className="row">
               <div className="col-3">
                 <img
-                  src="https://static.vecteezy.com/system/resources/previews/022/267/435/non_2x/verified-person-icon-for-any-purposes-vector.jpg"
+                  src="https://www.svgrepo.com/download/6268/money.svg"
                   alt="Image"
                   style={{ width: "80px", height: "80px" }}
                 />
@@ -222,7 +221,7 @@ const Hotel = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 d-flex mt-2">
+              <div className="col-md-6 d-flex justify-content-end mt-2">
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" id="priceFilterDropdown">
                     Lọc tầm giá
@@ -252,7 +251,7 @@ const Hotel = () => {
                   </Dropdown.Menu>
                 </Dropdown>
                 {/* React Bootstrap dropdown for sorting */}
-                <Dropdown>
+                <Dropdown className="ml-1">
                   <Dropdown.Toggle variant="secondary" id="sortDropdown">
                     Sắp xếp giá
                   </Dropdown.Toggle>
@@ -281,31 +280,31 @@ const Hotel = () => {
               <div className="row">
                 {hotelList.map((hotel, index) => (
                   <div className="col-md-3" key={index}>
-                    <div className="card mb-3 d-flex flex-column">
-                      <img
-                        src={hotel.thumbnail}
-                        alt="Hotel image"
-                        className="card-img-top card-thumbnail"
-                      />
-                      <div className="card-body d-flex flex-column">
-                        <div className="row">
-                          <div className="col-12 flex-grow-1">
-                            <h6 className="card-title">
-                              <Link to={`/detail/${hotel._id}`}>
-                                {hotel.title}
-                              </Link>
-                            </h6>
+                    <Link to={`/detail/${hotel._id}`} className="card-link">
+                      <div className="card mb-3 d-flex flex-column">
+                        <img
+                          src={hotel.thumbnail}
+                          alt="Tour image"
+                          className="card-img-top card-thumbnail"
+                        />
+                        <div className="card-body d-flex flex-column">
+                          <div className="row">
+                            <div className="col-12 flex-grow-1">
+                              {/* Title */}
+                              <h6 className="card-title">{hotel.title}</h6>
+                            </div>
                           </div>
-                        </div>
-                        <div className="d-flex justify-content-between mt-2">
-                          <div className="pt-2">
-                            <p className="align-middle price">
-                              {formatPrice(hotel.price)}
-                            </p>
+                          <div className="d-flex justify-content-between mt-2">
+                            <div className="pt-2">
+                              {/* Price */}
+                              <p className="align-middle price">
+                                {formatPrice(hotel.price)}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
                 {/* Bootstrap Pagination */}
@@ -323,7 +322,7 @@ const Hotel = () => {
                               className="page-link"
                               onClick={() => handlePageChange(currentPage - 1)}
                             >
-                              Previous
+                              Trang trước
                             </button>
                           </li>
                           {Array.from({ length: totalPages }, (_, i) => (
@@ -350,7 +349,7 @@ const Hotel = () => {
                               className="page-link"
                               onClick={() => handlePageChange(currentPage + 1)}
                             >
-                              Next
+                              Trang sau
                             </button>
                           </li>
                         </ul>

@@ -151,7 +151,7 @@ const Header = () => {
             <Form.Control
               className="search-input"
               type="text"
-              placeholder="Search..."
+              placeholder="Hãy tìm kiếm dịch vụ.."
               value={searchTerm}
               onChange={handleSearchChange}
               // onBlur={handleSearchBlur}
@@ -243,12 +243,12 @@ const Header = () => {
                   className="mx-2"
                   onClick={handleShowLogin}
                 >
-                  Login
+                  Đăng nhập
                 </Button>
               </NavLink>
               <NavLink className="align-items-center">
                 <Button variant="outline-success" onClick={handleShowReg}>
-                  Register
+                  Đăng kí
                 </Button>
               </NavLink>
             </>
@@ -263,7 +263,7 @@ const Header = () => {
                   style={{ width: "3rem", height: "3rem", borderRadius: "50%" }}
                 />
                 <span className="ml-2 user-info-username">
-                  Hello, {username}
+                  Xin chào {username}
                 </span>
                 {/* User menu */}
                 <ul className="user-menu mt-2">
@@ -271,7 +271,7 @@ const Header = () => {
                     <a href="/dashboard">Dashboard</a>
                   </li>
                   <li>
-                    <button onClick={handleLogout}>Logout</button>
+                    <button onClick={handleLogout}>Đăng xuất</button>
                   </li>
                 </ul>
               </div>

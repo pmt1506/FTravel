@@ -15,6 +15,9 @@ const TourBanner = () => {
     "https://images.pexels.com/photos/449283/pexels-photo-449283.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   ];
 
+  // Shuffle the array of placeholder images
+  const shuffledImages = placeholderImages.sort(() => Math.random() - 0.5);
+
   const settings = {
     infinite: true,
     speed: 500,
@@ -24,12 +27,13 @@ const TourBanner = () => {
     fade: true,
     cssEase: "linear",
   };
+
   return (
     <div className="container mt-4">
       <div className="row">
         <div className="col">
           <Slider {...settings}>
-            {placeholderImages.map((image, index) => (
+            {shuffledImages.map((image, index) => (
               <div key={index}>
                 <img
                   src={image}
