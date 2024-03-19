@@ -22,27 +22,22 @@ const UserDetail = () => {
   }, []);
   return (
     <DashboardTemplate title="Manage User">
-      <Row className="m-3">
-        <div
-          className="container"
-          style={{ alignContent: "center", marginLeft: "300px" }}
-        >
-          <h2 style={{ textAlign: "center" }}>User Profile</h2>
-          <form className="mt-4">
-            <p>
-              <img
-                src={userData.avatarIMG}
-                className="img-fluid"
-                alt="User Avatar"
-              />
-            </p>
-            <p>User Name: {userData.userName}</p>
-            <p>Email: {userData.email}</p>
-            <p>Phone Number: {userData.phoneNumber}</p>
-            <p>Address: {userData.address}</p>
-          </form>
+      <div style={{ textAlign: "center" }}>
+        <h2>User Profile</h2>
+        <div style={{ display: "inline-block" }}>
+          <img
+            src={userData.avatarIMG}
+            alt="User Avatar"
+            style={{ display: "block", margin: "0 auto" }}
+          />
         </div>
-      </Row>
+        <div>
+          <p>User Name: {userData.userName}</p>
+          <p>Email: {userData.email}</p>
+          <p>Phone Number: {userData.phoneNumber}</p>
+          <p>Address: {userData.address}</p>
+        </div>
+      </div>
     </DashboardTemplate>
   );
 };

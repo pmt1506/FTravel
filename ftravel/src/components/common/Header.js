@@ -1,5 +1,5 @@
 import { Row, Container, Col, Button, Form, Image } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../img/logo.png";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
@@ -22,6 +22,8 @@ const Header = () => {
   const [eventList, setEventList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -87,6 +89,8 @@ const Header = () => {
     setIsSearchFocused(true);
   };
   const [userAVT, setUserAvt] = useState("");
+  const [username, setUsername] = useState("");
+
   const atoken = Cookies.get("accessToken");
   const rtoken = Cookies.get("refreshToken");
   const userID = Cookies.get("userID");
@@ -98,12 +102,36 @@ const Header = () => {
       .then((res) => res.json())
       .then((data) => {
         setUserAvt(data.avatarIMG);
+        setUsername(data.userName);
         console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
   }, []);
+
+  const handleLogout = () => {
+    fetch("http://localhost:9999/account/auth/logout", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        // Check if the logout was successful
+        if (res.ok) {
+          localStorage.removeItem("userID");
+
+          // Redirect the user to the home page
+          navigate("/");
+          window.location.reload();
+        } else {
+          // Handle logout error
+          console.error("Logout failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
+  };
 
   return (
     <Container className="header-app">
@@ -226,7 +254,27 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Image src={userAVT} style={{ width: "5rem" }} roundedCircle />
+              {/* <Image src={userAVT} style={{ width: "4rem" }} roundedCircle /> */}
+              {/* Show image and username */}
+              <div className="float-right user-info">
+                <img
+                  src={userAVT}
+                  alt={username}
+                  style={{ width: "3rem", height: "3rem", borderRadius: "50%" }}
+                />
+                <span className="ml-2 user-info-username">
+                  Hello, {username}
+                </span>
+                {/* User menu */}
+                <ul className="user-menu mt-2">
+                  <li>
+                    <a href="/dashboard">Dashboard</a>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout}>Logout</button>
+                  </li>
+                </ul>
+              </div>
             </>
           )}
         </Col>
