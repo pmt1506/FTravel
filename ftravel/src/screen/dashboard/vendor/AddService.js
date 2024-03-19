@@ -4,6 +4,15 @@ import { useState } from "react";
 
 const AddService = () => {
   const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [price, setPrice] = useState("");
+  const [slot, setSlot] = useState("");
+  const [description, setDescription] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [region, setRegion] = useState("");
+  const [city, setCity] = useState("");
+  const [type, setType] = useState("");
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {

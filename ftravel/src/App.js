@@ -49,10 +49,7 @@ function App() {
         <Route path="/vendor/service/add" element={<VendorAddService />} />
         <Route path="/dashboard" element={<UserDetail />} />
         <Route path="/dashboard/bill" element={<UserBill />} />
-        <Route
-          path="/dashboard/profile/edit/:accID"
-          element={<EditProfile />}
-        />
+        <Route path="/dashboard/profile/edit/" element={<EditProfile />} />
         <Route path="/dashboard/password/:accID" element={<ChangePass />} />
       </Routes>
       <ToastContainer

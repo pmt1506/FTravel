@@ -114,7 +114,7 @@ const SideBar = () => {
               <>
                 {" "}
                 <li>
-                  <a href={`/dashboard/profile/edit/${userID}`}>
+                  <a href={`/dashboard/profile/edit/`}>
                     <i className="bi bi-person-circle"></i>Edit profile
                   </a>
                 </li>

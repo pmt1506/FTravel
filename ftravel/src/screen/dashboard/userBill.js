@@ -11,12 +11,20 @@ const UserBill = () => {
       .then((res) => res.json())
       .then((data) => {
         setBills(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
   }, []);
+  var startDateStrings = bills.map((s) => s.serviceID.startDate);
+
+  var formattedDates = startDateStrings.map((startDateString) => {
+    var startDate = new Date(startDateString);
+    var day = startDate.getDate();
+    var month = startDate.getMonth() + 1;
+    var year = startDate.getFullYear();
+    return day + "/" + month + "/" + year;
+  });
   return (
     <DashboardTemplate title={"Bill"}>
       <Row style={{ backgroundColor: "#fff" }} className="col-lg-12">
@@ -30,11 +38,11 @@ const UserBill = () => {
             </tr>
           </thead>
           <tbody>
-            {bills.map((b) => (
+            {bills.map((b, i) => (
               <tr key={b._id}>
                 <td>{b.serviceID.title}</td>
-                <td>{b.serviceID.price}</td>
-                <td>{b.serviceID.startDate}</td>
+                <td>{b.serviceID.price} $</td>
+                <td>{formattedDates[i]}</td>
                 <td>
                   {b.status ? (
                     <Button variant="success">Accepted </Button>

@@ -99,7 +99,6 @@ const editAccountByID = async (
   id,
   { email, phoneNumber, avatarIMG, userName, address }
 ) => {
-  console.log(id);
   try {
     const updateAcc = await Accounts.findByIdAndUpdate(
       id,

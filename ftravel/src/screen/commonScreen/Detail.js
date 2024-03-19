@@ -85,7 +85,7 @@ const Detail = () => {
               </div>
 
               <div className="mb-3">
-                <span className="h5">{service.price}$</span>
+                <span className="h5">{service.price} $</span>
               </div>
 
               <p>{service.description}</p>
@@ -97,7 +97,7 @@ const Detail = () => {
                   <td style={{ marginLeft: "5px" }}>Tour</td>
                 </Row>
                 <Row>
-                  <dt>Group size:</dt>
+                  <dt>Slot:</dt>
                   <dd>
                     <span className="text-muted" style={{ marginLeft: "5px" }}>
                       {service.slot}

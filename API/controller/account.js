@@ -57,7 +57,7 @@ const updateAccountStatus = async (req, res) => {
 };
 // get edit profile user
 const updateUserInfo = async (req, res) => {
-  const id = req.params.accID;
+  const id = req.cookies.userID;
   try {
     const { email, phoneNumber, avatarIMG, userName, address } = req.body;
     const updateAccount = await accountDAO.editAccountByID(id, {
