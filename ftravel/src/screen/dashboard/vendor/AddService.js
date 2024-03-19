@@ -1,7 +1,9 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import DashboardTemplate from "../../../template/DashboardTemplate";
+import { useState } from "react";
 
 const AddService = () => {
+  const [title, setTitle] = useState("");
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {

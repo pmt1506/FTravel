@@ -6,31 +6,8 @@ import { billDAO } from "../repositories/index.js";
 const addBill = async (req, res) => {
   const userID = req.cookies.userID;
   try {
-    const {
-      price,
-      serviceID,
-      thumbnail,
-      slot,
-      title,
-      region,
-      city,
-      startDate,
-      endDate,
-      type,
-    } = req.body;
-    const newBill = await billDAO.addBill({
-      price,
-      userID,
-      serviceID,
-      thumbnail,
-      slot,
-      title,
-      region,
-      city,
-      startDate,
-      endDate,
-      type,
-    });
+    const { price, serviceID } = req.body;
+    const newBill = await billDAO.addBill({ price, userID, serviceID });
     res.status(201).json(newBill);
   } catch (error) {
     res.status(500).json({ error: error.toString() });

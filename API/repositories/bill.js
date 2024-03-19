@@ -3,32 +3,12 @@ import Bills from "../models/bill.js";
 // Operation CRUD MONGODB -> Bill
 
 //add bill
-const addBill = async ({
-  price,
-  userID,
-  serviceID,
-  thumbnail,
-  slot,
-  title,
-  region,
-  city,
-  startDate,
-  endDate,
-  type,
-}) => {
+const addBill = async ({ price, userID, serviceID }) => {
   try {
     const newBill = await Bills.create({
       price,
       userID,
       serviceID,
-      thumbnail,
-      slot,
-      title,
-      region,
-      city,
-      startDate,
-      endDate,
-      type,
       status: true,
     });
     return newBill._doc;
