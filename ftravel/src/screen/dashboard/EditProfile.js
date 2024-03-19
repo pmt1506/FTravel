@@ -56,7 +56,7 @@ const EditProfile = () => {
         <DashboardTemplate title="Manage User">
             <Row className="m-3">
                 <div className="container" style={{ alignContent: "center", marginLeft: "255px" }}>
-                    <h2 style={{textAlign: "center"}}>Edit Profile</h2>
+                    <h2 style={{ marginLeft: "100px" }}>Edit Profile</h2>
                     <form className="mt-4" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>Email</label>

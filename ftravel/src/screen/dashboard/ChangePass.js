@@ -56,7 +56,7 @@ const ProfileForm = () => {
     <DashboardTemplate title="Manage User">
       <Row className="m-3">
         <div className="container" style={{ alignContent: "center", marginLeft: "225px" }}>
-          <h2 style={{textAlign: "center"}}>Change password</h2>
+        <h2 style={{ marginLeft: "100px" }}>Change password</h2>
           <form className="mt-4" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Current password</label>
