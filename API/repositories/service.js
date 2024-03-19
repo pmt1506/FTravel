@@ -186,14 +186,9 @@ const getServiceByVendor = async (accountID, page, pageSize) => {
   try {
     const skip = (page - 1) * pageSize;
     const limit = pageSize;
-    if (!accountID) {
-      return await Services.find({ status: true })
-        .populate("accountID")
-        .skip(skip)
-        .limit(limit);
-    }
 
-    const services = await Services.find({ status: true, accountID: accountID })
+
+    const services = await Services.find({ accountID: accountID })
       .skip(skip)
       .limit(limit)
       .populate("accountID", "username")
@@ -210,7 +205,6 @@ const getServiceByVendor = async (accountID, page, pageSize) => {
 const getServiceCountByVedor = async (accountID) => {
   try {
     const allServices = await Services.find({
-      status: true,
       accountID: accountID,
     })
       .populate("accountID")

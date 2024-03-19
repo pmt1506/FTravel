@@ -34,7 +34,7 @@ serviceRouter.get('/search', serviceController.getServicesByNameWithStatusAndTyp
 //http://localhost:9999/service?page=1&pageSize=5
 
 //for vendor
-serviceRouter.get("/vendor/", serviceController.getAllServiceByVendor);
+serviceRouter.get("/vendor", serviceController.getAllServiceByVendor);
 
 //for admin
 serviceRouter.get("/all", serviceController.getAllServiceAdmin);

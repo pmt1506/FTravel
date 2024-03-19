@@ -212,6 +212,8 @@ const getAllServiceByVendor = async (req, res) => {
   try {
     const { accountID, page, pageSize } = req.query;
 
+    console.log(accountID);
+
     if (!accountID) {
       return res.status(400).json({
         message: 'Please provide the "accountID" parameter in the query.',

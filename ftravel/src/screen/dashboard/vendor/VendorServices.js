@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState } from 'react'
-import DashboardTemplate from '../../../template/DashboardTemplate'
-import { Col, Form, Row } from 'react-bootstrap'
-import '../../../css/DashboardServices.css'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import DashboardTemplate from "../../../template/DashboardTemplate";
+import { Col, Form, Row } from "react-bootstrap";
+import "../../../css/DashboardServices.css";
+import { Link } from "react-router-dom";
 
 const VendorServices = () => {
   const [servicesByVendor, setservicesByVendor] = useState([]);
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, setSelectedType] = useState("");
   const [serviceTypes, setServiceTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -19,23 +18,25 @@ const VendorServices = () => {
   }, [currentPage]); // Fetch data when currentPage changes
 
   useEffect(() => {
-    const results = servicesByVendor.filter(service =>
+    const results = servicesByVendor.filter((service) =>
       service.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     // Apply filter by type if a type is selected
-    if (selectedType !== '') {
-      setSearchResults(results.filter(service => service.type._id === selectedType));
+    if (selectedType !== "") {
+      setSearchResults(
+        results.filter((service) => service.type._id === selectedType)
+      );
     } else {
       setSearchResults(results);
     }
   }, [searchTerm, servicesByVendor, selectedType]);
 
-  const accountID = "65e33ed3eb4daa89c995957f"
+  const accountID = "65e33ed3eb4daa89c995957f";
   const fetchData = () => {
     fetch(`http://localhost:9999/service/vendor?accountID=${accountID}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         setservicesByVendor(data.servicesByVendor);
       });
 
@@ -50,7 +51,10 @@ const VendorServices = () => {
   // Tính index bắt đầu của mục đầu tiên trên trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = servicesByVendor.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = servicesByVendor.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -63,11 +67,18 @@ const VendorServices = () => {
   };
 
   const highlightText = (text, highlight) => {
-    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
     return (
       <span>
         {parts.map((part, i) => (
-          <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { backgroundColor: 'yellow' } : {}}>
+          <span
+            key={i}
+            style={
+              part.toLowerCase() === highlight.toLowerCase()
+                ? { backgroundColor: "yellow" }
+                : {}
+            }
+          >
             {part}
           </span>
         ))}
@@ -76,36 +87,62 @@ const VendorServices = () => {
   };
 
   return (
-    <DashboardTemplate title="Manage Service" action={
-      <React.Fragment>
-        <Link to={"add"} className="btn btn-primary ml-2">Add Service</Link>
-      </React.Fragment>
-    }>
+    <DashboardTemplate
+      title="Manage Service"
+      action={
+        <React.Fragment>
+          <Link to={"add"} className="btn btn-primary ml-2">
+            Add Service
+          </Link>
+        </React.Fragment>
+      }
+    >
       <Row className="m-3 ml-auto w-100">
         <Col md={4}>
           <Form.Group className="row">
-            <Form.Control as="select" value={selectedType} onChange={handleDropdownChange}>
+            <Form.Control
+              as="select"
+              value={selectedType}
+              onChange={handleDropdownChange}
+            >
               <option value="">All Services</option>
-              {serviceTypes && serviceTypes.map((type, index) => (
-                <option key={index} value={type._id}>{type.serviceName}</option>
-              ))}
+              {serviceTypes &&
+                serviceTypes.map((type, index) => (
+                  <option key={index} value={type._id}>
+                    {type.serviceName}
+                  </option>
+                ))}
             </Form.Control>
           </Form.Group>
         </Col>
         <Col md={4}>
-          <Form.Control style={{ width: "20rem" }}
+          <Form.Control
+            style={{ width: "20rem" }}
             type="text"
             placeholder="Search..."
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           {/* <Button onClick={handleSearch}>Search</Button> */}
         </Col>
         <Col md={4}>
           <ul className="pagination">
-            {Array.from({ length: Math.ceil((searchTerm ? searchResults.length : servicesByVendor.length) / itemsPerPage) }).map((_, index) => (
-              <li key={index} className="page-item">
-                <button onClick={() => paginate(index + 1)} className="page-link">
+            {Array.from({
+              length: Math.ceil(
+                (searchTerm ? searchResults.length : servicesByVendor.length) /
+                  itemsPerPage
+              ),
+            }).map((_, index) => (
+              <li
+                key={index}
+                className={`page-item ${
+                  currentPage === index + 1 ? "active" : ""
+                }`}
+              >
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className="page-link"
+                >
                   {index + 1}
                 </button>
               </li>
@@ -117,14 +154,18 @@ const VendorServices = () => {
       <Row className="m-3">
         {searchTerm || selectedType ? (
           searchResults.length > 0 ? (
-            searchResults.map(service => (
+            searchResults.map((service) => (
               <div className="item-list" key={service._id}>
                 <Row>
                   <Col md={3}>
                     <div className="featured">Đặc sắc</div>
                     <div className="thumb-image">
-                      <a href="#" >
-                        <img src={service.thumbnail} className="img-responsive" alt="" />
+                      <a href="#">
+                        <img
+                          src={service.thumbnail}
+                          className="img-responsive"
+                          alt=""
+                        />
                       </a>
                     </div>
                   </Col>
@@ -136,7 +177,10 @@ const VendorServices = () => {
                     </div>
                     <div className="item-title2">
                       <i className="icofont-license"></i>
-                      Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
+                      Kiểu dịch vụ:{" "}
+                      <span className="badge badge-info">
+                        {service.type.serviceName}
+                      </span>
                     </div>
                     <div className="item-title2">
                       <i className="icofont-paper-plane"></i>
@@ -144,18 +188,19 @@ const VendorServices = () => {
                     </div>
                     <div className="item-title2">
                       <i className="icofont-money"></i>
-                      Giá bán: <span className="sale-price"></span> <span className="price">{service.price}</span>
+                      Giá bán: <span className="sale-price"></span>{" "}
+                      <span className="price">{service.price}</span>
                     </div>
                     <div className="item-title2 rate">
                       <i className="icofont-badge"></i>
                       <div className="service-review tour-review-0">
-                        <span className="review">
-                          0 Đánh giá
-                        </span>
+                        <span className="review">0 Đánh giá</span>
                       </div>
                     </div>
                     <div className="control-action">
-                      <a href="#" className="btn btn-danger">Hide</a>
+                      <a href="#" className="btn btn-danger">
+                        Hide
+                      </a>
                     </div>
                   </Col>
                 </Row>
@@ -165,26 +210,31 @@ const VendorServices = () => {
             <div>No services found</div>
           )
         ) : (
-          currentItems.map(service => (
+          currentItems.map((service) => (
             <div className="item-list" key={service._id}>
               <Row>
                 <Col md={3}>
                   <div className="featured">Đặc sắc</div>
                   <div className="thumb-image">
-                    <a href="#" >
-                      <img src={service.thumbnail} className="img-responsive" alt="" />
+                    <a href="#">
+                      <img
+                        src={service.thumbnail}
+                        className="img-responsive"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </Col>
                 <Col md={9}>
                   <div className="item-title">
-                    <a href="#">
-                      {service.title}
-                    </a>
+                    <a href="#">{service.title}</a>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-license"></i>
-                    Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
+                    Kiểu dịch vụ:{" "}
+                    <span className="badge badge-info">
+                      {service.type.serviceName}
+                    </span>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-paper-plane"></i>
@@ -192,18 +242,19 @@ const VendorServices = () => {
                   </div>
                   <div className="item-title2">
                     <i className="icofont-money"></i>
-                    Giá bán: <span className="sale-price"></span> <span className="price">{service.price}</span>
+                    Giá bán: <span className="sale-price"></span>{" "}
+                    <span className="price">{service.price}</span>
                   </div>
                   <div className="item-title2 rate">
                     <i className="icofont-badge"></i>
                     <div className="service-review tour-review-0">
-                      <span className="review">
-                        0 Đánh giá
-                      </span>
+                      <span className="review">0 Đánh giá</span>
                     </div>
                   </div>
                   <div className="control-action">
-                    <a href="#" className="btn btn-danger">Hide</a>
+                    <a href="#" className="btn btn-danger">
+                      Hide
+                    </a>
                   </div>
                 </Col>
               </Row>
@@ -211,9 +262,8 @@ const VendorServices = () => {
           ))
         )}
       </Row>
-
     </DashboardTemplate>
-  )
-}
+  );
+};
 
 export default VendorServices;
