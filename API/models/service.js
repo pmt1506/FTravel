@@ -13,7 +13,7 @@ const serviceSchema = new Schema(
       require: true,
     },
     slot: {
-      type: String,
+      type: Number,
       require: true,
     },
     price: {

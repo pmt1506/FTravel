@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^4.6.2",
     "bootstrap-icons": "^1.11.3",
+    "html-react-parser": "^5.1.9",
     "js-cookie": "^3.0.5",
     "rc-slider": "^10.5.0",
     "react": "^18.2.0",

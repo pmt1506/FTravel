@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import DefaultTemplate from "../../template/DefaultTemplate.js";
+import parse from "html-react-parser";
 
 const Detail = () => {
   const { serviceID } = useParams();
@@ -10,6 +11,8 @@ const Detail = () => {
   const [service, setService] = useState([]);
   const [type, setType] = useState([]);
   const userID = localStorage.getItem("userID");
+
+  const duration = calculateDuration(service.startDate, service.endDate);
 
   useEffect(() => {
     fetch(`http://localhost:9999/service/${serviceID}`)
@@ -45,20 +48,56 @@ const Detail = () => {
       toast.error("Failed");
     }
   };
+  function formatDate(dateString) {
+    // Convert the ISO date string to a Date object
+    const date = new Date(dateString);
 
-  var startDateString = service.startDate;
+    // Get day, month, and year
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-indexed
+    const year = date.getFullYear();
 
-  var startDate = new Date(startDateString);
+    // Pad single digit day or month with leading zero
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
 
-  var day = startDate.getDate();
-  var month = startDate.getMonth() + 1;
-  var year = startDate.getFullYear();
+    // Format the date as "dd/mm/yyyy"
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  }
 
-  var formattedDate = day + "/" + month + "/" + year;
+  function formatPrice(priceInVND) {
+    // Multiply the price by 1000
+    const priceInDong = priceInVND * 1000;
+
+    // Format the price with dot separators for thousands
+    const formatter = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+
+    // Format the price and add "VND" currency symbol
+    const formattedPrice = formatter.format(priceInDong);
+
+    return formattedPrice;
+  }
+
+  function calculateDuration(startDate, endDate) {
+    // Convert the ISO date strings to Date objects
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Calculate the difference in milliseconds
+    const difference = end - start;
+
+    // Convert milliseconds to days
+    const days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+    return days;
+  }
 
   return (
     <DefaultTemplate>
-      <Container className="py-5">
+      <Container className="mt-1">
         <Row className="gx-5">
           <Col lg={6}>
             <img
@@ -82,62 +121,73 @@ const Detail = () => {
                 <span className="text-muted">
                   <i className="bi bi-person-fill fa-sm mx-1"></i>14 persons
                 </span>
+                <div className="flex-grow-1"></div>
+                <label className="mb-2 d-block">
+                  <strong>Duration:</strong>
+                  <span className="mx-1">{duration} days</span>
+                </label>
               </div>
 
               <div className="mb-3">
-                <span className="h5">{service.price} $</span>
+                <span className="h5">{formatPrice(service.price)}</span>
               </div>
 
-              <p>{service.description}</p>
-
-              <div className="col-3">
-                <Row>
-                  <dt>Type:</dt>
-                  {/* <td style={{ marginLeft: "5px" }}>{service.type}</td> */}
-                  <td style={{ marginLeft: "5px" }}>Tour</td>
-                </Row>
-                <Row>
-                  <dt>Slot:</dt>
+              <div className="row">
+                <div className="col-12">
                   <dd>
-                    <span className="text-muted" style={{ marginLeft: "5px" }}>
-                      {service.slot}
-                    </span>
+                    <strong>Danh mục:</strong> Tour
                   </dd>
-                </Row>
-                <Row>
-                  <dt>Region:</dt>
-                  <dd style={{ marginLeft: "5px" }}>{service.region}</dd>
-                </Row>
-                <Row>
-                  <dt>Place:</dt>
-                  <dd style={{ marginLeft: "5px" }}>{service.city}</dd>
-                </Row>
-              </div>
-              <hr />
-
-              <Row className="mb-4">
-                <div className="col-md-4 col-6">
+                </div>
+                <div className="col-12">
+                  <dd>
+                    <strong>Số người:</strong> {service.slot}
+                  </dd>
+                </div>
+                <div className="col-12">
+                  <dd>
+                    <strong>Khu vực:</strong> {service.region}
+                  </dd>
+                </div>
+                <div className="col-12">
+                  <dd>
+                    <strong>Tỉnh/Thành phố:</strong> {service.city}
+                  </dd>
+                </div>
+                <div className="col-12">
                   <label className="mb-2 d-block">
-                    Start date:<span className="mx-1">{formattedDate}</span>
+                    <strong>Start date:</strong>
+                    <span className="mx-1">
+                      {formatDate(service.startDate)}
+                    </span>
                   </label>
                 </div>
-              </Row>
-              <Row style={{ marginLeft: "1px" }}>
-                <a href="#" className="btn btn-warning shadow-0 mr-2">
-                  {" "}
-                  Book now{" "}
-                </a>
-                <Button
-                  onClick={addToCart}
-                  className="btn btn-primary shadow-0 mr-2"
-                >
-                  {" "}
-                  <i className="bi bi-cart3"></i> Add to cart{" "}
-                </Button>
-                <ToastContainer />
-              </Row>
+                <div className="col-12">
+                  <label className="mb-2 d-block">
+                    <strong>End date:</strong>
+                    <span className="mx-1">{formatDate(service.endDate)}</span>
+                  </label>
+                </div>
+              </div>
             </div>
+
+            <Row style={{ marginLeft: "1px" }}>
+              <a href="#" className="btn btn-warning shadow-0 mr-2">
+                Book now
+              </a>
+              <Button
+                onClick={addToCart}
+                className="btn btn-primary shadow-0 mr-2"
+              >
+                <i className="bi bi-cart3"></i> Add to cart
+              </Button>
+              <ToastContainer />
+            </Row>
           </Col>
+          <div className="col-12">
+            <hr />
+            {typeof service.description === "string" &&
+              parse(service.description)}
+          </div>
         </Row>
       </Container>
     </DefaultTemplate>
