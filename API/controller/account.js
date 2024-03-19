@@ -25,7 +25,6 @@ const getAccountByID = async (req, res) => {
   const id = req.cookies.userID;
   try {
     const accProfile = await accountDAO.getAccountInfoByID(id);
-    console.log(accProfile);
     if (accProfile !== null) {
       res.status(200).json(accProfile);
     } else {

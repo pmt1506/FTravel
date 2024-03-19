@@ -15,7 +15,6 @@ const UserDetail = () => {
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -37,7 +36,7 @@ const UserDetail = () => {
                 alt="User Avatar"
               />
             </p>
-            <p>User Name: {userData.username}</p>
+            <p>User Name: {userData.userName}</p>
             <p>Email: {userData.email}</p>
             <p>Phone Number: {userData.phoneNumber}</p>
             <p>Address: {userData.address}</p>

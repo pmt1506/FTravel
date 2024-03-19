@@ -19,6 +19,8 @@ import UserDetail from "./screen/dashboard/UserDetail";
 import VendorAddService from "./screen/dashboard/vendor/VendorAddService";
 import EditProfile from "./screen/dashboard/EditProfile";
 import ChangePass from "./screen/dashboard/ChangePass";
+import UserBill from "./screen/dashboard/userBill";
+import AddService from "./screen/dashboard/vendor/AddService";
 
 function App() {
   return (
@@ -43,8 +45,10 @@ function App() {
 
         {/* For Vendor - sua path cho phu hop */}
         <Route path="/vendor/service" element={<VendorServices />} />
+        <Route path="/vendor/add" element={<AddService />} />
         <Route path="/vendor/service/add" element={<VendorAddService />} />
         <Route path="/dashboard" element={<UserDetail />} />
+        <Route path="/dashboard/bill" element={<UserBill />} />
         <Route
           path="/dashboard/profile/edit/:accID"
           element={<EditProfile />}

@@ -33,9 +33,9 @@ const editReport = async (id, status) => {
 const viewAllReport = async () => {
   try {
     const report = await Reports.find()
-    .populate("userID", "username")
-    .populate("serviceID", "title")
-    .exec();
+      .populate("userID", "username")
+      .populate("serviceID", "title")
+      .exec();
 
     return report;
   } catch (error) {

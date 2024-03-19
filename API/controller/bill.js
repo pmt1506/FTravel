@@ -4,9 +4,33 @@ import { billDAO } from "../repositories/index.js";
 
 // Add Bill
 const addBill = async (req, res) => {
+  const userID = req.cookies.userID;
   try {
-    const { price, userID, serviceID, status } = req.body;
-    const newBill = await billDAO.addBill({ price, userID, serviceID, status });
+    const {
+      price,
+      serviceID,
+      thumbnail,
+      slot,
+      title,
+      region,
+      city,
+      startDate,
+      endDate,
+      type,
+    } = req.body;
+    const newBill = await billDAO.addBill({
+      price,
+      userID,
+      serviceID,
+      thumbnail,
+      slot,
+      title,
+      region,
+      city,
+      startDate,
+      endDate,
+      type,
+    });
     res.status(201).json(newBill);
   } catch (error) {
     res.status(500).json({ error: error.toString() });
@@ -16,9 +40,10 @@ const addBill = async (req, res) => {
 // Get Bills by UserID
 const getBillsByUserId = async (req, res) => {
   try {
-    const { userID } = req.params;
+    // const { userID } = req.params;
+    const userID = req.cookies.userID;
     const serviceBills = await billDAO.getBillsByUserId(userID);
-    res.json(serviceBills);
+    res.status(200).json(serviceBills);
   } catch (error) {
     res.status(500).json({ error: error.toString() });
   }

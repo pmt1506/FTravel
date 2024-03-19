@@ -77,7 +77,7 @@ const findAccountByEmailAndPassword = async (email, password) => {
 //verifyAccount
 const verifyAccount = async () => {};
 
-//ban account (admin) ------ nen doi thanh updateAccountStatusByID 
+//ban account (admin) ------ nen doi thanh updateAccountStatusByID
 const bannAccountByID = async (id, status) => {
   try {
     const updatedAccount = await Accounts.findByIdAndUpdate(
@@ -165,8 +165,8 @@ const editPassword = async (id, { password }) => {
 // view profile user
 const getAccountInfoByID = async (id) => {
   try {
-    const fo = await Accounts.findById(id).exec();
-    const { createAt, password, updateAt, ...fil } = fo._doc;
+    const fo = await Accounts.findById(id).populate("accountRole").exec();
+    const { password, updatedAt, ...fil } = fo._doc;
     return fil;
   } catch (error) {
     throw new Error(error.toString());

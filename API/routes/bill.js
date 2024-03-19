@@ -52,6 +52,6 @@ billRouter.post("/add", billController.addBill);
  *       500:
  *         description: Server error
  */
-billRouter.get("/history/:userID", billController.getBillsByUserId);
+billRouter.get("/history/", billController.getBillsByUserId);
 
 export default billRouter;

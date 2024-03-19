@@ -9,7 +9,9 @@ const SideBar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
   const [user, setUser] = useState({});
+  const [role, setRole] = useState("");
   useEffect(() => {
     fetch(`http://localhost:9999/account/}`, {
       credentials: "include",
@@ -17,6 +19,7 @@ const SideBar = () => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+        setRole(data.accountRole.roleName);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -27,15 +30,15 @@ const SideBar = () => {
       <div className="logo">
         <Row className="justify-content-center ">
           <div className="avatar">
-            <img src="#"></img>
+            <img src={user.avatarIMG} />
           </div>
         </Row>
       </div>
       <Row className="justify-content-center">
         <div className="info">
-          <span className="badge badge-info">Customer</span>
+          <span className="badge badge-info">{role}</span>
           <h5 style={{ fontSize: "16px", padding: "2px", color: "white" }}>
-            Thanh Minh
+            {user.userName}
           </h5>
           <p
             style={{
@@ -58,45 +61,72 @@ const SideBar = () => {
         <div className="sidebar-menu">
           <ul className="main-menu">
             {/* Admin */}
-            <li>
-              <Link to="/admin/service">
-                <i className="bi bi-wallet"></i> Manage Services
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/user">
-                <i className="bi bi-wallet"></i> Manage Users
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/report">
-                <i className="bi bi-wallet"></i> Manage Reports
-              </Link>
-            </li>
-            {/* End */}
+            {role === "Admin" ? (
+              <>
+                {" "}
+                <li>
+                  <Link to="/admin/service">
+                    <i className="bi bi-wallet"></i> Manage Services
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/user">
+                    <i className="bi bi-wallet"></i> Manage Users
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/report">
+                    <i className="bi bi-wallet"></i> Manage Reports
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <></>
+            )}
 
+            {/* End */}
+            {role === "endor" ? (
+              <>
+                {" "}
+                <li>
+                  <Link to="/vendor/service">
+                    <i className="bi bi-wallet"></i> Manage Services - Ven
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/bill">
+                    <i className="bi bi-wallet"></i> Manage Bill{" "}
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <></>
+            )}
             {/* Vendor */}
-            <li>
-              <Link to="/vendor/service">
-                <i className="bi bi-wallet"></i> Manage Services - Ven
-              </Link>
-            </li>
+
             {/* End */}
 
             {/* <li><a href="#"><i className="bi bi-clock-history"></i> Booking history</a></li>
                         <li><a href="#"><i className="bi bi-heart-fill"></i> Wish list</a></li>
                         <li><a href="#"><i className="bi bi-wallet"></i> My wallet</a></li>
                         <li><a href="#"><i className="bi bi-cart3"></i> Cart</a></li> */}
-            <li>
-              <a href="#">
-                <i className="bi bi-person-circle"></i> User profile
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="bi bi-key"></i> Change password
-              </a>
-            </li>
+            {role === "Customer" ? (
+              <>
+                {" "}
+                <li>
+                  <a href="#">
+                    <i className="bi bi-person-circle"></i> User profile
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i className="bi bi-key"></i> Change password
+                  </a>
+                </li>
+              </>
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
       </Row>

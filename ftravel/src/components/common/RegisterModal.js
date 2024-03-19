@@ -47,8 +47,6 @@ function RegisterModal({ show, setShowReg }) {
 
     handleCloseReg();
   };
-  const useID = localStorage.getItem("userID");
-  fetch("");
 
   return (
     <Modal show={show}>
@@ -130,7 +128,6 @@ function RegisterModal({ show, setShowReg }) {
             </div>
           </Row>
         </Form>
-
       </Modal.Body>
 
       <Modal.Footer>

@@ -3,9 +3,34 @@ import Bills from "../models/bill.js";
 // Operation CRUD MONGODB -> Bill
 
 //add bill
-const addBill = async ({ price, userID, serviceID, status }) => {
+const addBill = async ({
+  price,
+  userID,
+  serviceID,
+  thumbnail,
+  slot,
+  title,
+  region,
+  city,
+  startDate,
+  endDate,
+  type,
+}) => {
   try {
-    const newBill = await Bills.create({ price, userID, serviceID, status });
+    const newBill = await Bills.create({
+      price,
+      userID,
+      serviceID,
+      thumbnail,
+      slot,
+      title,
+      region,
+      city,
+      startDate,
+      endDate,
+      type,
+      status: true,
+    });
     return newBill._doc;
   } catch (error) {
     throw new Error(error.toString());
@@ -15,7 +40,10 @@ const addBill = async ({ price, userID, serviceID, status }) => {
 // Get bills by userID
 const getBillsByUserId = async (userID) => {
   try {
-    const serviceBills = await Bills.find({ userID: userID }).exec();
+    const serviceBills = await Bills.find({ userID: userID })
+      .populate("userID")
+      .populate("serviceID")
+      .exec();
     return serviceBills;
   } catch (error) {
     throw new Error(error.toString());
