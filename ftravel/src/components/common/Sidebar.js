@@ -1,11 +1,14 @@
 import { Container, Row } from "react-bootstrap";
 import "../../css/sidebar.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const userID = localStorage.getItem("userID");
+
+  const navigate = useNavigate();
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -25,6 +28,30 @@ const SideBar = () => {
         console.error("Error fetching users:", error);
       });
   }, []);
+
+  const handleLogout = () => {
+    fetch("http://localhost:9999/account/auth/logout", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        // Check if the logout was successful
+        if (res.ok) {
+          localStorage.removeItem("userID");
+
+          // Redirect the user to the home page
+          navigate("/");
+          window.location.reload();
+        } else {
+          // Handle logout error
+          console.error("Logout failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
+  };
+
   return (
     <div className="sidebar" style={{ background: "#1a2b47" }}>
       <div className="logo">
@@ -138,7 +165,7 @@ const SideBar = () => {
 
       <Row className="list">
         <div className="logout">
-          <a href="#">
+          <a href="#" onClick={handleLogout}>
             <i className="bi bi-box-arrow-left"></i> Log out
           </a>
         </div>
