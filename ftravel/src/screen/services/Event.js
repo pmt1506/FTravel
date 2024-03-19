@@ -111,6 +111,22 @@ const Event = () => {
     setMaxPrice(max);
   };
 
+  function formatPrice(priceInVND) {
+    // Multiply the price by 1000
+    const priceInDong = priceInVND * 1000;
+
+    // Format the price with dot separators for thousands
+    const formatter = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+
+    // Format the price and add "VND" currency symbol
+    const formattedPrice = formatter.format(priceInDong);
+
+    return formattedPrice;
+  }
+
   return (
     <DefaultTemplate>
       <TourBanner />
@@ -173,7 +189,7 @@ const Event = () => {
       <div className="container mt-4">
         <div className="row">
           <div className="col">
-            <h2 className="mb-3 text-center">Featured Events</h2>
+            <h2 className="mb-3 text-center">Tổng hợp sự kiện</h2>
             <div className="row mb-3">
               {/* Region filter */}
               <div className="col-md-6">
@@ -274,19 +290,19 @@ const Event = () => {
                       <div className="card-body d-flex flex-column">
                         <div className="row">
                           <div className="col-12 flex-grow-1">
-                            <h5 className="card-title">
+                            <h6 className="card-title">
                               <Link to={`/detail/${event._id}`}>
                                 {event.title}
                               </Link>
-                            </h5>
-                            <p className="card-text">{event.description}</p>
+                            </h6>
                           </div>
                         </div>
                         <div className="d-flex justify-content-between mt-2">
                           <div className="pt-2">
-                            <p className="align-middle">${event.price}</p>
+                            <p className="align-middle">
+                              {formatPrice(event.price)}
+                            </p>
                           </div>
-                          <button className="btn btn-primary">Buy Now</button>
                         </div>
                       </div>
                     </div>

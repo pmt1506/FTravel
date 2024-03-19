@@ -80,8 +80,9 @@ const Home = () => {
                   src={tour.thumbnail}
                 />
                 <Card.Body>
-                  <Card.Title>{tour.title}</Card.Title>
-                  <Card.Text>{tour.description}</Card.Text>
+                  <Link to={`/detail/${tour._id}`}>
+                    <Card.Title className="h6">{tour.title}</Card.Title>
+                  </Link>
                 </Card.Body>
               </Card>
             </Col>
@@ -111,8 +112,9 @@ const Home = () => {
                   src={hotel.thumbnail}
                 />
                 <Card.Body>
-                  <Card.Title>{hotel.title}</Card.Title>
-                  <Card.Text>{hotel.description}</Card.Text>
+                  <Link to={`/detail/${hotel._id}`}>
+                    <Card.Title className="h6">{hotel.title}</Card.Title>
+                  </Link>
                 </Card.Body>
               </Card>
             </Col>
@@ -142,8 +144,9 @@ const Home = () => {
                   src={event.thumbnail}
                 />
                 <Card.Body>
-                  <Card.Title>{event.title}</Card.Title>
-                  <Card.Text>{event.description}</Card.Text>
+                  <Link to={`/detail/${event._id}`}>
+                    <Card.Title className="h6">{event.title}</Card.Title>
+                  </Link>
                 </Card.Body>
               </Card>
             </Col>
