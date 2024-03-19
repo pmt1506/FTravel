@@ -14,7 +14,6 @@ const createService = async (req, res) => {
       region,
       city,
       type,
-      status,
     } = req.body;
 
     const result = await serviceDAO.createService({
@@ -29,7 +28,6 @@ const createService = async (req, res) => {
       region,
       city,
       type,
-      status,
     });
     res.status(201).json(result);
   } catch (error) {

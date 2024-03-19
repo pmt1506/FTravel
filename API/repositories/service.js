@@ -2,6 +2,7 @@ import Services from "../models/service.js";
 import ServiceTypes from "../models/serviceType.js";
 
 //Create a new service
+
 const createService = async ({
   title,
   thumbnail,
@@ -14,7 +15,6 @@ const createService = async ({
   region,
   city,
   type,
-  status,
 }) => {
   try {
     const newService = await Services.create({
@@ -29,7 +29,7 @@ const createService = async ({
       region,
       city,
       type,
-      status,
+      status: false,
     });
     return newService._doc;
   } catch (error) {
@@ -120,10 +120,10 @@ const getAllServiceAdmin = async (page, pageSize) => {
     //pagination
     const startIndex = (page - 1) * pageSize;
     const allServices = await Services.find()
-    .populate("type", "serviceName")
-    .populate("accountID", "username")
-    .skip(startIndex)
-    .limit(pageSize);
+      .populate("type", "serviceName")
+      .populate("accountID", "username")
+      .skip(startIndex)
+      .limit(pageSize);
     return allServices.map((service) => service._doc);
   } catch (error) {
     throw new Error(error.toString());

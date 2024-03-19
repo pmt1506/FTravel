@@ -1,5 +1,6 @@
 import express from "express";
 import { serviceController } from "../controller/index.js";
+import verifyToken from "../middleware/authen.js";
 
 const serviceRouter = express.Router();
 
@@ -62,7 +63,7 @@ serviceRouter.get("/all", serviceController.getAllServiceAdmin);
  *       500:
  *         description: Server error
  */
-serviceRouter.post("/", serviceController.createService);
+serviceRouter.post("/add", verifyToken, serviceController.createService);
 /**
  * @swagger
  * /service/{id}:
