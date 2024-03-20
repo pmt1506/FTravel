@@ -169,7 +169,7 @@ const Hotel = () => {
             <div className="row">
               <div className="col-3">
                 <img
-                  src="https://static.vecteezy.com/system/resources/thumbnails/006/945/522/small/placeholder-premium-icon-sign-symbol-free-vector.jpg"
+                  src="https://static.vecteezy.com/system/resources/thumbnail/006/945/522/small/placeholder-premium-icon-sign-symbol-free-vector.jpg"
                   alt="Image"
                   style={{ width: "80px", height: "80px" }}
                 />
@@ -283,7 +283,7 @@ const Hotel = () => {
                     <Link to={`/detail/${hotel._id}`} className="card-link">
                       <div className="card mb-3 d-flex flex-column">
                         <img
-                          src={hotel.thumbnails}
+                          src={hotel.thumbnail}
                           alt="Tour image"
                           className="card-img-top card-thumbnail"
                         />

@@ -8,12 +8,10 @@ const serviceSchema = new Schema(
       require: true,
       unique: true,
     },
-    thumbnails: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    thumbnail: {
+      type: String,
+      required: true,
+    },
     slot: {
       type: Number,
       require: true,

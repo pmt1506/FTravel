@@ -103,7 +103,7 @@ const Detail = () => {
             <img
               style={{ maxWidth: "100%", maxHeight: "100vh", margin: "auto" }}
               className="rounded-4 fit"
-              src={service.thumbnails}
+              src={service.thumbnail}
             />
           </Col>
           <Col lg={6}>

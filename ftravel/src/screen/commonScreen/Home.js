@@ -78,7 +78,7 @@ const Home = () => {
                   <Card.Img
                     className="card-thumbnail"
                     variant="top"
-                    src={tour.thumbnails[0]}
+                    src={tour.thumbnail}
                   />
                   <Card.Body>
                     <Link to={`/detail/${tour._id}`}>
@@ -112,7 +112,7 @@ const Home = () => {
                   <Card.Img
                     className="card-thumbnail"
                     variant="top"
-                    src={hotel.thumbnails[0]}
+                    src={hotel.thumbnail}
                   />
                   <Card.Body>
                     <Link to={`/detail/${hotel._id}`}>
@@ -146,7 +146,7 @@ const Home = () => {
                   <Card.Img
                     className="card-thumbnail"
                     variant="top" 
-                    src={event.thumbnails[0]}
+                    src={event.thumbnail}
                   />
                   <Card.Body>
                     <Link to={`/detail/${event._id}`}>

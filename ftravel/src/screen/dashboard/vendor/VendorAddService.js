@@ -11,7 +11,7 @@ const VendorAddService = () => {
 
   // State variables for form fields
   const [title, setTitle] = useState("");
-  const [thumbnails, setThumbnails] = useState([]); // State variable for multiple thumbnails base64 strings
+  const [thumbnail, setThumbnail] = useState(""); // State variable for thumbnail base64 string
   const [slot, setSlot] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -98,29 +98,20 @@ const VendorAddService = () => {
 
   // Function to handle file change event for thumbnail upload
   const handleThumbnailChange = (e) => {
-    const files = Array.from(e.target.files); // Get all selected files
+    const file = e.target.files[0]; // Get the first selected file
 
-    // Convert selected images to base64 format
-    Promise.all(
-      files.map((file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            const base64 = reader.result; // Get the base64 representation
-            console.log("Base64 representation:", base64); // Log the base64 representation
-            resolve(base64);
-          };
-          reader.onerror = (error) => reject(error);
-        });
-      })
-    )
-      .then((base64Thumbnails) => {
-        setThumbnails(base64Thumbnails); // Set thumbnails state as an array of base64 strings
-      })
-      .catch((error) => {
-        console.error("Error converting thumbnails to base64:", error);
-      });
+    // Convert selected image to base64 format
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64 = reader.result; // Get the base64 representation
+      const base64String = base64.toString(); // Convert base64 to string
+      console.log("Base64 representation as string:", base64String); // Log the base64 representation as string
+      setThumbnail(base64String); // Set thumbnail state as a base64 string
+    };
+    reader.onerror = (error) => {
+      console.error("Error converting thumbnail to base64:", error);
+    };
   };
 
   // Function to handle form submission
@@ -136,7 +127,7 @@ const VendorAddService = () => {
         credentials: "include",
         body: JSON.stringify({
           title,
-          thumbnails,
+          thumbnail,
           slot,
           price,
           description,
@@ -151,9 +142,9 @@ const VendorAddService = () => {
 
       if (response.ok) {
         console.log("Service added successfully!");
-        // Reset form fields and thumbnails state
+        // Reset form fields and thumbnail state
         setTitle("");
-        setThumbnails([]);
+        setThumbnail("");
         setSlot("");
         setPrice("");
         setDescription("");
@@ -172,7 +163,7 @@ const VendorAddService = () => {
     // Log form data after submit
     console.log("Form data after submit:", {
       title,
-      thumbnails,
+      thumbnail,
       slot,
       price,
       description,
@@ -368,22 +359,18 @@ const VendorAddService = () => {
             <input
               type="file"
               className="form-control"
-              onChange={handleThumbnailChange} // Handle file change event for thumbnails
-              multiple // Allow multiple file selection
+              onChange={handleThumbnailChange} // Handle file change event for thumbnail
               accept="image/*" // Accept only image files
             />
-            {thumbnails.map((thumbnail, index) => (
-              <img
-                key={index}
-                src={thumbnail}
-                alt={`Thumbnail ${index + 1}`}
-                style={{
-                  marginTop: "10px",
-                  maxWidth: "300px",
-                  marginRight: "10px",
-                }}
-              />
-            ))}
+            <img
+              src={thumbnail}
+              alt={`thumbnail`}
+              style={{
+                marginTop: "10px",
+                maxWidth: "300px",
+                marginRight: "10px",
+              }}
+            />
           </div>
           <button type="submit" className="btn btn-primary">
             Thêm dịch vụ

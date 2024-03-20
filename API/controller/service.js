@@ -4,7 +4,7 @@ const createService = async (req, res) => {
   try {
     const {
       title,
-      thumbnails, // Change 'thumbnail' to 'thumbnails'
+      thumbnail, 
       slot,
       price,
       description,
@@ -18,7 +18,7 @@ const createService = async (req, res) => {
 
     const result = await serviceDAO.createService({
       title,
-      thumbnails, // Change 'thumbnail' to 'thumbnails'
+      thumbnail, 
       slot,
       price,
       description,
