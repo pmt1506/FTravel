@@ -13,7 +13,7 @@ import reportRouter from "../API/routes/report.js";
 import { cartRouter } from "./routes/index.js";
 import { accountRouter } from "./routes/index.js";
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(json());
 app.use(

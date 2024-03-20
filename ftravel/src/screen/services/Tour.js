@@ -284,7 +284,7 @@ const Tour = () => {
                     <Link to={`/detail/${tour._id}`} className="card-link">
                       <div className="card mb-3 d-flex flex-column">
                         <img
-                          src={tour.thumbnail}
+                          src={tour.thumbnails}
                           alt="Tour image"
                           className="card-img-top card-thumbnail"
                         />
