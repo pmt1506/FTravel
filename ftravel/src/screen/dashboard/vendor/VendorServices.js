@@ -13,6 +13,8 @@ const VendorServices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
+  const [accountID, setAccountID] = useState("");
+
   useEffect(() => {
     fetchData();
   }, [currentPage]); // Fetch data when currentPage changes
@@ -31,9 +33,8 @@ const VendorServices = () => {
     }
   }, [searchTerm, servicesByVendor, selectedType]);
 
-  const accountID = "65e33ed3eb4daa89c995957f";
   const fetchData = () => {
-    fetch(`http://localhost:9999/service/vendor?accountID=${accountID}`)
+    fetch(`http://localhost:9999/service/vendor`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

@@ -29,6 +29,42 @@ const VendorAddService = () => {
 
   const [suggestions, setSuggestions] = useState([]);
 
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"], // Include 'image' in the toolbar
+      ["clean"],
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    },
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+  ];
+
   useEffect(() => {
     fetch(`http://localhost:9999/account/}`, {
       credentials: "include",
@@ -323,6 +359,8 @@ const VendorAddService = () => {
               theme="snow"
               value={description}
               onChange={setDescription}
+              modules={modules} // Include the modules property
+              formats={formats} // Include the formats property
             />
           </div>
           <div className="form-group">

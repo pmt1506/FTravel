@@ -27,17 +27,24 @@ const serviceRouter = express.Router();
  */
 
 serviceRouter.get("/", serviceController.getAllServiceByType);
-serviceRouter.get('/search', serviceController.getServicesByNameWithStatusAndTypes);
+serviceRouter.get(
+  "/search",
+  serviceController.getServicesByNameWithStatusAndTypes
+);
 
 //test pagination
 //http://localhost:9999/service?page=2
 //http://localhost:9999/service?page=1&pageSize=5
 
 //for vendor
-serviceRouter.get("/vendor", serviceController.getAllServiceByVendor);
+serviceRouter.get(
+  "/vendor",
+  verifyToken,
+  serviceController.getAllServiceByVendor
+);
 
 //for admin
-serviceRouter.get("/all", serviceController.getAllServiceAdmin);
+serviceRouter.get("/all", verifyToken, serviceController.getAllServiceAdmin);
 // http://localhost:9999/service/all
 
 /**

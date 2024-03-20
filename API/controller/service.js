@@ -210,15 +210,14 @@ const getServicesByNameWithStatusAndTypes = async (req, res) => {
 
 const getAllServiceByVendor = async (req, res) => {
   try {
-    const { accountID, page, pageSize } = req.query;
+    const { page, pageSize } = req.query;
 
-    console.log(accountID);
-
-    if (!accountID) {
-      return res.status(400).json({
-        message: 'Please provide the "accountID" parameter in the query.',
-      });
-    }
+    const accountID = req.cookies.userID;
+    // if (!accountID) {
+    //   return res.status(400).json({
+    //     message: 'Please provide the "accountID" parameter in the query.',
+    //   });
+    // }
     // Validate and set default values for page and pageSize
     const validatedPage = parseInt(page, 10) || 1;
     const validatedPageSize = parseInt(pageSize, 10) || 8;
