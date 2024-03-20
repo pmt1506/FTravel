@@ -4,6 +4,13 @@ const addToCart = async (req, res) => {
   try {
     const { serviceID } = req.body;
     const userID = req.cookies.userID;
+
+    if (!userID) {
+      res.status(401).json({
+        message: "Please login first",
+      });
+    }
+
     const isExisted = await cartDAO.checkDuplicate(userID, serviceID);
 
     if (!isExisted) {

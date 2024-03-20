@@ -10,7 +10,6 @@ const Detail = () => {
   const [value, setValue] = useState(1);
   const [service, setService] = useState([]);
   const [type, setType] = useState([]);
-  const userID = localStorage.getItem("userID");
 
   const duration = calculateDuration(service.startDate, service.endDate);
 
@@ -26,11 +25,11 @@ const Detail = () => {
   const addToCart = async (e) => {
     e.preventDefault();
     const requestData = {
-      userID: userID,
       serviceID: serviceID,
     };
     try {
       const res = await fetch("http://localhost:9999/cart", {
+        credentials: "include",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,6 +39,12 @@ const Detail = () => {
       if (res.ok) {
         const data = await res.json();
         toast.success(data.message);
+      } else if (res.status === 401) {
+        const data = await res.json();
+        toast.error(data.error);
+      } else if (res.status === 403) {
+        const data = await res.json();
+        toast.error(data.error);
       } else {
         const data = await res.json();
         toast.error(data.message);

@@ -1,5 +1,6 @@
 import express from "express";
 import { cartController } from "../controller/index.js";
+import verifyToken from "../middleware/authen.js";
 
 const cart = express.Router();
 /**
@@ -24,7 +25,7 @@ const cart = express.Router();
  *       500:
  *         description: Server error
  */
-cart.post("/", cartController.addToCart);
+cart.post("/", verifyToken, cartController.addToCart);
 /**
  * @swagger
  * /carts/{userID}:
