@@ -11,7 +11,7 @@ const Event = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(null);
 
   const [uniqueRegions, setUniqueRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -112,8 +112,6 @@ const Event = () => {
   };
 
   function formatPrice(priceInVND) {
-    // Multiply the price by 1000
-    const priceInDong = priceInVND * 1000;
 
     // Format the price with dot separators for thousands
     const formatter = new Intl.NumberFormat("vi-VN", {
@@ -122,7 +120,7 @@ const Event = () => {
     });
 
     // Format the price and add "VND" currency symbol
-    const formattedPrice = formatter.format(priceInDong);
+    const formattedPrice = formatter.format(priceInVND);
 
     return formattedPrice;
   }
@@ -284,7 +282,7 @@ const Event = () => {
                     <Link to={`/detail/${event._id}`} className="card-link">
                       <div className="card mb-3 d-flex flex-column">
                         <img
-                          src={event.thumbnail}
+                          src={event.thumbnails}
                           alt="Tour image"
                           className="card-img-top card-thumbnail"
                         />

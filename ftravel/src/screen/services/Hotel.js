@@ -283,7 +283,7 @@ const Hotel = () => {
                     <Link to={`/detail/${hotel._id}`} className="card-link">
                       <div className="card mb-3 d-flex flex-column">
                         <img
-                          src={hotel.thumbnail}
+                          src={hotel.thumbnails}
                           alt="Tour image"
                           className="card-img-top card-thumbnail"
                         />

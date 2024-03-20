@@ -66,8 +66,6 @@ const Detail = () => {
   }
 
   function formatPrice(priceInVND) {
-    // Multiply the price by 1000
-    const priceInDong = priceInVND * 1000;
 
     // Format the price with dot separators for thousands
     const formatter = new Intl.NumberFormat("vi-VN", {
@@ -76,7 +74,7 @@ const Detail = () => {
     });
 
     // Format the price and add "VND" currency symbol
-    const formattedPrice = formatter.format(priceInDong);
+    const formattedPrice = formatter.format(priceInVND);
 
     return formattedPrice;
   }

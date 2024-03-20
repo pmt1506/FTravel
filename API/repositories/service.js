@@ -29,7 +29,7 @@ const createService = async ({
       region,
       city,
       type,
-      status: false,
+      status: true,
     });
     return newService._doc;
   } catch (error) {

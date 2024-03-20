@@ -27,6 +27,8 @@ const VendorAddService = () => {
 
   const [userData, setUserData] = useState({});
 
+  const [suggestions, setSuggestions] = useState([]);
+
   useEffect(() => {
     fetch(`http://localhost:9999/account/}`, {
       credentials: "include",
@@ -160,6 +162,33 @@ const VendorAddService = () => {
     setCitiesByRegion(cities || []);
   };
 
+  // Function to handle price change and generate suggestions
+  const handlePriceChange = (e) => {
+    const inputPrice = parseInt(e.target.value);
+    if (!isNaN(inputPrice)) {
+      // Check if inputPrice is a valid number
+      const formattedPrice = inputPrice.toLocaleString("vi-VN"); // Format input as currency
+      setPrice(inputPrice); // Update price state with input value
+
+      // Generate suggestions based on the input price
+      const multipliers = [1000, 10000, 100000];
+      const generatedSuggestions = multipliers.map((multiplier) => {
+        const suggestion = inputPrice * multiplier;
+        return suggestion.toLocaleString("vi-VN"); // Format suggestion as currency
+      });
+
+      setSuggestions(generatedSuggestions); // Update suggestions state
+    } else {
+      setPrice(""); // Reset price state if input is not a valid number
+      setSuggestions([]); // Clear suggestions
+    }
+  };
+
+  // Function to set the price when a suggestion is clicked
+  const handleSuggestionClick = (suggestion) => {
+    setPrice(parseInt(suggestion.replace(/\D/g, ""))); // Extract the numeric value from the suggestion and set as price
+  };
+
   return (
     <DashboardTemplate title="Add service">
       <div>
@@ -270,14 +299,21 @@ const VendorAddService = () => {
                   className="form-control"
                   placeholder="Nhập giá tiền"
                   value={price}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                    if (value > 0 || e.target.value === "") {
-                      // Check if value is greater than 0 or empty
-                      setPrice(value);
-                    }
-                  }}
+                  onChange={handlePriceChange} // Handle price change event
+                  min={1}
                 />
+              </div>
+              <div className="d-flex">
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="border rounded mr-1"
+                    style={{ cursor: "pointer", padding: "3px 6px " }}
+                  >
+                    {suggestion}
+                  </div>
+                ))}
               </div>
             </Col>
           </Row>

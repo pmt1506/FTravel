@@ -11,7 +11,7 @@ const Tour = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(null);
 
   const [uniqueRegions, setUniqueRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -44,12 +44,15 @@ const Tour = () => {
           },
         });
 
+        console.log(apiUrl);
+
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
 
         const data = await response.json();
         setTourList(data.servicesByType);
+        console.log(data.servicesByType);
         const totalItems = data.total;
 
         const newTotalPages = Math.ceil(totalItems / pageSize);
@@ -112,8 +115,6 @@ const Tour = () => {
   };
 
   function formatPrice(priceInVND) {
-    // Multiply the price by 1000
-    const priceInDong = priceInVND * 1000;
 
     // Format the price with dot separators for thousands
     const formatter = new Intl.NumberFormat("vi-VN", {
@@ -122,7 +123,7 @@ const Tour = () => {
     });
 
     // Format the price and add "VND" currency symbol
-    const formattedPrice = formatter.format(priceInDong);
+    const formattedPrice = formatter.format(priceInVND);
 
     return formattedPrice;
   }
