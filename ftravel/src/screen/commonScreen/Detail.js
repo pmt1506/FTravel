@@ -66,7 +66,6 @@ const Detail = () => {
   }
 
   function formatPrice(priceInVND) {
-
     // Format the price with dot separators for thousands
     const formatter = new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -86,6 +85,9 @@ const Detail = () => {
 
     // Calculate the difference in milliseconds
     const difference = end - start;
+    if (difference === 0) {
+      return 1;
+    }
 
     // Convert milliseconds to days
     const days = Math.ceil(difference / (1000 * 60 * 60 * 24));
