@@ -10,6 +10,7 @@ const Detail = () => {
   const [value, setValue] = useState(1);
   const [service, setService] = useState([]);
   const [type, setType] = useState([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const userID = localStorage.getItem("userID");
 
   const duration = calculateDuration(service.startDate, service.endDate);
@@ -22,6 +23,10 @@ const Detail = () => {
         setType(data.type);
       });
   }, []);
+
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+  };
 
   const addToCart = async (e) => {
     e.preventDefault();
@@ -100,11 +105,38 @@ const Detail = () => {
       <Container className="mt-1">
         <Row className="gx-5">
           <Col lg={6}>
-            <img
-              style={{ maxWidth: "100%", maxHeight: "100vh", margin: "auto" }}
-              className="rounded-4 fit"
-              src={service.thumbnails}
-            />
+            {service.thumbnails && service.thumbnails.length > 0 && (
+              <img
+                src={service.thumbnails[selectedImageIndex].url}
+                alt="Service Image"
+                className="selected-image img"
+              />
+            )}
+            {service.thumbnails && service.thumbnails.length > 1 && (
+              <div className="row mt-3">
+                {/* Display thumbnails for other images in the same row */}
+                {service.thumbnails.map((image, index) => (
+                  <div
+                    key={index}
+                    className="col-4"
+                    style={{
+                      transition: "transform 0.2s ease-out",
+                      transform:
+                        index === selectedImageIndex ? "scale(1.1)" : "scale(1)",
+                    }}
+                  >
+                    <img
+                      src={image.url}
+                      alt={`Thumbnail ${index}`}
+                      className={`img-thumbnail ${index === selectedImageIndex ? "selected-thumbnail" : ""
+                        }`}
+                      style={{ cursor: "pointer", width: "100%" }}
+                      onClick={() => handleImageClick(index)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </Col>
           <Col lg={6}>
             <div className="ps-lg-3">
