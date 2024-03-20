@@ -28,28 +28,28 @@ const VendorList = () => {
     return (
         <DefaultTemplate>
 
-        <Container>
-            <h2 style={{paddingTop: "20px", paddingBottom: "20px"}}>The best vendors at FTravel</h2>
+            <Container>
+                <h2 style={{ paddingTop: "20px", paddingBottom: "20px" }}>The best vendors at FTravel</h2>
 
-            <Row className="item">
-            {vendors.map(vendor => (
-                <Col lg={3} md={6} sm={6} xs={12}>
-                    <Card className="vendor-card" style={{ width: '18rem' }}>
-                        <div className="d-flex justify-content-center">
-                            <Card.Img src={vendor.avatarIMG} alt="Vân Lê Khánh" className="centered-img" />
-                        </div>
-                        <Card.Body className="text-center">
-                            <Card.Title>{vendor.username}</Card.Title>
-                            <Card.Text className="role">
-                               Address: {vendor.address}
-                            </Card.Text>
-                            <Button className="primary">View detail</Button>
-                        </Card.Body>
-                    </Card>
-                </Col>
-               ))} 
-            </Row>
-        </Container>
+                <Row className="item">
+                    {vendors.map(vendor => (
+                        <Col lg={3} md={6} sm={6} xs={12}>
+                            <Card className="vendor-card" style={{ width: '18rem' }}>
+                                <div className="d-flex justify-content-center">
+                                    <Card.Img src={vendor.avatarIMG} alt="Vân Lê Khánh" className="centered-img" />
+                                </div>
+                                <Card.Body className="text-center">
+                                    <Card.Title>{vendor.username}</Card.Title>
+                                    <Card.Text className="role">
+                                        Địa chỉ: {vendor.address}
+                                    </Card.Text>
+                                    <Button className="primary">Xem thông tin</Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </DefaultTemplate>
     );
 };

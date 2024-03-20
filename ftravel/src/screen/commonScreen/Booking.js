@@ -21,7 +21,7 @@ const Booking = () => {
               style={{ textDecoration: "none", color: "black" }}
               className="fa fa-home"
             >
-              <i class="bi bi-house"></i> Home
+              <i class="bi bi-house"></i> Trang chủ
             </a>
             <i class="bi bi-chevron-compact-right"></i>
             <p>

@@ -78,7 +78,7 @@ const EditProfile = () => {
             </div>
 
             <div className="form-group">
-              <label>Phone</label>
+              <label>Số điện thoại</label>
               <input
                 type="text"
                 name="phoneNumber"
@@ -102,7 +102,7 @@ const EditProfile = () => {
             </div>
 
             <div className="form-group">
-              <label>Address</label>
+              <label>Địa chỉ</label>
               <input
                 type="text"
                 name="address"
@@ -113,7 +113,7 @@ const EditProfile = () => {
               />
             </div>
             <button type="submit" className="btn btn-success">
-              Save Changes
+              Lưu
             </button>
           </form>
         </div>

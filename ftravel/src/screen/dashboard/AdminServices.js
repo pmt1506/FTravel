@@ -78,7 +78,7 @@ const Services = () => {
         <Col md={4}>
           <Form.Group className="row">
             <Form.Control as="select" value={selectedType} onChange={handleDropdownChange}>
-              <option value="">All Services</option>
+              <option value="">Tất cả dịch vụ</option>
               {serviceTypes && serviceTypes.map((type, index) => (
                 <option key={index} value={type._id}>{type.serviceName}</option>
               ))}
@@ -143,12 +143,12 @@ const Services = () => {
                       <i className="icofont-badge"></i>
                       <div className="service-review tour-review-0">
                         <span className="vendor">
-                          Vendor: {service.accountID.username}
+                          Người cung cấp: {service.accountID.username}
                         </span>
                       </div>
                     </div>
                     <div className="control-action">
-                      <a href="#" className="btn btn-danger">Hide</a>
+                      <a href="#" className="btn btn-danger">Ẩn</a>
                     </div>
                   </Col>
                 </Row>
@@ -190,13 +190,13 @@ const Services = () => {
                   <div className="item-title2 rate">
                     <i className="icofont-badge"></i>
                     <div className="service-review tour-review-0">
-                    <span className="vendor">
-                          Vendor: {service.accountID.username}
-                        </span>
+                      <span className="vendor">
+                        Người cung cấp: {service.accountID.username}
+                      </span>
                     </div>
                   </div>
                   <div className="control-action">
-                    <a href="#" className="btn btn-danger">Hide</a>
+                    <a href="#" className="btn btn-danger">Ẩn</a>
                   </div>
                 </Col>
               </Row>

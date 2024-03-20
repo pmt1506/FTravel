@@ -31,10 +31,10 @@ const UserBill = () => {
         <Table className="table-striped table-bordered table-hover table-responsive">
           <thead>
             <tr>
-              <th className="col-lg-4">Service name</th>
-              <th className="col-lg-2">Price</th>
-              <th className="col-lg-3">Date</th>
-              <th className="col-lg-3">Status</th>
+              <th className="col-lg-4">Tên dịch vụ</th>
+              <th className="col-lg-2">Giá</th>
+              <th className="col-lg-3">Ngày</th>
+              <th className="col-lg-3">Trạng thái</th>
             </tr>
           </thead>
           <tbody>
@@ -45,9 +45,9 @@ const UserBill = () => {
                 <td>{formattedDates[i]}</td>
                 <td>
                   {b.status ? (
-                    <Button variant="success">Accepted </Button>
+                    <Button variant="success">Chấp nhận </Button>
                   ) : (
-                    <Button variant="warning">Pending</Button>
+                    <Button variant="warning">Đang chờ</Button>
                   )}
                 </td>
               </tr>

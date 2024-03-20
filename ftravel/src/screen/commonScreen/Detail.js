@@ -119,12 +119,12 @@ const Detail = () => {
                   <span className="ms-2">4.5</span>
                 </div>
                 <span className="text-muted">
-                  <i className="bi bi-person-fill fa-sm mx-1"></i>14 persons
+                  <i className="bi bi-person-fill fa-sm mx-1"></i>14 người
                 </span>
                 <div className="flex-grow-1"></div>
                 <label className="mb-2 d-block">
-                  <strong>Duration:</strong>
-                  <span className="mx-1">{duration} days</span>
+                  <strong>Lịch trình:</strong>
+                  <span className="mx-1">{duration} ngày</span>
                 </label>
               </div>
 
@@ -155,7 +155,7 @@ const Detail = () => {
                 </div>
                 <div className="col-12">
                   <label className="mb-2 d-block">
-                    <strong>Start date:</strong>
+                    <strong>Ngày bắt đầu:</strong>
                     <span className="mx-1">
                       {formatDate(service.startDate)}
                     </span>
@@ -163,7 +163,7 @@ const Detail = () => {
                 </div>
                 <div className="col-12">
                   <label className="mb-2 d-block">
-                    <strong>End date:</strong>
+                    <strong>Ngày kết thúc:</strong>
                     <span className="mx-1">{formatDate(service.endDate)}</span>
                   </label>
                 </div>
@@ -172,13 +172,13 @@ const Detail = () => {
 
             <Row style={{ marginLeft: "1px" }}>
               <a href="#" className="btn btn-warning shadow-0 mr-2">
-                Book now
+                Đặt ngay
               </a>
               <Button
                 onClick={addToCart}
                 className="btn btn-primary shadow-0 mr-2"
               >
-                <i className="bi bi-cart3"></i> Add to cart
+                <i className="bi bi-cart3"></i> Thêm vào giỏ hàng
               </Button>
               <ToastContainer />
             </Row>

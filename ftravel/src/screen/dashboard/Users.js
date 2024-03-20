@@ -60,11 +60,11 @@ const Users = () => {
           <thead>
             <tr>
               <th className="col-lg-1">No.</th>
-              <th className="col-lg-2">Name</th>
+              <th className="col-lg-2">Tên</th>
               <th className="col-lg-4">Email</th>
-              <th className="col-lg-2">Role</th>
-              <th className="col-lg-2">Status</th>
-              <th className="col-lg-2">Action</th>
+              <th className="col-lg-2">Vai trò</th>
+              <th className="col-lg-2">Trạng thái</th>
+              <th className="col-lg-2">Hoạt động</th>
             </tr>
           </thead>
           <tbody>

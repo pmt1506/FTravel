@@ -99,11 +99,11 @@ const Reports = () => {
           <thead>
             <tr>
               <th className="col-lg-1">No.</th>
-              <th className="col-lg-2">Reporter</th>
-              <th className="col-lg-3">Service name</th>
-              <th className="col-lg-4">Content</th>
-              <th className="col-lg-1">Status</th>
-              <th className="col-lg-1">Action</th>
+              <th className="col-lg-2">Người báo cáo</th>
+              <th className="col-lg-3">Tên dịch vụ</th>
+              <th className="col-lg-4">Nội dung</th>
+              <th className="col-lg-1">Trạng thái</th>
+              <th className="col-lg-1">Hoạt động</th>
             </tr>
           </thead>
           <tbody>
@@ -148,7 +148,7 @@ const Reports = () => {
                         }}
                         onClick={() => handleApprove(report._id)}
                       >
-                        Accept
+                        Chấp nhận
                       </Button>
                       <Button
                         variant="danger"
@@ -157,9 +157,9 @@ const Reports = () => {
                           fontSize: "14px",
                           padding: "2px",
                         }}
-                        // onClick={() => handleDelete(report._id)}
+                      // onClick={() => handleDelete(report._id)}
                       >
-                        Reject
+                        Từ chối
                       </Button>
                     </>
                   ) : null}
@@ -173,15 +173,15 @@ const Reports = () => {
       {/* Popup */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Acceptance</Modal.Title>
+          <Modal.Title>Xác nhận</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to accept this report?</Modal.Body>
+        <Modal.Body>Bạn có muốn xác nhận báo cáo này không?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Cancel
+            Hủy
           </Button>
           <Button variant="primary" onClick={handleAcceptReport}>
-            Confirm
+            Xác nhận
           </Button>
         </Modal.Footer>
       </Modal>

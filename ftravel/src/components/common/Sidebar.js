@@ -93,17 +93,17 @@ const SideBar = () => {
                 {" "}
                 <li>
                   <Link to="/admin/service">
-                    <i className="bi bi-wallet"></i> Manage Services
+                    <i className="bi bi-wallet"></i> Quản lý tour
                   </Link>
                 </li>
                 <li>
                   <Link to="/admin/user">
-                    <i className="bi bi-wallet"></i> Manage Users
+                    <i className="bi bi-wallet"></i> Quản lý người dùng
                   </Link>
                 </li>
                 <li>
                   <Link to="/admin/report">
-                    <i className="bi bi-wallet"></i> Manage Reports
+                    <i className="bi bi-wallet"></i> Quản lý báo cáo
                   </Link>
                 </li>
               </>
@@ -117,12 +117,12 @@ const SideBar = () => {
                 {" "}
                 <li>
                   <Link to="/vendor/service">
-                    <i className="bi bi-wallet"></i> Manage Services - Ven
+                    <i className="bi bi-wallet"></i> Quản lý tour
                   </Link>
                 </li>
                 <li>
                   <Link to="/dashboard/bill">
-                    <i className="bi bi-wallet"></i> Manage Bill{" "}
+                    <i className="bi bi-wallet"></i> Quản lý hóa đơn{" "}
                   </Link>
                 </li>
               </>
@@ -142,17 +142,17 @@ const SideBar = () => {
                 {" "}
                 <li>
                   <a href={`/dashboard/profile/edit/`}>
-                    <i className="bi bi-person-circle"></i>Edit profile
+                    <i className="bi bi-person-circle"></i>Cập nhật hồ sơ
                   </a>
                 </li>
                 <li>
                   <a href={`/dashboard/password/${userID}`}>
-                    <i className="bi bi-key"></i> Change password
+                    <i className="bi bi-key"></i> Đổi mật khẩu
                   </a>
                 </li>
                 <li>
                   <Link to={`/cart/`}>
-                    <i className="bi bi-wallet"></i> Cart{" "}
+                    <i className="bi bi-wallet"></i> Giỏ hàng{" "}
                   </Link>
                 </li>
               </>
@@ -166,14 +166,14 @@ const SideBar = () => {
       <Row className="list">
         <div className="logout">
           <a href="#" onClick={handleLogout}>
-            <i className="bi bi-box-arrow-left"></i> Log out
+            <i className="bi bi-box-arrow-left"></i> Đăng xuất
           </a>
         </div>
       </Row>
       <Row className="list">
         <div className="logout">
           <a href="/">
-            <i className="bi bi-house"></i> Back to homepage
+            <i className="bi bi-house"></i> Quay lại trang chủ
           </a>
         </div>
       </Row>

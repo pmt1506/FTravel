@@ -21,9 +21,9 @@ const ProfileForm = () => {
 
   const handleChange = (e) => {
     setUserData({
-        [e.target.name]: e.target.value
+      [e.target.name]: e.target.value
     });
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,41 +56,41 @@ const ProfileForm = () => {
     <DashboardTemplate title="Manage User">
       <Row className="m-3">
         <div className="container" style={{ alignContent: "center", marginLeft: "225px" }}>
-          <h2 style={{textAlign: "center"}}>Change password</h2>
+          <h2 style={{ textAlign: "center" }}>Đổi mật khẩu</h2>
           <form className="mt-4" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Current password</label>
+            <div className="form-group">
+              <label>Mật khẩu hiện tại</label>
               <input
                 type="password"
                 name="password"
                 className="form-control"
-                style={{ width: "350px"}}
+                style={{ width: "350px" }}
                 onChange={handleChange}
               />
             </div>
 
             <div className="form-group">
-            <label>New password</label>
+              <label>Mật khẩu mới</label>
               <input
                 type="password"
                 name="password"
                 className="form-control"
-                style={{ width: "350px"}}
+                style={{ width: "350px" }}
                 onChange={handleChange}
               />
             </div>
 
             <div className="form-group">
-            <label>Confirm new password</label>
+              <label>Xác nhận mật khẩu</label>
               <input
                 type="password"
                 name="password"
                 className="form-control"
-                style={{ width: "350px"}}
+                style={{ width: "350px" }}
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-success">Save Changes</button>
+            <button type="submit" className="btn btn-success">Lưu</button>
           </form>
         </div>
       </Row>

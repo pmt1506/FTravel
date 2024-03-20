@@ -162,7 +162,7 @@ const Header = () => {
               <div className="search-results">
                 {tourList.length > 0 && (
                   <div>
-                    <h4 className="text-center">Tour</h4>
+                    <h4 className="text-center">Du lịch</h4>
                     <ul>
                       {tourList.map((item, index) => (
                         <li key={index} className="d-flex">
@@ -184,7 +184,7 @@ const Header = () => {
                 )}
                 {hotelList.length > 0 && (
                   <div>
-                    <h4 className="text-center">Hotel</h4>
+                    <h4 className="text-center">Khách sạn</h4>
                     <ul>
                       {hotelList.map((item, index) => (
                         <li key={index} className="d-flex">
@@ -206,7 +206,7 @@ const Header = () => {
                 )}
                 {eventList.length > 0 && (
                   <div>
-                    <h4 className="text-center">Event</h4>
+                    <h4 className="text-center">Sự kiện</h4>
                     <ul>
                       {eventList.map((item, index) => (
                         <li key={index} className="d-flex">

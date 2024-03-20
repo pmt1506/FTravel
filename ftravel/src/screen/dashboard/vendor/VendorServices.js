@@ -92,7 +92,7 @@ const VendorServices = () => {
       action={
         <React.Fragment>
           <Link to={"add"} className="btn btn-primary ml-2">
-            Add Service
+            Thêm dịch vụ
           </Link>
         </React.Fragment>
       }
@@ -105,7 +105,7 @@ const VendorServices = () => {
               value={selectedType}
               onChange={handleDropdownChange}
             >
-              <option value="">All Services</option>
+              <option value="">Tất cả dịch vụ</option>
               {serviceTypes &&
                 serviceTypes.map((type, index) => (
                   <option key={index} value={type._id}>
@@ -130,14 +130,13 @@ const VendorServices = () => {
             {Array.from({
               length: Math.ceil(
                 (searchTerm ? searchResults.length : servicesByVendor.length) /
-                  itemsPerPage
+                itemsPerPage
               ),
             }).map((_, index) => (
               <li
                 key={index}
-                className={`page-item ${
-                  currentPage === index + 1 ? "active" : ""
-                }`}
+                className={`page-item ${currentPage === index + 1 ? "active" : ""
+                  }`}
               >
                 <button
                   onClick={() => paginate(index + 1)}
@@ -199,7 +198,7 @@ const VendorServices = () => {
                     </div>
                     <div className="control-action">
                       <a href="#" className="btn btn-danger">
-                        Hide
+                        Ẩn
                       </a>
                     </div>
                   </Col>
@@ -207,7 +206,7 @@ const VendorServices = () => {
               </div>
             ))
           ) : (
-            <div>No services found</div>
+            <div>Không tìm thấy</div>
           )
         ) : (
           currentItems.map((service) => (
@@ -253,7 +252,7 @@ const VendorServices = () => {
                   </div>
                   <div className="control-action">
                     <a href="#" className="btn btn-danger">
-                      Hide
+                      Ẩn
                     </a>
                   </div>
                 </Col>

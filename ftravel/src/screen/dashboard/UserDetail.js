@@ -34,8 +34,8 @@ const UserDetail = () => {
         <div>
           <p>User Name: {userData.userName}</p>
           <p>Email: {userData.email}</p>
-          <p>Phone Number: {userData.phoneNumber}</p>
-          <p>Address: {userData.address}</p>
+          <p>Số điện thoại: {userData.phoneNumber}</p>
+          <p>Địa chỉ: {userData.address}</p>
         </div>
       </div>
     </DashboardTemplate>

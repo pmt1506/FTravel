@@ -82,25 +82,25 @@ const Cart = () => {
             style={{ textDecoration: "none", color: "black" }}
             className="fa fa-home"
           >
-            <i class="bi bi-house"></i>Home
+            <i class="bi bi-house"></i>Trang chủ
           </a>
           <i class="bi bi-chevron-compact-right"></i>
           <p>
-            <i class="bi bi-cart"></i>Cart
+            <i class="bi bi-cart"></i>Giỏ hàng
           </p>
         </Row>
         <Row className="ml-3">
-          <h2>Shopping Cart</h2>
+          <h2>Giỏ hàng</h2>
         </Row>
         <Row style={{ padding: "15px", backgroundColor: "#fff" }}>
           <Table className="table-striped table-bordered table-responsive mt-5">
             <thead>
-              <td className="col-md-1">Type</td>
-              <td className="col-md-4">Title</td>
-              <td className="col-md-3">Start date</td>
-              <td className="col-md-1">Slot</td>
-              <td className="col-md-1">Price</td>
-              <td className="col-md-1">Action</td>
+              <td className="col-md-1">Danh mục</td>
+              <td className="col-md-4">Tiêu đề</td>
+              <td className="col-md-3">Ngày bắt đầu</td>
+              <td className="col-md-1">Số lượng</td>
+              <td className="col-md-1">Giá</td>
+              <td className="col-md-1">Hoạt động</td>
             </thead>
             <tbody>
               {currentServicePage.map((s, index) => (
@@ -123,7 +123,7 @@ const Cart = () => {
                       }}
                       onClick={() => handleDelete(s._id)}
                     >
-                      Delete
+                      Xóa
                     </Button>
                     <Button
                       variant="primary"
@@ -133,7 +133,7 @@ const Cart = () => {
                         padding: "2px",
                       }}
                     >
-                      Book now
+                      Đặt ngay
                     </Button>
                   </td>
                 </tr>

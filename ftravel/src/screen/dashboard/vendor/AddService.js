@@ -43,7 +43,7 @@ const AddService = () => {
     <DashboardTemplate title={"Create service"}>
       <Form onSubmit={handleFormSubmit}>
         <Form.Group controlId="email">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -54,7 +54,7 @@ const AddService = () => {
           />
         </Form.Group>
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Mật khẩu</Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter password"
@@ -65,7 +65,7 @@ const AddService = () => {
           />
         </Form.Group>
         <Form.Group controlId="rePassword">
-          <Form.Label>Re-enter Password</Form.Label>
+          <Form.Label>Nhập lại mật khẩu</Form.Label>
           <Form.Control
             type="password"
             placeholder="Confirm your password"
@@ -93,7 +93,7 @@ const AddService = () => {
           <Col>
             {" "}
             <Form.Group controlId="phoneNumber">
-              <Form.Label>Phone Number</Form.Label>
+              <Form.Label>Số diện thoại</Form.Label>
               <Form.Control
                 type="tel"
                 placeholder="Enter phone number"
@@ -110,7 +110,7 @@ const AddService = () => {
         <Row className="justify-content-center">
           <div>
             <Button className="btn-btn-success" type="submit">
-              Create
+              Tạo
             </Button>
           </div>
         </Row>
