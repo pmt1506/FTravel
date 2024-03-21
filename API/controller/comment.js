@@ -4,8 +4,11 @@ import { commentDAO } from "../repositories/index.js";
 
 // Add Comment
 const addComment = async (req, res) => {
+  const userID = req.cookies.userID;
+  console.log(userID);
+  if (!userID) return res.status(403).json({ error: "đăng nhập để comment" });
   try {
-    const { content, userID, serviceID } = req.body;
+    const { content, serviceID } = req.body;
     const newComment = await commentDAO.addComment({
       content,
       userID,
@@ -23,6 +26,7 @@ const getCommentsByServiceID = async (req, res) => {
   try {
     const { serviceID } = req.params;
     const serviceComments = await commentDAO.getCommentsByServiceID(serviceID);
+
     res.status(201).json(serviceComments);
   } catch (error) {
     res.status(500).json({ error: error.toString() });

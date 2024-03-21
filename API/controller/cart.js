@@ -37,7 +37,7 @@ const viewCart = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 5;
 
-    const listCart = await cartDAO.viewCart(req.params.userID, page, pageSize);
+    const listCart = await cartDAO.viewCart(req.cookies.userID, page, pageSize);
 
     res.status(200).json(listCart);
   } catch (error) {
@@ -49,7 +49,10 @@ const viewCart = async (req, res) => {
 
 const deleteFromCart = async (req, res) => {
   try {
-    res.status(200).json(await cartDAO.deleteFromCart(req.params.serviceID));
+    const serviceID = req.body.serviceID;
+    const userID = req.cookies.userID;
+
+    res.status(200).json(await cartDAO.deleteFromCart(serviceID, userID));
   } catch (error) {
     res.status(500).json({
       message: error.toString(),

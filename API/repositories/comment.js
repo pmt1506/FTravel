@@ -17,8 +17,17 @@ const addComment = async ({ content, userID, serviceID }) => {
 
 const getCommentsByServiceID = async (serviceID) => {
   try {
-    const serviceComments = await Comment.find({ serviceID: serviceID }).exec();
-    return serviceComments;
+    const serviceComments = await Comment.find({ serviceID: serviceID })
+      .populate("userID", ["username", "avatarIMG"])
+      .exec();
+
+    // Convert the list of objects to an array of objects
+    const arrayOfObjects = serviceComments.map((comment) => ({
+      _id: comment._id,
+      content: comment.content,
+      username: comment.userID,
+    }));
+    return arrayOfObjects;
   } catch (error) {
     throw new Error(error.toString());
   }

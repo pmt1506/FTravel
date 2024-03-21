@@ -138,17 +138,17 @@ const editAccountByID = async (
 //   }
 // };
 
-const editPassword = async (id, { password }) => {
+const editPassword = async (id, { hashedPassword }) => {
   try {
     // Validate input
-    if (!password) {
+    if (!hashedPassword) {
       throw new Error("Password is required");
     }
 
     // Update password
     const updatePass = await Accounts.findByIdAndUpdate(
       id,
-      { password },
+      { password: hashedPassword },
       { new: true }
     );
 
@@ -166,6 +166,15 @@ const getAccountInfoByID = async (id) => {
   try {
     const fo = await Accounts.findById(id).populate("accountRole").exec();
     const { password, updatedAt, ...fil } = fo._doc;
+    return fil;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
+const getAccountInfoByID2 = async (id) => {
+  try {
+    const fo = await Accounts.findById(id).populate("accountRole").exec();
+    const { updatedAt, ...fil } = fo._doc;
     return fil;
   } catch (error) {
     throw new Error(error.toString());
@@ -202,4 +211,5 @@ export default {
   getAccountInfoByID,
   getAllAccount,
   createAccountFromGoogle,
+  getAccountInfoByID2,
 };

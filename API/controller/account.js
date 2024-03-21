@@ -25,6 +25,25 @@ const getAccountByID = async (req, res) => {
   const id = req.cookies.userID;
   try {
     const accProfile = await accountDAO.getAccountInfoByID(id);
+
+    if (accProfile !== null) {
+      res.status(200).json(accProfile);
+    } else {
+      res.status(404).json({
+        message: `not found $${id}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "not found",
+    });
+  }
+};
+const getAccountByID2 = async (req, res) => {
+  const id = req.cookies.userID;
+  try {
+    const accProfile = await accountDAO.getAccountInfoByID2(id);
+
     if (accProfile !== null) {
       res.status(200).json(accProfile);
     } else {
@@ -101,13 +120,30 @@ const updateUserInfo = async (req, res) => {
 // };
 
 const updatePassword = async (req, res) => {
-  const { accID } = req.params;
+  const { userID } = req.cookies;
 
   try {
-    const { password } = req.body;
+    const { currP, newP, reNewP } = req.body;
 
-    // Call DAO function to update password
-    const updatePassword = await accountDAO.editPassword(accID, { password });
+    const foundAccount = await accountDAO.getAccountInfoByID2(userID);
+    console.log(foundAccount);
+    const matchPassword = bcrypt.compareSync(currP, foundAccount.password);
+
+    if (!matchPassword) {
+      return res.status(404).json({ error: "Incorrect current password" });
+    }
+
+    if (newP !== reNewP) {
+      return res
+        .status(400)
+        .json({ error: "Password confirmation does not match" });
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(newP, salt);
+    const updatePassword = await accountDAO.editPassword(userID, {
+      hashedPassword,
+    });
 
     // Send response
     res
@@ -128,6 +164,7 @@ const getAccountByEmail = async (req, res) => {};
 // find account by email and password
 const getAccountByEmailAndPass = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
   try {
     const foundAccount = await accountDAO.findAccountByEmail(email);
     if (!foundAccount) {
@@ -137,47 +174,49 @@ const getAccountByEmailAndPass = async (req, res) => {
     if (!matchPassword) {
       return res.status(400).json({ error: "wrong password" });
     }
+    const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
+    delete filterAcc.password;
+    const userID = filterAcc._id;
     const accessToken = jwt.sign(
-      { userId: foundAccount._id },
+      { userId: userID },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: "1hr",
       }
     );
     const refreshToken = jwt.sign(
-      { userId: foundAccount._id },
+      { userId: userID },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: "1w",
       }
     );
-    const { createdAt, updatedAt, ...filterAcc } = foundAccount._doc;
-    delete filterAcc.password;
-    const userID = filterAcc._id;
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false,
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false,
-    });
-    res.cookie("userID", userID, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false,
-    });
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   path: "/",
+    //   expires: new Date(Date.now() + 60 * 60 * 1000),
+    //   sameSite: "lax",
+    //   secure: false,
+    // });
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   path: "/",
+    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    //   sameSite: "lax",
+    //   secure: false,
+    // });
+    // res.cookie("userID", userID, {
+    //   httpOnly: true,
+    //   path: "/",
+    //   expires: new Date(Date.now() + 60 * 60 * 1000),
+    //   sameSite: "lax",
+    //   secure: false,
+    // });
     return res.status(200).json({
-      message: "Login success, welcome home",
-      data: filterAcc,
+      message: "login thanh cong",
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      userID: userID,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -190,12 +229,12 @@ function genAccessToken(id) {
   });
 }
 //refresh token
-let refreshTokenArr = [];
 const refreshTokenHa = async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshTokenArr = req.cookies.refreshToken;
+  const refreshToken = req.body.refreshToken;
   if (refreshToken == null)
     return res.status(401).json({ error: "ko co refresh token b oi" });
-  if (!refreshTokenArr.includes(refreshToken)) {
+  if (refreshTokenArr !== refreshToken) {
     return res.status(403).json({ error: "m la ai ma trom duoc ref cua t" });
   }
   jwt.verify(refreshToken, process.env.JWT_SECRET_KEY, (err, id) => {
@@ -295,7 +334,7 @@ const oauth2googleAuthen = async (req, res) => {
     res.cookie("userID", userID, {
       httpOnly: true,
       path: "/",
-      expires: new Date(Date.now() + 60 * 60 * 1000),
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       sameSite: "lax",
       secure: false,
     });

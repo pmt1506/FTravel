@@ -23,9 +23,9 @@ const viewCart = async (userID, page = 1, pageSize = 5) => {
   }
 };
 
-const deleteFromCart = async (serviceID) => {
+const deleteFromCart = async (serviceID, userID) => {
   try {
-    return await Carts.deleteOne({ serviceID: serviceID });
+    return await Carts.deleteOne({ serviceID: serviceID, userID: userID });
   } catch (error) {
     throw error;
   }

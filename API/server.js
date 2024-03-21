@@ -8,6 +8,8 @@ import { json } from "express";
 import cookieParser from "cookie-parser";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import morgan from "morgan";
+
 import { billRouter, commentRouter } from "./routes/index.js";
 import reportRouter from "../API/routes/report.js";
 import { cartRouter } from "./routes/index.js";
@@ -16,6 +18,8 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(json());
+app.use(morgan("dev"));
+
 app.use(
   cors({
     origin: "http://localhost:3000", // Only allow requests from this origin

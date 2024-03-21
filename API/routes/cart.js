@@ -47,7 +47,7 @@ cart.post("/", verifyToken, cartController.addToCart);
  *       500:
  *         description: Server error
  */
-cart.get("/", cartController.viewCart);
+cart.get("/", verifyToken, cartController.viewCart);
 /**
  * @swagger
  * /carts/{serviceID}:
@@ -69,6 +69,6 @@ cart.get("/", cartController.viewCart);
  *       500:
  *         description: Server error
  */
-cart.delete("/:serviceID", cartController.deleteFromCart);
+cart.delete("/", cartController.deleteFromCart);
 
 export default cart;

@@ -29,8 +29,24 @@ const getBillsByUserId = async (userID) => {
     throw new Error(error.toString());
   }
 };
+const checkDubplicate = async (userID, serviceID) => {
+  try {
+    const serviceBills = await Bills.findOne({
+      userID: userID,
+      serviceID: serviceID,
+      status: true,
+    })
+      .populate("userID")
+      .populate("serviceID")
+      .exec();
+    return serviceBills;
+  } catch (error) {
+    throw new Error(error.toString());
+  }
+};
 
 export default {
   addBill,
   getBillsByUserId,
+  checkDubplicate,
 };
