@@ -115,7 +115,6 @@ const Tour = () => {
   };
 
   function formatPrice(priceInVND) {
-
     // Format the price with dot separators for thousands
     const formatter = new Intl.NumberFormat("vi-VN", {
       style: "currency",

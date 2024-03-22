@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Container, Row, Toast } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 import { GoogleLogin } from "@react-oauth/google";
 function LoginModal({ show, setShowLogin }) {
   const handleCloseLogin = () => setShowLogin(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -21,20 +22,22 @@ function LoginModal({ show, setShowLogin }) {
         },
         body: JSON.stringify({ email: email, password: password }),
       });
-
       if (response.ok) {
         const data = await response.json();
+        Cookies.set("accessToken", data.accessToken, { expires: 1 / 24 });
+        Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
+        Cookies.set("userID", data.userID, { expires: 7 });
+        window.location.reload();
         toast.success(data.message);
         // alert(data.message);
-        localStorage.setItem("userID", data.data._id);
-        // Additional logic to handle successful login, such as setting user session
       } else {
         const data = await response.json();
         toast.warning(data.error);
         // Additional logic to handle login failure, such as displaying an error message
       }
     } catch (error) {
-      toast.error("An error occurred:", error);
+      console.log(error);
+      toast.error("An error occurred:", error.toString());
       // Additional error handling logic
     }
 
@@ -120,7 +123,7 @@ function LoginModal({ show, setShowLogin }) {
         <Row className="justify-content-center mt-2">
           <Link to="http://localhost:9999/account/auth/google">
             <Button variant="primary" className="google-sign-in-button">
-              <i class="bi bi-google mr-2"></i>
+              <i className="bi bi-google mr-2"></i>
               Sign in with Google
             </Button>
           </Link>

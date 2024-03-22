@@ -11,6 +11,7 @@ const UserBill = () => {
       .then((res) => res.json())
       .then((data) => {
         setBills(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -32,17 +33,21 @@ const UserBill = () => {
           <thead>
             <tr>
               <th className="col-lg-4">Service name</th>
-              <th className="col-lg-2">Price</th>
-              <th className="col-lg-3">Date</th>
-              <th className="col-lg-3">Status</th>
+              <th className="col-lg-1">Price</th>
+              <th className="col-lg-1">Date</th>
+              <th className="col-lg-2">Customer</th>
+              <th className="col-lg-2">Customer phone</th>
+              <th className="col-lg-2">Status</th>
             </tr>
           </thead>
           <tbody>
             {bills.map((b, i) => (
               <tr key={b._id}>
                 <td>{b.serviceID.title}</td>
-                <td>{b.serviceID.price} $</td>
+                <td>{b.serviceID.price} vnd</td>
                 <td>{formattedDates[i]}</td>
+                <td>{b.userID.userName}</td>
+                <td>{b.userID.phoneNumber}</td>
                 <td>
                   {b.status ? (
                     <Button variant="success">Accepted </Button>

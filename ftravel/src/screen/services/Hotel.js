@@ -11,7 +11,7 @@ const Hotel = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState({ field: null, order: 1 }); // Updated state for sorting
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(null);
 
   const [uniqueRegions, setUniqueRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -49,6 +49,7 @@ const Hotel = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setHotelList(data.servicesByType);
         const totalItems = data.total;
 

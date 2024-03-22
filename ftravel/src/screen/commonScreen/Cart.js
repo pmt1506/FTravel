@@ -17,7 +17,6 @@ const Cart = () => {
   const [service, setService] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const userID = localStorage.getItem("userID");
   const fetchData = async () => {
     try {
       const response = await fetch(`http://localhost:9999/cart/`, {
@@ -34,11 +33,12 @@ const Cart = () => {
 
   useEffect(() => {
     fetchData();
-  }, [userID]);
+  }, []);
 
   const handleDelete = async (serviceID) => {
     try {
       const response = await fetch(`http://localhost:9999/cart/${serviceID}`, {
+        credentials: "include",
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +72,72 @@ const Cart = () => {
     var year = startDate.getFullYear();
     return day + "/" + month + "/" + year;
   });
+  const addToBill = async (serviceID, price) => {
+    const requestData = {
+      serviceID: serviceID,
+      price: price,
+    };
+    try {
+      const res = await fetch("http://localhost:9999/bill/add", {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        removeFromCart(serviceID);
+        toast.success(data.message);
+        fetchData();
+      } else if (res.status === 401) {
+        const data = await res.json();
+        toast.error(data.error);
+      } else if (res.status === 403) {
+        const data = await res.json();
+        toast.error(data.message);
+      } else {
+        const data = await res.json();
+        handleDelete(serviceID);
+        toast.error(data.error);
+        fetchData();
+      }
+    } catch (error) {
+      toast.error("Failed");
+    }
+  };
+  const removeFromCart = async (serviceID) => {
+    console.log(serviceID);
+    const requestData = {
+      serviceID: serviceID,
+    };
+    try {
+      const res = await fetch(`http://localhost:9999/cart/`, {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        toast.success(data.message);
+      } else if (res.status === 401) {
+        const data = await res.json();
+        toast.error(data.error);
+      } else if (res.status === 403) {
+        const data = await res.json();
+        toast.error(data.message);
+      } else {
+        const data = await res.json();
+        toast.error(data.error);
+      }
+    } catch (error) {
+      toast.error("Failed");
+    }
+  };
 
   return (
     <DashboardTemplate>
@@ -82,11 +148,11 @@ const Cart = () => {
             style={{ textDecoration: "none", color: "black" }}
             className="fa fa-home"
           >
-            <i class="bi bi-house"></i>Home
+            <i className="bi bi-house"></i>Home
           </a>
-          <i class="bi bi-chevron-compact-right"></i>
+          <i className="bi bi-chevron-compact-right"></i>
           <p>
-            <i class="bi bi-cart"></i>Cart
+            <i className="bi bi-cart"></i>Cart
           </p>
         </Row>
         <Row className="ml-3">
@@ -95,12 +161,14 @@ const Cart = () => {
         <Row style={{ padding: "15px", backgroundColor: "#fff" }}>
           <Table className="table-striped table-bordered table-responsive mt-5">
             <thead>
-              <td className="col-md-1">Type</td>
-              <td className="col-md-4">Title</td>
-              <td className="col-md-3">Start date</td>
-              <td className="col-md-1">Slot</td>
-              <td className="col-md-1">Price</td>
-              <td className="col-md-1">Action</td>
+              <tr>
+                <td className="col-md-1">Type</td>
+                <td className="col-md-4">Title</td>
+                <td className="col-md-3">Start date</td>
+                <td className="col-md-1">Slot</td>
+                <td className="col-md-1">Price</td>
+                <td className="col-md-1">Action</td>
+              </tr>
             </thead>
             <tbody>
               {currentServicePage.map((s, index) => (
@@ -121,12 +189,13 @@ const Cart = () => {
                         fontSize: "14px",
                         padding: "2px",
                       }}
-                      onClick={() => handleDelete(s._id)}
+                      onClick={() => removeFromCart(s._id)}
                     >
                       Delete
                     </Button>
                     <Button
                       variant="primary"
+                      onClick={(e) => addToBill(s._id, s.price)}
                       style={{
                         width: "80px",
                         fontSize: "14px",

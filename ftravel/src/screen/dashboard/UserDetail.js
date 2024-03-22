@@ -9,7 +9,7 @@ const UserDetail = () => {
   //accID lấy từ App.js (cái m truyền vào link)
 
   useEffect(() => {
-    fetch(`http://localhost:9999/account/}`, {
+    fetch(`http://localhost:9999/account/`, {
       credentials: "include",
     })
       .then((res) => res.json())

@@ -172,7 +172,7 @@ const VendorServices = () => {
                   </Col>
                   <Col md={9}>
                     <div className="item-title">
-                      <a href="#" target="_blank">
+                      <a href={`/detail/${service._id}`}>
                         {highlightText(service.title, searchTerm)}
                       </a>
                     </div>
@@ -228,7 +228,7 @@ const VendorServices = () => {
                 </Col>
                 <Col md={9}>
                   <div className="item-title">
-                    <a href="#">{service.title}</a>
+                    <a href={`/detail/${service._id}`}>{service.title}</a>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-license"></i>

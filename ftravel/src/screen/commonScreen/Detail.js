@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import DefaultTemplate from "../../template/DefaultTemplate.js";
 import parse from "html-react-parser";
-
+import "../../css/detail.css";
 const Detail = () => {
   const { serviceID } = useParams();
   const [value, setValue] = useState(1);
   const [service, setService] = useState([]);
   const [type, setType] = useState([]);
-
+  const [price, setPrice] = useState(0);
   const duration = calculateDuration(service.startDate, service.endDate);
-
+  const [comment, setComment] = useState([]);
+  const [content, setComtent] = useState("");
+  const [ref, setRef] = useState(1);
   useEffect(() => {
     fetch(`http://localhost:9999/service/${serviceID}`)
       .then((res) => res.json())
@@ -21,6 +23,13 @@ const Detail = () => {
         setType(data.type);
       });
   }, []);
+  useEffect(() => {
+    fetch(`http://localhost:9999/comment/${serviceID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setComment(data);
+      });
+  }, [ref]);
 
   const addToCart = async (e) => {
     e.preventDefault();
@@ -44,10 +53,42 @@ const Detail = () => {
         toast.error(data.error);
       } else if (res.status === 403) {
         const data = await res.json();
-        toast.error(data.error);
+        toast.error(data.message);
       } else {
         const data = await res.json();
         toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Failed");
+    }
+  };
+  const addToBill = async (e) => {
+    e.preventDefault();
+    const requestData = {
+      serviceID: serviceID,
+      price: price,
+    };
+    try {
+      const res = await fetch("http://localhost:9999/bill/add", {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        toast.success(data.message);
+      } else if (res.status === 401) {
+        const data = await res.json();
+        toast.error(data.error);
+      } else if (res.status === 403) {
+        const data = await res.json();
+        toast.error(data.message);
+      } else {
+        const data = await res.json();
+        toast.error(data.error);
       }
     } catch (error) {
       toast.error("Failed");
@@ -99,7 +140,34 @@ const Detail = () => {
 
     return days;
   }
-
+  const handleComment = async (e) => {
+    e.preventDefault();
+    const requestData = {
+      serviceID: serviceID,
+      content: content,
+    };
+    try {
+      const res = await fetch("http://localhost:9999/comment/add", {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        ref = 1 ? setRef(2) : setRef(1);
+        setComtent("");
+        toast.success(data.message);
+      } else {
+        const data = await res.json();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <DefaultTemplate>
       <Container className="mt-1">
@@ -176,9 +244,12 @@ const Detail = () => {
             </div>
 
             <Row style={{ marginLeft: "1px" }}>
-              <a href="#" className="btn btn-warning shadow-0 mr-2">
+              <Button
+                onClick={addToBill}
+                className="btn btn-warning shadow-0 mr-2"
+              >
                 Book now
-              </a>
+              </Button>
               <Button
                 onClick={addToCart}
                 className="btn btn-primary shadow-0 mr-2"
@@ -188,12 +259,47 @@ const Detail = () => {
               <ToastContainer />
             </Row>
           </Col>
-          <div className="col-12">
+          <div className="col-12 service-description">
             <hr />
             {typeof service.description === "string" &&
               parse(service.description)}
           </div>
         </Row>
+        <Row></Row>
+        <hr />
+        <h3>Comments:</h3>
+        {comment.map((c) => (
+          <div className="d-flex border p-3" key={c._id}>
+            <div className="me-2">
+              <img
+                src={c.username.avatarIMG}
+                className="rounded-circle"
+                width="50"
+                height="50"
+                alt="User Avatar"
+              />
+            </div>
+            <div className="ms-1" style={{ paddingLeft: "10px" }}>
+              <p
+                className="name-comment mb-0"
+                style={{ fontSize: "14px", color: "grey" }}
+              >
+                {c.username.username}
+              </p>
+              <p className=" content-comment mb-0">{c.content}</p>
+            </div>
+          </div>
+        ))}{" "}
+        <Form onSubmit={handleComment} className="pt-3 d-flex">
+          <Form.Control
+            onChange={(e) => {
+              setComtent(e.target.value);
+            }}
+            type="text"
+            placeholder="Để lại cảm nhận của bạn"
+          />
+          <Button type="submit">GỬI</Button>
+        </Form>
       </Container>
     </DefaultTemplate>
   );

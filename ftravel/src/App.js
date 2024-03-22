@@ -50,7 +50,7 @@ function App() {
         <Route path="/dashboard" element={<UserDetail />} />
         <Route path="/dashboard/bill" element={<UserBill />} />
         <Route path="/dashboard/profile/edit/" element={<EditProfile />} />
-        <Route path="/dashboard/password/:accID" element={<ChangePass />} />
+        <Route path="/dashboard/password/" element={<ChangePass />} />
       </Routes>
       <ToastContainer
         position="top-right"

@@ -1,6 +1,6 @@
 import SideBar from "../components/common/Sidebar";
 import { Row, Col } from "react-bootstrap";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 import "../css/Dashboard.css";
 
@@ -11,12 +11,9 @@ const DashboardTemplate = ({ className = "", title, children, action }) => {
         <SideBar />
       </Col>
       <Col className="col-md-9 col-sm-8">
-        <Row
-          className="ml-3"
-          style={{ paddingBottom: "15px"}}
-        >
+        <Row className="ml-3" style={{ paddingBottom: "15px" }}>
           <Col>
-          <h2>{title}</h2>
+            <h2>{title}</h2>
           </Col>
           <Col className="text-right mr-3">{action}</Col>
         </Row>

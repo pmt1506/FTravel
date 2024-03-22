@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import DashboardTemplate from '../../template/DashboardTemplate'
-import { Col, Form, FormCheck, Row } from 'react-bootstrap'
-import '../../css/DashboardServices.css'
+import React, { useEffect, useState } from "react";
+import DashboardTemplate from "../../template/DashboardTemplate";
+import { Col, Form, FormCheck, Row } from "react-bootstrap";
+import "../../css/DashboardServices.css";
 
 const Services = () => {
   const [allServices, setAllServices] = useState([]);
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, setSelectedType] = useState("");
   const [serviceTypes, setServiceTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -17,19 +17,24 @@ const Services = () => {
   }, [currentPage]); // Fetch data when currentPage changes
 
   useEffect(() => {
-    const results = allServices.filter(service =>
+    const results = allServices.filter((service) =>
       service.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     // Apply filter by type if a type is selected
-    if (selectedType !== '') {
-      setSearchResults(results.filter(service => service.type._id === selectedType));
+    if (selectedType !== "") {
+      setSearchResults(
+        results.filter((service) => service.type._id === selectedType)
+      );
     } else {
       setSearchResults(results);
     }
   }, [searchTerm, allServices, selectedType]);
 
   const fetchData = () => {
-    fetch(`http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`)
+    fetch(
+      `http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`,
+      { credentials: "include" }
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data)
@@ -59,12 +64,31 @@ const Services = () => {
     setSelectedType(e.target.value);
   };
 
+  const hideService = (serviceID) => {
+     fetch(
+       `http://localhost:9999/service/all?pageSize=${itemsPerPage}&pageNumber=${currentPage}`,
+       { credentials: "include" }
+     )
+       .then((res) => res.json())
+       .then((data) => {
+         // console.log(data)
+         setAllServices(data.allServices);
+       });
+  };
+
   const highlightText = (text, highlight) => {
-    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
     return (
       <span>
         {parts.map((part, i) => (
-          <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { backgroundColor: 'yellow' } : {}}>
+          <span
+            key={i}
+            style={
+              part.toLowerCase() === highlight.toLowerCase()
+                ? { backgroundColor: "yellow" }
+                : {}
+            }
+          >
             {part}
           </span>
         ))}
@@ -77,28 +101,44 @@ const Services = () => {
       <Row className="m-3 ml-auto w-100">
         <Col md={4}>
           <Form.Group className="row">
-            <Form.Control as="select" value={selectedType} onChange={handleDropdownChange}>
+            <Form.Control
+              as="select"
+              value={selectedType}
+              onChange={handleDropdownChange}
+            >
               <option value="">All Services</option>
-              {serviceTypes && serviceTypes.map((type, index) => (
-                <option key={index} value={type._id}>{type.serviceName}</option>
-              ))}
+              {serviceTypes &&
+                serviceTypes.map((type, index) => (
+                  <option key={index} value={type._id}>
+                    {type.serviceName}
+                  </option>
+                ))}
             </Form.Control>
           </Form.Group>
         </Col>
         <Col md={4}>
-          <Form.Control style={{ width: "20vw" }}
+          <Form.Control
+            style={{ width: "20vw" }}
             type="text"
             placeholder="Search..."
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           {/* <Button onClick={handleSearch}>Search</Button> */}
         </Col>
         <Col md={4}>
           <ul className="pagination">
-            {Array.from({ length: Math.ceil((searchTerm ? searchResults.length : allServices.length) / itemsPerPage) }).map((_, index) => (
+            {Array.from({
+              length: Math.ceil(
+                (searchTerm ? searchResults.length : allServices.length) /
+                  itemsPerPage
+              ),
+            }).map((_, index) => (
               <li key={index} className="page-item">
-                <button onClick={() => paginate(index + 1)} className="page-link">
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className="page-link"
+                >
                   {index + 1}
                 </button>
               </li>
@@ -110,14 +150,18 @@ const Services = () => {
       <Row className="m-3">
         {searchTerm || selectedType ? (
           searchResults.length > 0 ? (
-            searchResults.map(service => (
+            searchResults.map((service) => (
               <div className="item-list" key={service._id}>
                 <Row>
                   <Col md={3}>
                     <div className="featured">Đặc sắc</div>
                     <div className="thumb-image">
-                      <a href="#" >
-                        <img src={service.thumbnail} className="img-responsive" alt="" />
+                      <a href="#">
+                        <img
+                          src={service.thumbnail}
+                          className="img-responsive"
+                          alt=""
+                        />
                       </a>
                     </div>
                   </Col>
@@ -129,7 +173,10 @@ const Services = () => {
                     </div>
                     <div className="item-title2">
                       <i className="icofont-license"></i>
-                      Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
+                      Kiểu dịch vụ:{" "}
+                      <span className="badge badge-info">
+                        {service.type.serviceName}
+                      </span>
                     </div>
                     <div className="item-title2">
                       <i className="icofont-paper-plane"></i>
@@ -137,7 +184,8 @@ const Services = () => {
                     </div>
                     <div className="item-title2">
                       <i className="icofont-money"></i>
-                      Giá bán: <span className="sale-price"></span> <span className="price">{service.price}</span>
+                      Giá bán: <span className="sale-price"></span>{" "}
+                      <span className="price">{service.price}</span>
                     </div>
                     <div className="item-title2 rate">
                       <i className="icofont-badge"></i>
@@ -148,7 +196,9 @@ const Services = () => {
                       </div>
                     </div>
                     <div className="control-action">
-                      <a href="#" className="btn btn-danger">Hide</a>
+                      <a href="#" className="btn btn-danger">
+                        Hide
+                      </a>
                     </div>
                   </Col>
                 </Row>
@@ -158,26 +208,31 @@ const Services = () => {
             <div>No services found</div>
           )
         ) : (
-          currentItems.map(service => (
+          currentItems.map((service) => (
             <div className="item-list" key={service._id}>
               <Row>
                 <Col md={3}>
                   <div className="featured">Đặc sắc</div>
                   <div className="thumb-image">
-                    <a href="#" >
-                      <img src={service.thumbnail} className="img-responsive" alt="" />
+                    <a href="#">
+                      <img
+                        src={service.thumbnail}
+                        className="img-responsive"
+                        alt=""
+                      />
                     </a>
                   </div>
                 </Col>
                 <Col md={9}>
                   <div className="item-title">
-                    <a href="#">
-                      {service.title}
-                    </a>
+                    <a href="#">{service.title}</a>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-license"></i>
-                    Kiểu dịch vụ: <span className="badge badge-info">{service.type.serviceName}</span>
+                    Kiểu dịch vụ:{" "}
+                    <span className="badge badge-info">
+                      {service.type.serviceName}
+                    </span>
                   </div>
                   <div className="item-title2">
                     <i className="icofont-paper-plane"></i>
@@ -185,18 +240,21 @@ const Services = () => {
                   </div>
                   <div className="item-title2">
                     <i className="icofont-money"></i>
-                    Giá bán: <span className="sale-price"></span> <span className="price">{service.price}</span>
+                    Giá bán: <span className="sale-price"></span>{" "}
+                    <span className="price">{service.price}</span>
                   </div>
                   <div className="item-title2 rate">
                     <i className="icofont-badge"></i>
                     <div className="service-review tour-review-0">
-                    <span className="vendor">
-                          Vendor: {service.accountID.username}
-                        </span>
+                      <span className="vendor">
+                        Vendor: {service.accountID.username}
+                      </span>
                     </div>
                   </div>
                   <div className="control-action">
-                    <a href="#" className="btn btn-danger">Hide</a>
+                    <a href="#" className="btn btn-danger">
+                      Hide
+                    </a>
                   </div>
                 </Col>
               </Row>
@@ -204,9 +262,8 @@ const Services = () => {
           ))
         )}
       </Row>
-
     </DashboardTemplate>
-  )
-}
+  );
+};
 
-export default Services
+export default Services;

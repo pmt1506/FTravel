@@ -94,16 +94,17 @@ const Header = () => {
   const atoken = Cookies.get("accessToken");
   const rtoken = Cookies.get("refreshToken");
   const userID = Cookies.get("userID");
-
   useEffect(() => {
-    fetch(`http://localhost:9999/account/}`, {
+    fetch(`http://localhost:9999/account/`, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        setUserAvt(data.avatarIMG);
-        setUsername(data.userName);
-        console.log(data);
+        if (data) {
+          setUserAvt(data.avatarIMG);
+          setUsername(data.userName);
+          console.log(data);
+        }
       })
       .catch((error) => {
         console.error("Error fetching users:", error);

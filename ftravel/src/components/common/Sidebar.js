@@ -16,7 +16,7 @@ const SideBar = () => {
   const [user, setUser] = useState({});
   const [role, setRole] = useState("");
   useEffect(() => {
-    fetch(`http://localhost:9999/account/}`, {
+    fetch(`http://localhost:9999/account/`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -106,6 +106,16 @@ const SideBar = () => {
                     <i className="bi bi-wallet"></i> Manage Reports
                   </Link>
                 </li>
+                <li>
+                  <a href={`/dashboard/profile/edit/`}>
+                    <i className="bi bi-person-circle"></i>Edit profile
+                  </a>
+                </li>
+                <li>
+                  <a href={`/dashboard/password/`}>
+                    <i className="bi bi-key"></i> Change password
+                  </a>
+                </li>
               </>
             ) : (
               <></>
@@ -117,13 +127,23 @@ const SideBar = () => {
                 {" "}
                 <li>
                   <Link to="/vendor/service">
-                    <i className="bi bi-wallet"></i> Manage Services - Ven
+                    <i className="bi bi-wallet"></i> Manage Services
                   </Link>
                 </li>
                 <li>
                   <Link to="/dashboard/bill">
                     <i className="bi bi-wallet"></i> Manage Bill{" "}
                   </Link>
+                </li>
+                <li>
+                  <a href={`/dashboard/profile/edit/`}>
+                    <i className="bi bi-person-circle"></i>Edit profile
+                  </a>
+                </li>
+                <li>
+                  <a href={`/dashboard/password/`}>
+                    <i className="bi bi-key"></i> Change password
+                  </a>
                 </li>
               </>
             ) : (
@@ -146,7 +166,7 @@ const SideBar = () => {
                   </a>
                 </li>
                 <li>
-                  <a href={`/dashboard/password/${userID}`}>
+                  <a href={`/dashboard/password/`}>
                     <i className="bi bi-key"></i> Change password
                   </a>
                 </li>

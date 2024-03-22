@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 
 import { regions } from "../../../components/common/regions.js";
+import { toast } from "react-toastify";
 
 const VendorAddService = () => {
   // Get the current date
@@ -11,7 +12,9 @@ const VendorAddService = () => {
 
   // State variables for form fields
   const [title, setTitle] = useState("");
-  const [thumbnail, setThumbnail] = useState(""); // State variable for thumbnail base64 string
+  const [thumbnail, setThumbnail] = useState(
+    "https://i.pinimg.com/236x/74/20/58/742058099ee4749d2da5d820396870eb.jpg"
+  ); // State variable for thumbnail base64 string
   const [slot, setSlot] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -66,7 +69,7 @@ const VendorAddService = () => {
   ];
 
   useEffect(() => {
-    fetch(`http://localhost:9999/account/}`, {
+    fetch(`http://localhost:9999/account/`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -141,7 +144,7 @@ const VendorAddService = () => {
       });
 
       if (response.ok) {
-        console.log("Service added successfully!");
+        toast.success("Service added successfully!");
         // Reset form fields and thumbnail state
         setTitle("");
         setThumbnail("");
@@ -154,7 +157,8 @@ const VendorAddService = () => {
         setCity("");
         setType("");
       } else {
-        console.error("Failed to add service:", response.statusText);
+        const data = await response.json();
+        toast.error("Failed to add service:", data.error);
       }
     } catch (error) {
       console.error("Error adding service:", error);

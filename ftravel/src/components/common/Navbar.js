@@ -13,7 +13,6 @@ const NavbarComponent = () => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto" style={{ margin: "auto" }}>
                 <NavLink
-                  exact
                   to={"/"}
                   className="nav-link mx-2"
                   style={{

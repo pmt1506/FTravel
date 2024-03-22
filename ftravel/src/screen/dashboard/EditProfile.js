@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import DashboardTemplate from "../../template/DashboardTemplate";
 import { Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const [userData, setUserData] = useState({
-    email: "",
     phoneNumber: "",
     avatarIMG: "",
     userName: "",
     address: "",
   });
-  const { accID } = useParams();
 
   useEffect(() => {
     fetch(`http://localhost:9999/account/`, {
@@ -20,13 +19,12 @@ const EditProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
-        console.log(data);
       });
-  }, [accID]);
-  console.log(userData);
+  }, []);
 
   const handleChange = (e) => {
     setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
@@ -44,11 +42,10 @@ const EditProfile = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        alert(data.message);
+        toast.success(data.message);
       } else {
         const data = await response.json();
-        alert(data.error);
+        toast.error(data.error);
       }
     } catch (error) {
       alert("An error occurred while updating the profile.");
@@ -57,26 +54,11 @@ const EditProfile = () => {
   };
 
   return (
-    <DashboardTemplate title="Manage User">
+    <DashboardTemplate title="Edit Profile">
       <Row className="m-3">
-        <div
-          className="container"
-          style={{ alignContent: "center", marginLeft: "255px" }}
-        >
+        <div>
           <h2 style={{ textAlign: "center" }}>Edit Profile</h2>
           <form className="mt-4" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="text"
-                name="email"
-                className="form-control"
-                style={{ width: "350px" }}
-                value={userData.email}
-                onChange={handleChange}
-              />
-            </div>
-
             <div className="form-group">
               <label>Phone</label>
               <input

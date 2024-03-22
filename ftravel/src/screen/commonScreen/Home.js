@@ -73,20 +73,18 @@ const Home = () => {
         <Row>
           {tourList.slice(0, 4).map((tour, index) => (
             <Col xs={3} key={index}>
-              <Link to={`/detail/${tour._id}`} className="card-link">
-                <Card>
-                  <Card.Img
-                    className="card-thumbnail"
-                    variant="top"
-                    src={tour.thumbnail}
-                  />
-                  <Card.Body>
-                    <Link to={`/detail/${tour._id}`}>
-                      <Card.Title className="h6">{tour.title}</Card.Title>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Link>
+              <Card>
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={tour.thumbnail}
+                />
+                <Card.Body>
+                  <Link to={`/detail/${tour._id}`}>
+                    <Card.Title className="h6">{tour.title}</Card.Title>
+                  </Link>
+                </Card.Body>
+              </Card>
             </Col>
           ))}
         </Row>
@@ -107,20 +105,18 @@ const Home = () => {
         <Row>
           {hotelList.slice(0, 4).map((hotel, index) => (
             <Col xs={3} key={index}>
-              <Link to={`/detail/${hotel._id}`} className="card-link">
-                <Card>
-                  <Card.Img
-                    className="card-thumbnail"
-                    variant="top"
-                    src={hotel.thumbnail}
-                  />
-                  <Card.Body>
-                    <Link to={`/detail/${hotel._id}`}>
-                      <Card.Title className="h6">{hotel.title}</Card.Title>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Link>
+              <Card>
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={hotel.thumbnail}
+                />
+                <Card.Body>
+                  <Link to={`/detail/${hotel._id}`}>
+                    <Card.Title className="h6">{hotel.title}</Card.Title>
+                  </Link>
+                </Card.Body>
+              </Card>
             </Col>
           ))}
         </Row>
@@ -141,20 +137,18 @@ const Home = () => {
         <Row>
           {eventList.slice(0, 4).map((event, index) => (
             <Col xs={3} key={index}>
-              <Link to={`/detail/${event._id}`} className="card-link">
-                <Card>
-                  <Card.Img
-                    className="card-thumbnail"
-                    variant="top" 
-                    src={event.thumbnail}
-                  />
-                  <Card.Body>
-                    <Link to={`/detail/${event._id}`}>
-                      <Card.Title className="h6">{event.title}</Card.Title>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Link>
+              <Card>
+                <Card.Img
+                  className="card-thumbnail"
+                  variant="top"
+                  src={event.thumbnail}
+                />
+                <Card.Body>
+                  <Link to={`/detail/${event._id}`}>
+                    <Card.Title className="h6">{event.title}</Card.Title>
+                  </Link>
+                </Card.Body>
+              </Card>
             </Col>
           ))}
         </Row>
